@@ -7,7 +7,7 @@ public class Game implements Runnable {
     private GameWindow gameWindow;
     private GamePanel gamePanel;
     private Thread gameThread;
-    private final int FPS_SET = 120;
+    private final int FPS_SET = 60;
 
     public Game() throws IOException {
         gamePanel = new GamePanel();
@@ -42,7 +42,6 @@ public class Game implements Runnable {
 
             if(System.currentTimeMillis() - lastCheck >=1000){
                 lastCheck = System.currentTimeMillis();
-                System.out.println("FPS : " + fps);
                 fps = 0;
             }
 
