@@ -1,5 +1,8 @@
 package Game;
 
+import Entities.Player;
+
+import java.awt.*;
 import java.io.IOException;
 
 public class Game implements Runnable {
@@ -9,14 +12,20 @@ public class Game implements Runnable {
     private Thread gameThread;
     private final int FPS_SET = 60;
     private final int UPS_SET = 60;
+    private Player player;
 
     public Game() throws IOException {
-        gamePanel = new GamePanel();
+        initAll();
+        gamePanel = new GamePanel(this);
         gameWindow = new GameWindow(gamePanel);
         gamePanel.requestFocus();
         startGameLoop();
     }
 
+
+    private void initAll(){
+        player = new Player(200,200);
+    }
 
     private void startGameLoop(){
         gameThread = new Thread(this);
@@ -25,7 +34,11 @@ public class Game implements Runnable {
 
 
     public void update(){
-        gamePanel.updateGame();
+        player.update();
+    }
+
+    public void render(Graphics g){
+        player.render(g);
     }
 
 
@@ -70,6 +83,13 @@ public class Game implements Runnable {
 
     }
 
+    public void windowFocusLost(){
+        player.resetDirectionBooleans();
+    }
+
+    public Player getPlayer(){
+        return player;
+    }
 
 
 }
