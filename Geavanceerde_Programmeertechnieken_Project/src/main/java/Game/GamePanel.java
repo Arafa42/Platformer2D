@@ -32,7 +32,7 @@ public class GamePanel extends JPanel {
         loadAnimations();
         setPanelSize();
         addKeyListener(new KeyboardInputs(this));
-        addMouseListener(new MouseInputs(this));
+        //addMouseListener(new MouseInputs(this));
         addMouseMotionListener(mouseInputs);
     }
 
@@ -122,11 +122,14 @@ public class GamePanel extends JPanel {
         }
     }
 
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
+    public void updateGame(){
         updateAnimationTick();
         setAnimation();
         updatePos();
+    }
+
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
         g.drawImage(animations[aniIndex][playerAction], (int)xDelta, (int)yDelta, 72*OBJECTSCALE, 45*OBJECTSCALE,  null);
     }
 
