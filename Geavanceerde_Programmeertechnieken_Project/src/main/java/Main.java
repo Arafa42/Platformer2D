@@ -13,5 +13,4 @@ public class Main {
     public void run() throws IOException {
             new Game();
     }
-
 }
