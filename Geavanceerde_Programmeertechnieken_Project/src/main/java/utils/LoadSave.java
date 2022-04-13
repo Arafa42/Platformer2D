@@ -13,7 +13,6 @@ public class LoadSave {
 
     public static final String PLAYER_ATLAS = "/assets/images/SpriteSheets/Player/Spritesheet.png";
     public static final String LEVEL_ATLAS = "/assets/images/SpriteSheets/tilesets.png";
-    public static final String LEVEL_ONE_DATA = "/assets/images/SpriteSheets/level_one_data.png";
 
 
     public static BufferedImage GetSpriteAtlas(String fileName) {
@@ -36,18 +35,6 @@ public class LoadSave {
 
     public static int[][] GetLevelData(){
         int[][] levelData = new int[Game.TILES_IN_HEIGHT][Game.TILES_IN_WIDTH];
-//        BufferedImage img  = GetSpriteAtlas(LEVEL_ONE_DATA);
-//        for(int i =0;i<img.getHeight();i++){
-//            for(int j =0;j<img.getWidth();j++){
-//                Color color = new Color(img.getRGB(j,i));
-//                int value = color.getRed();
-//                if(value >= 48){
-//                    value = 0;
-//                }
-//                levelData[i][j] = value;
-//            }
-//        }
-
 
         int[][] map = {
                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -59,7 +46,7 @@ public class LoadSave {
                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                 { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0},
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
                 { 2, 4, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                 { 17, 17, 18, 0, 0, 0, 0, 16, 17, 18, 0, 0, 0, 0, 20, 21, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                 { 33, 33, 34, 0, 0, 0, 0, 32, 33, 34, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},

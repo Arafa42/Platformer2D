@@ -15,8 +15,6 @@ import static utils.Constants.PlayerConstants.*;
 public class GamePanel extends JPanel {
 
     private MouseInputs mouseInputs;
-    public static final int WINDOWSCALE = 1;
-    public static final int OBJECTSCALE = 2;
     private Game game;
 
 
@@ -32,7 +30,7 @@ public class GamePanel extends JPanel {
 
 
     private void setPanelSize(){
-        Dimension size = new Dimension(Game.GAME_WIDTH * WINDOWSCALE,Game.GAME_HEIGHT * WINDOWSCALE);
+        Dimension size = new Dimension(Game.GAME_WIDTH ,Game.GAME_HEIGHT);
         setMinimumSize(size);
         setPreferredSize(size);
         setMaximumSize(size);

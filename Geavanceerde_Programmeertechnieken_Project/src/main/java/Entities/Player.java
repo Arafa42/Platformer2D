@@ -13,16 +13,23 @@ public class Player extends Entity{
     private int aniTick, aniIndex, aniSpeed = 5;
     private int playerAction = DYING;
     private boolean isMoving = false, attacking = false;
-    private boolean left, up, right, down = false;
+    private boolean left, up, right, down, jump;
     private float playerSpeed = 2.0f;
     private int[][] levelData;
-    private float xDrawOffset = 21 * Game.SCALE;
-    private float yDrawOffset = 4 * Game.SCALE;
+    private float xDrawOffset = 23 * Game.SCALE;
+    private float yDrawOffset = 8 * Game.SCALE;
+
+    //jump & gravity
+    private float airSpeed = 0f;
+    private float gravity = 0.05f * Game.SCALE;
+    private float jumpSpeed= -3f * Game.SCALE;
+    private float fallSpeedAfterCollision = 1f * Game.SCALE;
+    private boolean inAir = false;
 
     public Player(float x, float y,int width,int height){
         super(x,y,width,height);
         loadAnimations();
-        initHitBox(x,y,30*Game.SCALE,32*Game.SCALE);
+        initHitBox(x,y,27*Game.SCALE,27*Game.SCALE);
     }
 
     public void update(){
@@ -32,8 +39,8 @@ public class Player extends Entity{
     }
 
     public void render(Graphics g){
-        g.drawImage(animations[aniIndex][playerAction], (int)(hitbox.x - xDrawOffset), (int)(hitbox.y - yDrawOffset), (int)(72* Game.SCALE), (int)(45*Game.SCALE),  null);
-        drawHitBox(g);
+         g.drawImage(animations[aniIndex][playerAction], (int)(hitbox.x - xDrawOffset), (int)(hitbox.y - yDrawOffset), width, height,  null);
+        //drawHitBox(g);
     }
 
 
@@ -52,24 +59,18 @@ public class Player extends Entity{
     }
 
     private void setAnimation(){
-
         int startAni = playerAction;
+        if(isMoving && isLeft()){playerAction = RUNNING_LEFT;}
+        else if(isMoving && isRight()){playerAction = RUNNING_RIGHT;}
+        else{playerAction = IDLE;}
 
-        if(isMoving){
-            playerAction = RUNNING;
-        }
-        else{
-            playerAction = IDLE;
-        }
-
-        if(attacking){
-            playerAction = ATTACK_1;
+        if(attacking && isLeft()){playerAction = ATTACK_1_LEFT;}
+        else if(attacking && isRight()){playerAction = ATTACK_1_RIGHT;}
+        else if(attacking){
+            playerAction = ATTACK_1_RIGHT;
         }
 
-        if(startAni != playerAction){
-            resetAniTick();
-        }
-
+        if(startAni != playerAction){resetAniTick();}
     }
 
     private void resetAniTick(){
@@ -80,41 +81,47 @@ public class Player extends Entity{
 
     private void updatePos(){
         isMoving = false;
+        if(jump){jump();}
+        if(!left && !right && !inAir){return;}
+        float xSpeed = 0;
+        if(left){xSpeed -=playerSpeed;}
+        if(right){xSpeed += playerSpeed;}
+        if(!inAir){if(!HelpMethods.IsEntityOnFloor(hitbox,levelData)){inAir = true;}}
 
-
-        if(!left && !right && !up && !down){
-            return;
+        if(inAir){
+            if(HelpMethods.CanMoveHere(hitbox.x, hitbox.y + airSpeed, hitbox.width, hitbox.height, levelData)){
+                hitbox.y += airSpeed;
+                airSpeed += gravity;
+                updateXPos(xSpeed);
+            }
+            else{
+                hitbox.y = HelpMethods.GetEntityYPosUnderRoofOrAboveFloor(hitbox, airSpeed);
+                if(airSpeed > 0){resetInAir();}
+                else{airSpeed = fallSpeedAfterCollision;}
+                updateXPos(xSpeed);
+            }
         }
-
-        float xSpeed = 0,ySpeed = 0;
-
-        if(left && !right){
-            xSpeed = -playerSpeed;
-        }
-        else if(right && !left){
-            xSpeed = playerSpeed;
-        }
-
-        if(up && !down){
-            ySpeed = -playerSpeed;
-        }
-        else if(down && !up){
-            ySpeed = playerSpeed;
-        }
-
-        if(HelpMethods.CanMoveHere(hitbox.x+xSpeed,hitbox.y+ySpeed, hitbox.width, hitbox.height, levelData)){
-            hitbox.x += xSpeed;
-            hitbox.y += ySpeed;
-            isMoving = true;
-        }
-
+        else{updateXPos(xSpeed);}
+        isMoving = true;
     }
+
+    private void jump(){
+        if(inAir){return;}
+        inAir = true;
+        airSpeed = jumpSpeed;
+    }
+
+    private void resetInAir(){inAir = false;airSpeed = 0;}
+
+    private void updateXPos(float xSpeed){
+    if(HelpMethods.CanMoveHere(hitbox.x+xSpeed,hitbox.y, hitbox.width, hitbox.height, levelData)){hitbox.x += xSpeed;}
+    else{hitbox.x = HelpMethods.GetEntityPosNextToWall(hitbox, xSpeed);}
+}
+
 
 
     private void loadAnimations(){
-
         BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
-
             animations = new BufferedImage[8][8];
             for(int i =0; i<animations.length;i++){
                 for(int j=0;j< animations[i].length;j++){
@@ -126,6 +133,9 @@ public class Player extends Entity{
 
     public void loadLevelData(int[][] levelData){
             this.levelData= levelData;
+            if(!HelpMethods.IsEntityOnFloor(hitbox,levelData)){
+                inAir = true;
+            }
     }
 
 
@@ -136,39 +146,15 @@ public class Player extends Entity{
         down = false;
     }
 
-    public void setAttack(boolean attacking){
-        this.attacking = attacking;
-    }
-
-    public boolean isLeft() {
-        return left;
-    }
-
-    public void setLeft(boolean left) {
-        this.left = left;
-    }
-
-    public boolean isUp() {
-        return up;
-    }
-
-    public void setUp(boolean up) {
-        this.up = up;
-    }
-
-    public boolean isRight() {
-        return right;
-    }
-
-    public void setRight(boolean right) {
-        this.right = right;
-    }
-
-    public boolean isDown() {
-        return down;
-    }
-
-    public void setDown(boolean down) {
-        this.down = down;
-    }
+    public void setAttack(boolean attacking){this.attacking = attacking;}
+    public boolean isLeft() {return left;}
+    public void setLeft(boolean left) {this.left = left;}
+    public boolean isUp() {return up;}
+    public void setUp(boolean up) {this.up = up;}
+    public boolean isRight() {return right;}
+    public void setRight(boolean right) {this.right = right;}
+    public boolean isDown() {return down;}
+    public void setDown(boolean down) {this.down = down;}
+    public boolean isJump(){return jump;}
+    public void setJump(boolean jump){this.jump = jump;}
 }
