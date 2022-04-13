@@ -64,7 +64,6 @@ public class HelpMethods {
             //falling or touching floor
             int tileYPos = currentTile * Game.TILES_SIZE;
             int yOffset = (int)(Game.TILES_SIZE - hitbox.height);
-            System.out.println(tileYPos + yOffset -1);
             return tileYPos + yOffset - 1;
         }
         else{
