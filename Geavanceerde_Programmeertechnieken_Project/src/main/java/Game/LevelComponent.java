@@ -1,10 +1,10 @@
-package Levels;
+package Game;
 
-public class Level {
+public class LevelComponent {
 
     private int[][] levelData;
 
-    public Level(int[][] levelData){
+    public LevelComponent(int[][] levelData){
         this.levelData = levelData;
     }
 
@@ -15,4 +15,5 @@ public class Level {
     public int[][] getLevelData(){
         return levelData;
     }
+
 }

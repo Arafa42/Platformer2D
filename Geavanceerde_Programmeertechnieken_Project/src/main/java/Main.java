@@ -1,6 +1,7 @@
-import Game.Game;
-
+import UI_1.j2dFactory;
+import Game.AbstractFactory;
 import java.io.IOException;
+import Game.Game;
 
 public class Main {
 
@@ -11,6 +12,7 @@ public class Main {
 
     public Main(){}
     public void run() throws IOException {
-            new Game();
+        AbstractFactory a = new j2dFactory("graphics_config.txt");
+        new Game(a,"game_config.txt");
     }
 }
