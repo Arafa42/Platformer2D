@@ -66,6 +66,7 @@ public class GraphicsContext {
         frame.setResizable(true);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        frame.setResizable(false);
     }
 
     public void render() {

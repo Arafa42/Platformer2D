@@ -2,11 +2,12 @@ package Game;
 
 public abstract class AbstractElement implements Drawable{
 
-    private final MovementComponent movementComponent;
+    private final EntityComponent entityComponent;
     private AbstractInput.Inputs direction;
-    public AbstractElement(int x, int y){this.movementComponent = new MovementComponent(x,y);}
-    public MovementComponent getMovementComponent() {
-        return movementComponent;
+
+    public AbstractElement(int x, int y){this.entityComponent = new EntityComponent(x,y);}
+    public EntityComponent getEntityComponent() {
+        return entityComponent;
     }
     public void setDirection(AbstractInput.Inputs direction) {
         this.direction = direction;

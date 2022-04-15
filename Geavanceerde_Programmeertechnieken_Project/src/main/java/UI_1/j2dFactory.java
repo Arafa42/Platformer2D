@@ -10,7 +10,7 @@ public class j2dFactory extends AbstractFactory {
 
     public j2dFactory(String graphics_config) {
         HashMap<String, Integer> data = ConfigFileReader.getConfigFileReaderInstance().loadOrCreateConfig(graphics_config);
-        this.grCtx = new GraphicsContext((int)(data.get("ScreenWidth")*Game.SCALE), (int)(data.get("ScreenHeight")*Game.SCALE));
+        this.grCtx = new GraphicsContext((int)(data.get("ScreenWidth")), (int)(data.get("ScreenHeight")));
     }
 
     @Override

@@ -2,7 +2,7 @@ package UI_1;
 
 import Game.AbstractInput;
 import Game.AbstractPlayer;
-import Game.MovementComponent;
+import Game.EntityComponent;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import static Helper.Constants.PlayerConstants.GetSpriteAmount;
 import static Helper.Constants.PlayerConstants.*;
-import Game.Game;
 
 public class j2dPlayer extends AbstractPlayer {
 
@@ -18,8 +17,7 @@ public class j2dPlayer extends AbstractPlayer {
     private BufferedImage[][] animations;
     private int aniTick, aniIndex, aniSpeed = 5;
     private int playerAction = IDLE;
-    private float playerSpeed = 3.0f;
-    MovementComponent m = getMovementComponent();
+    EntityComponent m = getEntityComponent();
 
 
     public j2dPlayer(GraphicsContext graphicsContext, int x, int y) {
@@ -29,7 +27,6 @@ public class j2dPlayer extends AbstractPlayer {
     }
 
     public void update() {
-        updatePos();
         updateAnimationTick();
         setAnimation();
     }
@@ -38,7 +35,7 @@ public class j2dPlayer extends AbstractPlayer {
     @Override
     public void draw() {
         Graphics2D graphics2D = graphicsContext.getG2d();
-        graphics2D.drawImage(animations[playerAction][aniIndex], (int) m.x, (int) m.y, (int)(90*Game.SCALE), (int)(63*Game.SCALE), null);
+        graphics2D.drawImage(animations[playerAction][aniIndex], (int) m.x, (int) m.y, (int)(90), (int)(63), null);
         update();
     }
 
@@ -74,14 +71,6 @@ public class j2dPlayer extends AbstractPlayer {
         aniIndex = 0;
     }
 
-    private void updatePos() {
-        if ((getDirection() == AbstractInput.Inputs.LEFT) && !(getDirection() == AbstractInput.Inputs.RIGHT)) {
-            m.x -= playerSpeed;
-        } else if ((getDirection() == AbstractInput.Inputs.RIGHT) && !(getDirection() == AbstractInput.Inputs.LEFT)) {
-            m.x += playerSpeed;
-        }
-
-    }
 
     private void loadAnimations() {
         InputStream is = getClass().getResourceAsStream("/assets/images/SpriteSheets/Player/Spritesheet.png");
