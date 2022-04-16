@@ -12,6 +12,7 @@ public class Game implements Runnable{
     private static AbstractPlayer player;
     private AbstractLevel level;
     private MovementCompnent movementCompnent;
+    private CollisionComponent collisionComponent;
 
     private final int FPS_SET = 60;
     private final int UPS_SET = 60;
@@ -52,15 +53,17 @@ public class Game implements Runnable{
     private void initGame() {
         input = factory.createInput();
         level = factory.createLevel(map,TILES_IN_HEIGHT,TILES_IN_WIDTH,TILES_SIZE);
-        player = factory.createPlayer(3, 3);
+        player = factory.createPlayer(3, 3,40,35);
         background = factory.createBackground();
 
         drawables = new ArrayList<Drawable>();
         drawables.add(background);
-        drawables.add(player);
         drawables.add(level);
+        drawables.add(player);
+
 
         movementCompnent = new MovementCompnent();
+        collisionComponent = new CollisionComponent(configFile);
     }
 
     private void startGameLoop(){
@@ -71,7 +74,7 @@ public class Game implements Runnable{
     @Override
     public void run() {
         HashMap<String, Integer> data = ConfigFileReader.getConfigFileReaderInstance().loadOrCreateConfig(configFile);
-        factory.setGameDimensions((int)(data.get("GameCellX")), (int)(data.get("GameCellY")));
+        factory.setGameDimensions((int)(data.get("ScreenWidth")), (int)(data.get("ScreenHeight")));
 
         double timePerFrame = 1000000000.0 / FPS_SET;
         double timerUpdate =  1000000000.0 / UPS_SET;
@@ -97,6 +100,7 @@ public class Game implements Runnable{
 
                 EntityComponent entityComponent = player.getEntityComponent();
                 movementCompnent.update(entityComponent);
+                collisionComponent.UpdateCollision(entityComponent);
 
                 ups++;
                 deltaU--;
@@ -122,12 +126,31 @@ public class Game implements Runnable{
         }
     }
 
+
+
     private void checkMovement(AbstractInput.Inputs inputs) {
         if (inputs == AbstractInput.Inputs.LEFT) {
             movementCompnent.moveLeft(player.getEntityComponent());
         } else if (inputs == AbstractInput.Inputs.RIGHT) {
             movementCompnent.moveRight(player.getEntityComponent());
         }
+        else if(inputs == AbstractInput.Inputs.UP){
+            movementCompnent.moveUp(player.getEntityComponent());
+        }
+        else if(inputs == AbstractInput.Inputs.DOWN){
+            movementCompnent.moveDown(player.getEntityComponent());
+        }
+
+
+        if(collisionComponent.IsEntityOnFloor((int)player.getEntityComponent().x,(int)player.getEntityComponent().y,(int)player.getEntityComponent().hitboxWidth,(int)player.getEntityComponent().hitboxHeight,map)){
+            movementCompnent.stopMoving(player.getEntityComponent());
+        }
+
+
+
+
+
+
     }
 
 

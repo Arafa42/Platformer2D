@@ -5,7 +5,7 @@ public abstract class AbstractElement implements Drawable{
     private final EntityComponent entityComponent;
     private AbstractInput.Inputs direction;
 
-    public AbstractElement(int x, int y){this.entityComponent = new EntityComponent(x,y);}
+    public AbstractElement(int x, int y, int hitboxWidth, int hitboxHeight){this.entityComponent = new EntityComponent(x,y,hitboxWidth,hitboxHeight);}
     public EntityComponent getEntityComponent() {
         return entityComponent;
     }

@@ -19,4 +19,14 @@ public class MovementCompnent {
     public void moveRight(EntityComponent entityComponent){entityComponent.dx += playerSpeed;}
 
 
+    public void moveUp(EntityComponent entityComponent){entityComponent.dy -= playerSpeed;}
+
+    public void moveDown(EntityComponent entityComponent){entityComponent.dy += playerSpeed;}
+
+
+    public void stopMoving(){
+        System.out.println("STOP THE Y SPEED RIGHT THERE........");
+    }
+
+
 }

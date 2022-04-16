@@ -24,7 +24,7 @@ public class j2dFactory extends AbstractFactory {
     }
 
     @Override
-    public AbstractPlayer createPlayer( int x, int y) {return new j2dPlayer(grCtx, x, y);}
+    public AbstractPlayer createPlayer( int x, int y, int hitboxWidth, int hitboxHeight) {return new j2dPlayer(grCtx, x, y,hitboxWidth,hitboxHeight);}
 
     @Override
     public AbstractBackground createBackground() {

@@ -16,12 +16,19 @@ public class j2dPlayer extends AbstractPlayer {
     private final GraphicsContext graphicsContext;
     private BufferedImage[][] animations;
     private int aniTick, aniIndex, aniSpeed = 5;
+    private float xDrawOffset = 28;
+    private float yDrawOffset = 8;
     private int playerAction = IDLE;
     EntityComponent m = getEntityComponent();
+    int x,y,hitboxWidth,hitboxHeight;
 
 
-    public j2dPlayer(GraphicsContext graphicsContext, int x, int y) {
-        super(x, y);
+    public j2dPlayer(GraphicsContext graphicsContext, int x, int y, int hitboxWidth, int hitboxHeight) {
+        super(x, y, hitboxWidth, hitboxHeight);
+        this.x = x;
+        this.y = y;
+        this.hitboxWidth = hitboxWidth;
+        this.hitboxHeight = hitboxHeight;
         this.graphicsContext = graphicsContext;
         loadAnimations();
     }
@@ -35,7 +42,9 @@ public class j2dPlayer extends AbstractPlayer {
     @Override
     public void draw() {
         Graphics2D graphics2D = graphicsContext.getG2d();
-        graphics2D.drawImage(animations[playerAction][aniIndex], (int) m.x, (int) m.y, (int)(90), (int)(63), null);
+        graphics2D.drawImage(animations[playerAction][aniIndex], (int) (m.x - xDrawOffset), (int) (m.y - yDrawOffset), (int)(90), (int)(63), null);
+        graphics2D.setColor(Color.RED);
+        graphics2D.drawRect((int)m.x, (int)m.y, (int)hitboxWidth, (int)hitboxHeight);
         update();
     }
 

@@ -84,7 +84,7 @@ public class GraphicsContext {
 
     public void setGameDimensions(int GameCellsX, int GameCellsY) {
         size = Math.min(ScreenWidth/GameCellsX, ScreenHeight/GameCellsY);
-        System.out.println("size: "+size);
+        //System.out.println("size: "+size);
         frame.setLocation(50,50);
         frame.setSize(ScreenWidth, ScreenHeight);
         try {
