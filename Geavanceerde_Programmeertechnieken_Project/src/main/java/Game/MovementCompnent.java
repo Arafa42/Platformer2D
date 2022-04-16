@@ -10,7 +10,6 @@ public class MovementCompnent {
     private float fallSpeedAfterCollision = 1f;
     private boolean isMoving = false;
     private CollisionComponent collisionComponent;
-    float xSpeed = 0;
     private boolean left = false;
     private boolean right = false;
 
@@ -21,10 +20,6 @@ public class MovementCompnent {
 
     private void updateMovement(EntityComponent entityComponent, int width, int height, int[][] map){
         checkInAirOnStart(entityComponent,width,height,map);
-
-//        entityComponent.x = entityComponent.dx;
-//        entityComponent.y = entityComponent.dy;
-
         isMoving = false;
 
         float xSpeed = 0;
@@ -67,11 +62,7 @@ public class MovementCompnent {
     }
 
 
-
-
     public void update(EntityComponent entityComponent,int width, int height, int[][] map) { updateMovement(entityComponent,width,height,map); }
-    //public void moveLeft(EntityComponent entityComponent){entityComponent.x -= playerSpeed;}
-    //public void moveRight(EntityComponent entityComponent){entityComponent.x += playerSpeed;}
     public Boolean getIsMoving(){return isMoving;}
     public void setLeft(boolean left) {this.left = left;}
     public void setRight(boolean right) {this.right = right;}

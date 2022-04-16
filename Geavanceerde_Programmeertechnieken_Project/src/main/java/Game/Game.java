@@ -142,10 +142,7 @@ public class Game implements Runnable{
             movementCompnent.setRight(false);
         }
 
-
-
     }
-
 
 }
 
