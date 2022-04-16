@@ -21,11 +21,11 @@ public class CollisionComponent {
     }
 
 
-    public boolean CanMoveHere(EntityComponent entityComponent, float width, float height, int[][] levelData){
-        if(!IsSolid(entityComponent.x,entityComponent.y,levelData)){
-            if(!IsSolid(entityComponent.x+width,entityComponent.y+height,levelData)){
-                if(!IsSolid(entityComponent.x+width,entityComponent.y,levelData)){
-                    if(!IsSolid(entityComponent.x,entityComponent.y+height,levelData)){
+    public boolean CanMoveHere(float x,float y, float width, float height, int[][] levelData){
+        if(!IsSolid(x,y,levelData)){
+            if(!IsSolid(x+width,y+height,levelData)){
+                if(!IsSolid(x+width,y,levelData)){
+                    if(!IsSolid(x,y+height,levelData)){
                         return true;
                     }
                 }
@@ -41,10 +41,12 @@ public class CollisionComponent {
 
         //System.out.println(data);
 
-        if(x < 0 || x >= data.get("ScreenWidth")){
+        //System.out.println(x);
+
+        if(x < 0.0 || x >= data.get("ScreenWidth")){
             return true;
         }
-        if(y < 0 || y >= data.get("ScreenHeight")){
+        if(y < 0.0 || y >= data.get("ScreenHeight")){
             return true;
         }
 
@@ -55,7 +57,6 @@ public class CollisionComponent {
 
         int value  =levelData[(int) yIndex][(int)xIndex];
 
-        System.out.println(value);
 
         if(value!=0 && value != 2 && value != 4 && value != 7){return true;}
         return false;
@@ -68,7 +69,7 @@ public class CollisionComponent {
         hitbox.width = width;
         hitbox.height = height;
         int currentTile = (int)(hitbox.x / Game.TILES_SIZE);
-        System.out.println(currentTile);
+        //System.out.println(currentTile);
         if(xSpeed > 0){
             //right
             int tileXpos = currentTile * Game.TILES_SIZE;

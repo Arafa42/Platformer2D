@@ -35,7 +35,7 @@ public class Game implements Runnable{
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            { 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1},
             { 2, 4, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
             { 17, 17, 18, 0, 0, 0, 0, 16, 17, 18, 0, 0, 0, 0, 20, 21, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -62,8 +62,9 @@ public class Game implements Runnable{
         drawables.add(player);
 
 
-        movementCompnent = new MovementCompnent();
         collisionComponent = new CollisionComponent(configFile);
+        movementCompnent = new MovementCompnent(collisionComponent);
+
     }
 
     private void startGameLoop(){
@@ -99,7 +100,7 @@ public class Game implements Runnable{
                 }
 
                 EntityComponent entityComponent = player.getEntityComponent();
-                movementCompnent.update(entityComponent);
+                movementCompnent.update(entityComponent,(int)entityComponent.hitboxWidth,(int)entityComponent.hitboxHeight,map);
                 collisionComponent.UpdateCollision(entityComponent);
 
                 ups++;
@@ -134,20 +135,9 @@ public class Game implements Runnable{
         } else if (inputs == AbstractInput.Inputs.RIGHT) {
             movementCompnent.moveRight(player.getEntityComponent());
         }
-        else if(inputs == AbstractInput.Inputs.UP){
-            movementCompnent.moveUp(player.getEntityComponent());
+        else if(inputs == AbstractInput.Inputs.JUMPING){
+            movementCompnent.jump();
         }
-        else if(inputs == AbstractInput.Inputs.DOWN){
-            movementCompnent.moveDown(player.getEntityComponent());
-        }
-
-
-        if(collisionComponent.IsEntityOnFloor((int)player.getEntityComponent().x,(int)player.getEntityComponent().y,(int)player.getEntityComponent().hitboxWidth,(int)player.getEntityComponent().hitboxHeight,map)){
-            movementCompnent.stopMoving(player.getEntityComponent());
-        }
-
-
-
 
 
 
