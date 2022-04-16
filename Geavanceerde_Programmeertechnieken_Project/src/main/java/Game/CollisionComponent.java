@@ -1,14 +1,21 @@
-package utils;
+package Game;
 
-import Game.Game;
+import Helper.ConfigFileReader;
 
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.HashMap;
 
-public class HelpMethods {
+public class CollisionComponent {
 
-    public static boolean CanMoveHere(float x, float y, float width, float height, int[][] levelData){
+    String configFile;
 
+
+    public CollisionComponent(String configFile){
+        this.configFile = configFile;
+    }
+
+
+    public boolean CanMoveHere(float x,float y, float width, float height, int[][] levelData){
         if(!IsSolid(x,y,levelData)){
             if(!IsSolid(x+width,y+height,levelData)){
                 if(!IsSolid(x+width,y,levelData)){
@@ -22,33 +29,38 @@ public class HelpMethods {
     }
 
 
+    private boolean IsSolid(float x, float y, int[][] levelData){
+        HashMap<String, Integer> data = ConfigFileReader.getConfigFileReaderInstance().loadOrCreateConfig(configFile);
 
-    private static boolean IsSolid(float x, float y, int[][] levelData){
-        if(x < 0 || x >= Game.GAME_WIDTH){
+        if(x < 0.0 || x >= data.get("ScreenWidth")){
             return true;
         }
-        if(y < 0 || y >= Game.GAME_HEIGHT){
+        if(y < 0.0 || y >= data.get("ScreenHeight")){
             return true;
         }
 
         float xIndex = x / Game.TILES_SIZE;
         float yIndex = y / Game.TILES_SIZE;
 
-
-
         int value  =levelData[(int) yIndex][(int)xIndex];
 
 
-        if(value!=200 && value != 2 && value != 4 && value != 7){return true;}
+        if(value!=0 && value != 2 && value != 4 && value != 7){return true;}
         return false;
     }
 
-    public static float GetEntityPosNextToWall(Rectangle2D.Float hitbox, Float xSpeed){
+    public float GetEntityPosNextToWall(int x, int y, int width, int height, Float xSpeed){
+        Rectangle2D.Float hitbox = new Rectangle2D.Float();
+        hitbox.x = x;
+        hitbox.y = y;
+        hitbox.width = width;
+        hitbox.height = height;
         int currentTile = (int)(hitbox.x / Game.TILES_SIZE);
         if(xSpeed > 0){
             //right
             int tileXpos = currentTile * Game.TILES_SIZE;
             int xOffset = (int)(Game.TILES_SIZE - hitbox.width);
+            System.out.println(tileXpos + xOffset - 1);
             return tileXpos + xOffset - 1;
         }
         else{
@@ -58,7 +70,12 @@ public class HelpMethods {
 
     }
 
-    public static float GetEntityYPosUnderRoofOrAboveFloor(Rectangle2D.Float hitbox, float airSpeed){
+    public float GetEntityYPosUnderRoofOrAboveFloor(int x, int y, int width, int height, Float airSpeed){
+        Rectangle2D.Float hitbox = new Rectangle2D.Float();
+        hitbox.x = x;
+        hitbox.y = y;
+        hitbox.width = width;
+        hitbox.height = height;
         int currentTile = (int) (hitbox.y / Game.TILES_SIZE);
         if(airSpeed > 0){
             //falling or touching floor
@@ -73,7 +90,13 @@ public class HelpMethods {
     }
 
 
-    public static boolean IsEntityOnFloor(Rectangle2D.Float hitbox, int[][] levelData){
+    public boolean IsEntityOnFloor(int x,int y, int width, int height, int[][] levelData){
+        Rectangle2D.Float hitbox = new Rectangle2D.Float();
+        hitbox.x = x;
+        hitbox.y = y;
+        hitbox.width = width;
+        hitbox.height = height;
+        //System.out.println(hitbox);
         //check below bottomleft and bottomright
         if(!IsSolid(hitbox.x, hitbox.y + hitbox.height+1, levelData)){
             if(!IsSolid(hitbox.x + hitbox.width,hitbox.y + hitbox.height+1, levelData)){
@@ -82,5 +105,6 @@ public class HelpMethods {
         }
         return true;
     }
+
 
 }

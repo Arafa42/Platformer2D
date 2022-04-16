@@ -1,16 +1,6 @@
-package utils;
-
-import java.awt.image.BufferedImage;
+package Helper;
 
 public class Constants {
-
-    public static class Direction{
-        public static final int LEFT = 0;
-        public static final int RIGHT = 1;
-        public static final int UP = 2;
-        public static final int DOWN = 3;
-    }
-
 
     public static class PlayerConstants{
         public static final int RUNNING_LEFT = 2;
@@ -36,6 +26,4 @@ public class Constants {
         }
 
     }
-
-
 }

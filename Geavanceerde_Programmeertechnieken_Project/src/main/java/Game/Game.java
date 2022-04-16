@@ -1,44 +1,70 @@
 package Game;
+import Helper.ConfigFileReader;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-import Entities.Player;
-import Levels.LevelManager;
-import utils.LoadSave;
+public class Game implements Runnable{
 
-import java.awt.*;
-import java.io.IOException;
+    private final AbstractFactory factory;
+    private AbstractInput input;
+    private AbstractBackground background;
+    private ArrayList<Drawable> drawables;
+    private static AbstractPlayer player;
+    private AbstractLevel level;
+    private MovementCompnent movementCompnent;
+    private CollisionComponent collisionComponent;
 
-public class Game implements Runnable {
-
-    private GameWindow gameWindow;
-    private GamePanel gamePanel;
-    private Thread gameThread;
     private final int FPS_SET = 60;
     private final int UPS_SET = 60;
-    private Player player;
-    private LevelManager levelManager;
+    private Thread gameThread;
+    public final static int TILES_DEFAULT_SIZE = 48;
+    public final static int TILES_IN_WIDTH = 30;
+    public final static int TILES_IN_HEIGHT = 16;
+    public final static int TILES_SIZE = (int)(TILES_DEFAULT_SIZE);
 
-    public final static int TILES_DEFAULT_SIZE = 32;
-    public final static float SCALE = 1.5f;
-    public final static int TILES_IN_WIDTH = 26;
-    public final static int TILES_IN_HEIGHT = 14;
-    public final static int TILES_SIZE = (int)(TILES_DEFAULT_SIZE * SCALE);
-    public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
-    public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
+    String configFile;
 
+    int[][] map = {
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            { 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1},
+            { 2, 4, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            { 17, 17, 18, 0, 0, 0, 0, 16, 17, 18, 0, 0, 0, 0, 20, 21, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            { 33, 33, 34, 0, 0, 0, 0, 32, 33, 34, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+            { 49, 49, 50, 0, 0, 0, 0, 48, 49, 50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+    };
 
-    public Game() throws IOException {
-        initAll();
-        gamePanel = new GamePanel(this);
-        gameWindow = new GameWindow(gamePanel);
-        gamePanel.requestFocus();
+    public Game(AbstractFactory abstractFactory,final String configFile) {
+        this.factory = abstractFactory;
+        this.configFile = configFile;
+        initGame();
         startGameLoop();
     }
 
+    private void initGame() {
+        input = factory.createInput();
+        level = factory.createLevel(map,TILES_IN_HEIGHT,TILES_IN_WIDTH,TILES_SIZE);
+        player = factory.createPlayer(3, 3,35,35);
+        background = factory.createBackground();
 
-    private void initAll(){
-        levelManager = new LevelManager(this);
-        player = new Player(20,250, (int) (72 * SCALE), (int) (45 * SCALE));
-        player.loadLevelData(levelManager.getCurrentLevel().getLevelData());
+        drawables = new ArrayList<Drawable>();
+        drawables.add(background);
+        drawables.add(level);
+        drawables.add(player);
+
+
+        collisionComponent = new CollisionComponent(configFile);
+        movementCompnent = new MovementCompnent(collisionComponent);
+
     }
 
     private void startGameLoop(){
@@ -46,19 +72,11 @@ public class Game implements Runnable {
         gameThread.start();
     }
 
-    public void update(){
-        player.update();
-        levelManager.update();
-    }
-
-    public void render(Graphics g){
-        levelManager.draw(g);
-        player.render(g);
-    }
-
-
     @Override
     public void run() {
+        HashMap<String, Integer> data = ConfigFileReader.getConfigFileReaderInstance().loadOrCreateConfig(configFile);
+        factory.setGameDimensions((int)(data.get("ScreenWidth")), (int)(data.get("ScreenHeight")));
+
         double timePerFrame = 1000000000.0 / FPS_SET;
         double timerUpdate =  1000000000.0 / UPS_SET;
         long previousTime = System.nanoTime();
@@ -75,15 +93,29 @@ public class Game implements Runnable {
             previousTime = currentTime;
 
             if(deltaU >= 1){
-                update();
+                AbstractInput.Inputs inputs = input.getInput();
+                if (inputs != null) {
+                    checkMovement(inputs);
+                    player.setDirection(inputs);
+                }
+
+                EntityComponent entityComponent = player.getEntityComponent();
+                movementCompnent.update(entityComponent,(int)entityComponent.hitboxWidth,(int)entityComponent.hitboxHeight,map);
+
                 ups++;
                 deltaU--;
             }
 
             if(deltaF >= 1){
-                gamePanel.repaint();
+
+                for (Drawable drawable : drawables) {
+                    drawable.draw();
+                }
+                factory.render();
+
                 fps++;
                 deltaF--;
+
             }
 
             if(System.currentTimeMillis() - lastCheck >=1000){
@@ -91,18 +123,31 @@ public class Game implements Runnable {
                 fps = 0;
                 ups = 0;
             }
+        }
+    }
 
+
+
+    private void checkMovement(AbstractInput.Inputs inputs) {
+        if (movementCompnent.getIsMoving() && inputs == AbstractInput.Inputs.LEFT) {
+            movementCompnent.setLeft(true);
+        } else if (movementCompnent.getIsMoving() && inputs == AbstractInput.Inputs.RIGHT) {
+            movementCompnent.setRight(true);
+        }
+        else if(inputs == AbstractInput.Inputs.JUMPING){
+            movementCompnent.jump();
+        }
+        else{
+            movementCompnent.setLeft(false);
+            movementCompnent.setRight(false);
         }
 
-    }
 
-    public void windowFocusLost(){
-        player.resetDirectionBooleans();
-    }
 
-    public Player getPlayer(){
-        return player;
     }
 
 
 }
+
+
+

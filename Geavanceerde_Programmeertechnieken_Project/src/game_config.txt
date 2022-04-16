@@ -1,0 +1,2 @@
+GameCellX:10
+GameCellY:10
