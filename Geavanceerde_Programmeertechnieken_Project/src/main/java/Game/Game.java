@@ -53,7 +53,7 @@ public class Game implements Runnable{
     private void initGame() {
         input = factory.createInput();
         level = factory.createLevel(map,TILES_IN_HEIGHT,TILES_IN_WIDTH,TILES_SIZE);
-        player = factory.createPlayer(3, 3,35,40);
+        player = factory.createPlayer(3, 3,35,35);
         background = factory.createBackground();
 
         drawables = new ArrayList<Drawable>();
@@ -130,10 +130,8 @@ public class Game implements Runnable{
 
     private void checkMovement(AbstractInput.Inputs inputs) {
         if (movementCompnent.getIsMoving() && inputs == AbstractInput.Inputs.LEFT) {
-            //movementCompnent.moveLeft(player.getEntityComponent());
             movementCompnent.setLeft(true);
         } else if (movementCompnent.getIsMoving() && inputs == AbstractInput.Inputs.RIGHT) {
-            //movementCompnent.moveRight(player.getEntityComponent());
             movementCompnent.setRight(true);
         }
         else if(inputs == AbstractInput.Inputs.JUMPING){
