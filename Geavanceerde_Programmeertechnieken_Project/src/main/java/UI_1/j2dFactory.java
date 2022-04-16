@@ -32,6 +32,11 @@ public class j2dFactory extends AbstractFactory {
     }
 
     @Override
+    public AbstractCamera createCamera() {
+        return new j2dCamera(grCtx);
+    }
+
+    @Override
     public AbstractLevel createLevel(int[][] tileArray, int TILES_IN_HEIGHT,int TILES_IN_WIDTH, int TILES_SIZE) {
         return new j2dLevel(grCtx,tileArray, TILES_IN_HEIGHT, TILES_IN_WIDTH, TILES_SIZE);
     }

@@ -44,7 +44,7 @@ public class j2dLevel extends AbstractLevel {
                 if(index==0){
                     index = 200;
                 }
-                g2d.drawImage(levelSprite[index],j*TILES_SIZE,i*TILES_SIZE,TILES_SIZE,TILES_SIZE,null);
+                g2d.drawImage(levelSprite[index],(j*TILES_SIZE)-graphicsContext.getCamX(),(i*TILES_SIZE)-graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE,null);
             }
         }
     }

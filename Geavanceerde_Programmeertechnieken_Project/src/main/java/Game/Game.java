@@ -53,7 +53,7 @@ public class Game implements Runnable{
     private void initGame() {
         input = factory.createInput();
         level = factory.createLevel(map,TILES_IN_HEIGHT,TILES_IN_WIDTH,TILES_SIZE);
-        player = factory.createPlayer(3, 3,35,35);
+        player = factory.createPlayer(10, 200,35,35);
         background = factory.createBackground();
 
         drawables = new ArrayList<Drawable>();
@@ -111,6 +111,8 @@ public class Game implements Runnable{
                 for (Drawable drawable : drawables) {
                     drawable.draw();
                 }
+
+
                 factory.render();
 
                 fps++;

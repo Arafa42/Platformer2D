@@ -41,10 +41,14 @@ public class j2dPlayer extends AbstractPlayer {
 
     @Override
     public void draw() {
+
+        graphicsContext.setCamX((int)m.x- (graphicsContext.getFrame().getWidth()/2));
+        graphicsContext.setCamY((int)m.y- (graphicsContext.getFrame().getHeight()/2));
+
         Graphics2D graphics2D = graphicsContext.getG2d();
-        graphics2D.drawImage(animations[playerAction][aniIndex], (int) (m.x - xDrawOffset), (int) (m.y - yDrawOffset), (int)(90), (int)(63), null);
+        graphics2D.drawImage(animations[playerAction][aniIndex], (int) (m.x - xDrawOffset)-graphicsContext.getCamX(), (int) (m.y - yDrawOffset)-graphicsContext.getCamY(), (int)(90), (int)(63), null);
         graphics2D.setColor(Color.RED);
-        graphics2D.drawRect((int)m.x, (int)m.y, (int)hitboxWidth, (int)hitboxHeight);
+        graphics2D.drawRect((int)m.x-graphicsContext.getCamX(), (int)m.y-graphicsContext.getCamY(), (int)hitboxWidth, (int)hitboxHeight);
         update();
     }
 

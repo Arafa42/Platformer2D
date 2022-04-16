@@ -10,12 +10,12 @@ import java.io.IOException;
 public class GraphicsContext {
     private int ScreenWidth;
     private int ScreenHeight;
+    private int camX = 0;
+    private int camY = 0;
     private JFrame frame;
     private JPanel panel;
     private BufferedImage g2dimage;
     private Graphics2D g2d;
-    public BufferedImage backgroundImg;
-    public BufferedImage snakeSprite;
     private int size;
 
     public Graphics2D getG2d() {
@@ -69,34 +69,33 @@ public class GraphicsContext {
         frame.setResizable(false);
     }
 
-    public void render() {
-        panel.repaint();
-    }
+    public void render() {panel.repaint();}
 
     private void doDrawing(Graphics g) {
         Graphics2D graph2d = (Graphics2D) g;
         Toolkit.getDefaultToolkit().sync();
-        graph2d.drawImage(g2dimage, 0, 0, null);   // copy buffered image
+
+        if(g2dimage==null){
+            return;
+        }
+
+        graph2d.drawImage(g2dimage, 0, 0,g2dimage.getWidth(),g2dimage.getHeight(),null );   // copy buffered image
         graph2d.dispose();
-        if (g2d != null)
-            g2d.drawImage(backgroundImg,0, 0, null);
     }
 
     public void setGameDimensions(int GameCellsX, int GameCellsY) {
         size = Math.min(ScreenWidth/GameCellsX, ScreenHeight/GameCellsY);
-        //System.out.println("size: "+size);
         frame.setLocation(50,50);
         frame.setSize(ScreenWidth, ScreenHeight);
-        try {
-            backgroundImg = resizeImage(backgroundImg, frame.getWidth(), frame.getHeight());
-            snakeSprite = resizeImage(snakeSprite, size*5, size*4);
-        } catch(Exception e) {
-            System.out.println(e.getStackTrace());
-        }
         g2dimage = new BufferedImage(frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_4BYTE_ABGR_PRE);
         g2d = g2dimage.createGraphics();
-        g2d.drawImage(backgroundImg,0, 0, null);
     }
+
+
+    public int getCamX() {return camX;}
+    public void setCamX(int camX) {this.camX = camX;}
+    public int getCamY() {return camY;}
+    public void setCamY(int camY) {this.camY = camY;}
 
 
 }
