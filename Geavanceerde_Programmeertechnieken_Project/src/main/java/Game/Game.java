@@ -53,7 +53,7 @@ public class Game implements Runnable{
     private void initGame() {
         input = factory.createInput();
         level = factory.createLevel(map,TILES_IN_HEIGHT,TILES_IN_WIDTH,TILES_SIZE);
-        player = factory.createPlayer(3, 3,40,35);
+        player = factory.createPlayer(3, 3,35,40);
         background = factory.createBackground();
 
         drawables = new ArrayList<Drawable>();
@@ -101,7 +101,6 @@ public class Game implements Runnable{
 
                 EntityComponent entityComponent = player.getEntityComponent();
                 movementCompnent.update(entityComponent,(int)entityComponent.hitboxWidth,(int)entityComponent.hitboxHeight,map);
-                collisionComponent.UpdateCollision(entityComponent);
 
                 ups++;
                 deltaU--;
@@ -130,13 +129,19 @@ public class Game implements Runnable{
 
 
     private void checkMovement(AbstractInput.Inputs inputs) {
-        if (inputs == AbstractInput.Inputs.LEFT) {
-            movementCompnent.moveLeft(player.getEntityComponent());
-        } else if (inputs == AbstractInput.Inputs.RIGHT) {
-            movementCompnent.moveRight(player.getEntityComponent());
+        if (movementCompnent.getIsMoving() && inputs == AbstractInput.Inputs.LEFT) {
+            //movementCompnent.moveLeft(player.getEntityComponent());
+            movementCompnent.setLeft(true);
+        } else if (movementCompnent.getIsMoving() && inputs == AbstractInput.Inputs.RIGHT) {
+            //movementCompnent.moveRight(player.getEntityComponent());
+            movementCompnent.setRight(true);
         }
         else if(inputs == AbstractInput.Inputs.JUMPING){
             movementCompnent.jump();
+        }
+        else{
+            movementCompnent.setLeft(false);
+            movementCompnent.setRight(false);
         }
 
 

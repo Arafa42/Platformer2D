@@ -6,8 +6,6 @@ public class EntityComponent {
     public float y;
     public float hitboxWidth;
     public float hitboxHeight;
-    public float dx;
-    public float dy;
 
     public EntityComponent(int x, int y,int hitboxWidth, int hitboxHeight){
         this.x = x;

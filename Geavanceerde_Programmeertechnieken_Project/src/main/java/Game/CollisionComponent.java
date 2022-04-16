@@ -15,12 +15,6 @@ public class CollisionComponent {
     }
 
 
-    public void UpdateCollision(EntityComponent entityComponent){
-        entityComponent.x = entityComponent.dx;
-        entityComponent.y = entityComponent.dy;
-    }
-
-
     public boolean CanMoveHere(float x,float y, float width, float height, int[][] levelData){
         if(!IsSolid(x,y,levelData)){
             if(!IsSolid(x+width,y+height,levelData)){
@@ -35,13 +29,8 @@ public class CollisionComponent {
     }
 
 
-
     private boolean IsSolid(float x, float y, int[][] levelData){
         HashMap<String, Integer> data = ConfigFileReader.getConfigFileReaderInstance().loadOrCreateConfig(configFile);
-
-        //System.out.println(data);
-
-        //System.out.println(x);
 
         if(x < 0.0 || x >= data.get("ScreenWidth")){
             return true;
@@ -52,8 +41,6 @@ public class CollisionComponent {
 
         float xIndex = x / Game.TILES_SIZE;
         float yIndex = y / Game.TILES_SIZE;
-
-
 
         int value  =levelData[(int) yIndex][(int)xIndex];
 
@@ -69,11 +56,11 @@ public class CollisionComponent {
         hitbox.width = width;
         hitbox.height = height;
         int currentTile = (int)(hitbox.x / Game.TILES_SIZE);
-        //System.out.println(currentTile);
         if(xSpeed > 0){
             //right
             int tileXpos = currentTile * Game.TILES_SIZE;
             int xOffset = (int)(Game.TILES_SIZE - hitbox.width);
+            System.out.println(tileXpos + xOffset - 1);
             return tileXpos + xOffset - 1;
         }
         else{
@@ -109,7 +96,7 @@ public class CollisionComponent {
         hitbox.y = y;
         hitbox.width = width;
         hitbox.height = height;
-        System.out.println(hitbox);
+        //System.out.println(hitbox);
         //check below bottomleft and bottomright
         if(!IsSolid(hitbox.x, hitbox.y + hitbox.height+1, levelData)){
             if(!IsSolid(hitbox.x + hitbox.width,hitbox.y + hitbox.height+1, levelData)){
