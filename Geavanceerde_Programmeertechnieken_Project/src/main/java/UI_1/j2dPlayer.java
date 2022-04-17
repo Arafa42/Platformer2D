@@ -42,8 +42,23 @@ public class j2dPlayer extends AbstractPlayer {
     @Override
     public void draw() {
 
-        graphicsContext.setCamX((int)m.x- (graphicsContext.getFrame().getWidth()/2));
-        graphicsContext.setCamY((int)m.y- (graphicsContext.getFrame().getHeight()/2));
+        graphicsContext.setCamX((int)m.x- graphicsContext.getViewPortX()/2);
+        graphicsContext.setCamY((int)m.y- graphicsContext.getViewPortY()/2);
+
+
+        if (graphicsContext.getCamX() > graphicsContext.getOffsetMaxX()){
+            graphicsContext.setCamX(graphicsContext.getOffsetMaxX());
+        }
+        else if (graphicsContext.getCamX() < graphicsContext.getOffsetMinX()){
+            graphicsContext.setCamX(graphicsContext.getOffsetMinX());
+        }
+        if(graphicsContext.getCamY() > graphicsContext.getOffsetMaxY()){
+            graphicsContext.setCamY(graphicsContext.getOffsetMaxY());
+        }
+        else if(graphicsContext.getCamY() < graphicsContext.getOffsetMinY()){
+            graphicsContext.setCamY(graphicsContext.getOffsetMinY());
+        }
+
 
         Graphics2D graphics2D = graphicsContext.getG2d();
         graphics2D.drawImage(animations[playerAction][aniIndex], (int) (m.x - xDrawOffset)-graphicsContext.getCamX(), (int) (m.y - yDrawOffset)-graphicsContext.getCamY(), (int)(90), (int)(63), null);

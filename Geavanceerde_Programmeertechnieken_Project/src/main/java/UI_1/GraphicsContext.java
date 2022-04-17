@@ -18,6 +18,13 @@ public class GraphicsContext {
     private Graphics2D g2d;
     private int size;
 
+    private int viewPortX = 400;
+    private int viewPortY = 1080;
+    private int offsetMaxX = 1920 - viewPortX;
+    private int offsetMaxY = 1080 - viewPortY;
+    private int offsetMinX = 0;
+    private int offsetMinY = 0;
+
     public Graphics2D getG2d() {
         return g2d;
     }
@@ -78,8 +85,8 @@ public class GraphicsContext {
         if(g2dimage==null){
             return;
         }
-
         graph2d.drawImage(g2dimage, 0, 0,g2dimage.getWidth(),g2dimage.getHeight(),null );   // copy buffered image
+        graph2d.translate(-camX,-camY);
         graph2d.dispose();
     }
 
@@ -96,6 +103,18 @@ public class GraphicsContext {
     public void setCamX(int camX) {this.camX = camX;}
     public int getCamY() {return camY;}
     public void setCamY(int camY) {this.camY = camY;}
+    public int getOffsetMaxX() {return offsetMaxX;}
+    public void setOffsetMaxX(int offsetMaxX) {this.offsetMaxX = offsetMaxX;}
+    public int getOffsetMaxY() {return offsetMaxY;}
+    public void setOffsetMaxY(int offsetMaxY) {this.offsetMaxY = offsetMaxY;}
+    public int getOffsetMinX() {return offsetMinX;}
+    public void setOffsetMinX(int offsetMinX) {this.offsetMinX = offsetMinX;}
+    public int getOffsetMinY() {return offsetMinY;}
+    public void setOffsetMinY(int offsetMinY) {this.offsetMinY = offsetMinY;}
+    public int getViewPortX() {return viewPortX;}
+    public void setViewPortX(int viewPortX) {this.viewPortX = viewPortX;}
+    public int getViewPortY() {return viewPortY;}
+    public void setViewPortY(int viewPortY) {this.viewPortY = viewPortY;}
 
 
 }
