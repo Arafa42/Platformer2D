@@ -18,10 +18,10 @@ public class GraphicsContext {
     private Graphics2D g2d;
     private int size;
 
-    private int viewPortX = 400;
-    private int viewPortY = 1080;
-    private int offsetMaxX = 1920 - viewPortX;
-    private int offsetMaxY = 1080 - viewPortY;
+    private int viewPortX = 666;
+    private int viewPortY = 800;
+    private int offsetMaxX = 1280 - viewPortX;
+    private int offsetMaxY = 800 - viewPortY;
     private int offsetMinX = 0;
     private int offsetMinY = 0;
 

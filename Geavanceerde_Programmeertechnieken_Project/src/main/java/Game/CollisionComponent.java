@@ -32,10 +32,10 @@ public class CollisionComponent {
     private boolean IsSolid(float x, float y, int[][] levelData){
         HashMap<String, Integer> data = ConfigFileReader.getConfigFileReaderInstance().loadOrCreateConfig(configFile);
 
-        if(x < 0.0 || x >= data.get("ScreenWidth")){
+        if(x < 0.0 || x >= (Game.TILES_SIZE * Game.TILES_IN_WIDTH)){
             return true;
         }
-        if(y < 0.0 || y >= data.get("ScreenHeight")){
+        if(y < 0.0 || y >= (Game.TILES_SIZE * Game.TILES_IN_HEIGHT)){
             return true;
         }
 
@@ -60,7 +60,6 @@ public class CollisionComponent {
             //right
             int tileXpos = currentTile * Game.TILES_SIZE;
             int xOffset = (int)(Game.TILES_SIZE - hitbox.width);
-            System.out.println(tileXpos + xOffset - 1);
             return tileXpos + xOffset - 1;
         }
         else{
@@ -81,6 +80,10 @@ public class CollisionComponent {
             //falling or touching floor
             int tileYPos = currentTile * Game.TILES_SIZE;
             int yOffset = (int)(Game.TILES_SIZE - hitbox.height);
+            if(currentTile >= Game.TILES_IN_HEIGHT-1){
+                System.out.println("YOU SHOULD DIE HERE....");
+            }
+
             return tileYPos + yOffset - 1;
         }
         else{

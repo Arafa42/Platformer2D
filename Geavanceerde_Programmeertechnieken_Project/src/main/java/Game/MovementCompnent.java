@@ -6,7 +6,7 @@ public class MovementCompnent {
     private boolean inAir = false;
     private float airSpeed = 0f;
     private float gravity = 0.1f;
-    private float jumpSpeed= -5f;
+    private float jumpSpeed= -6f;
     private float fallSpeedAfterCollision = 1f;
     private boolean isMoving = false;
     private CollisionComponent collisionComponent;
