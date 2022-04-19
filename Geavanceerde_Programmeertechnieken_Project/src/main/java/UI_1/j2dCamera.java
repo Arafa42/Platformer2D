@@ -1,8 +1,8 @@
 package UI_1;
 
-import Game.AbstractCamera;
+import Game.Drawable;
 
-public class j2dCamera extends AbstractCamera {
+public class j2dCamera implements Drawable {
 
     private final GraphicsContext grCtx;
 

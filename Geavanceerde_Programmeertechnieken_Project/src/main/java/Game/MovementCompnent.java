@@ -5,13 +5,15 @@ public class MovementCompnent {
     private float playerSpeed = 3.0f;
     private boolean inAir = false;
     private float airSpeed = 0f;
-    private float gravity = 0.1f;
-    private float jumpSpeed= -6f;
+    private float gravity = 0.3f;
+    private float jumpSpeed= -12f;
     private float fallSpeedAfterCollision = 1f;
     private boolean isMoving = false;
     private CollisionComponent collisionComponent;
     private boolean left = false;
     private boolean right = false;
+    int currScore = 0;
+
 
 
     public MovementCompnent(CollisionComponent collisionComponent){
@@ -23,6 +25,14 @@ public class MovementCompnent {
         isMoving = false;
 
         float xSpeed = 0;
+
+//        if(collisionComponent.coinCollisionCheck((int)entityComponent.x,(int)entityComponent.y,width,height,map) == -2){
+//            abstractTopBar.setScore(currScore++);
+//            System.out.println(currScore);
+//        }
+
+        collisionComponent.coinCollisionCheck((int)entityComponent.x,(int)entityComponent.y,width,height,map);
+
         if(left){xSpeed -=playerSpeed;}
         if(right){xSpeed += playerSpeed;}
         if(!inAir){ if(!collisionComponent.IsEntityOnFloor((int)entityComponent.x,(int)entityComponent.y,width,height,map)){inAir = true;}}
@@ -60,6 +70,7 @@ public class MovementCompnent {
     private void checkInAirOnStart(EntityComponent entityComponent,int width, int height, int[][] map){
         if(!collisionComponent.IsEntityOnFloor((int)entityComponent.x,(int)entityComponent.y,width,height,map)){inAir = true;}
     }
+
 
 
     public void update(EntityComponent entityComponent,int width, int height, int[][] map) { updateMovement(entityComponent,width,height,map); }

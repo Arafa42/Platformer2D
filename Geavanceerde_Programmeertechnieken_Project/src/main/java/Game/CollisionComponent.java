@@ -7,11 +7,15 @@ import java.util.HashMap;
 
 public class CollisionComponent {
 
-    String configFile;
+    private final String configFile;
+    private final AbstractTopBar abstractTopBar;
+    private int currScore = 0;
 
 
-    public CollisionComponent(String configFile){
+    public CollisionComponent(String configFile,AbstractTopBar abstractTopBar){
         this.configFile = configFile;
+        this.abstractTopBar = abstractTopBar;
+        currScore = abstractTopBar.getScore();
     }
 
 
@@ -45,7 +49,7 @@ public class CollisionComponent {
         int value  =levelData[(int) yIndex][(int)xIndex];
 
 
-        if(value!=0 && value != 2 && value != 4 && value != 7){return true;}
+        if(value!=0 && value != 2 && value != 4 && value != 7 && value != -2){return true;}
         return false;
     }
 
@@ -99,7 +103,6 @@ public class CollisionComponent {
         hitbox.y = y;
         hitbox.width = width;
         hitbox.height = height;
-        //System.out.println(hitbox);
         //check below bottomleft and bottomright
         if(!IsSolid(hitbox.x, hitbox.y + hitbox.height+1, levelData)){
             if(!IsSolid(hitbox.x + hitbox.width,hitbox.y + hitbox.height+1, levelData)){
@@ -108,6 +111,32 @@ public class CollisionComponent {
         }
         return true;
     }
+
+
+    public void coinCollisionCheck(int x, int y, int width, int height, int[][] levelData) {
+        Rectangle2D.Float hitbox = new Rectangle2D.Float();
+        hitbox.x = x;
+        hitbox.y = y;
+        hitbox.width = width;
+        hitbox.height = height;
+        int row = (int) (hitbox.y / Game.TILES_SIZE);
+        int col = (int) (hitbox.x / Game.TILES_SIZE);
+        if ((!IsSolid(hitbox.x, hitbox.y + hitbox.height + 1, levelData)) && CanMoveHere(x,y,width,height,levelData)) {
+
+            if( levelData[row][col] == -2){
+                System.out.println(currScore);
+                abstractTopBar.setScore(currScore+=1);
+                levelData[row][col] = 0;
+            }
+
+            // EXTRA CHECK FOR COIN ????
+
+        }
+
+
+
+    }
+
 
 
 }

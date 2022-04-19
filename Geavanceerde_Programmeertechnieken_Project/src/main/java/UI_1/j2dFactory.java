@@ -32,8 +32,8 @@ public class j2dFactory extends AbstractFactory {
     }
 
     @Override
-    public AbstractCamera createCamera() {
-        return new j2dCamera(grCtx);
+    public AbstractTopBar createTopBar(int score) {
+        return new j2dTopBar(grCtx,score);
     }
 
     @Override
