@@ -2,14 +2,20 @@ package UI_1;
 
 import Game.AbstractLevel;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+
+import static Helper.Constants.PlayerConstants.GetSpriteAmount;
 
 public class j2dLevel extends AbstractLevel {
 
     private GraphicsContext graphicsContext;
     private BufferedImage[] levelSprite;
     private BufferedImage[] coinSprite;
+    private int aniTick, aniIndex, aniSpeed = 10;
     private String tile_spritesheet = "/assets/images/SpriteSheets/tilesets.png";
     private String coin_spritesheet = "/assets/images/SpriteSheets/collectibles/coins.png";
     private int TILES_IN_WIDTH, TILES_IN_HEIGHT, TILES_SIZE;
@@ -22,6 +28,8 @@ public class j2dLevel extends AbstractLevel {
         this.graphicsContext = graphicsContext;
         importOutsideSprites();
     }
+
+
 
 
     public void importOutsideSprites(){
@@ -46,8 +54,25 @@ public class j2dLevel extends AbstractLevel {
     }
 
 
+    private void updateAnimationTick() {
+        aniTick++;
+        if (aniTick >= aniSpeed) {
+            aniTick = 0;
+            aniIndex++;
+            if (aniIndex >= 8) {
+                aniIndex = 0;
+            }
+        }
+    }
+
+    public void update() {
+        updateAnimationTick();
+    }
+
+
     @Override
     public void draw() {
+        update();
         Graphics2D g2d = graphicsContext.getG2d();
 
         //TILEMAP
@@ -61,10 +86,8 @@ public class j2dLevel extends AbstractLevel {
                     g2d.drawImage(levelSprite[index], (j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(), TILES_SIZE, TILES_SIZE, null);
                 }
                 if(index == -2){
-                    for (int x=0;x<7;x++){
-                        g2d.drawImage(coinSprite[x],(j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE,null);
-                        g2d.drawRect((j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE);
-                    }
+                        g2d.drawImage(coinSprite[aniIndex],(j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE,null);
+                        //g2d.drawRect((j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE);
                 }
 //                else if(index == -2){
 //                    g2d.drawImage(coinSprite[index],(j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(), TILES_SIZE, TILES_SIZE, null);

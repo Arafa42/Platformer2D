@@ -26,11 +26,6 @@ public class MovementCompnent {
 
         float xSpeed = 0;
 
-//        if(collisionComponent.coinCollisionCheck((int)entityComponent.x,(int)entityComponent.y,width,height,map) == -2){
-//            abstractTopBar.setScore(currScore++);
-//            System.out.println(currScore);
-//        }
-
         collisionComponent.coinCollisionCheck((int)entityComponent.x,(int)entityComponent.y,width,height,map);
 
         if(left){xSpeed -=playerSpeed;}
@@ -70,7 +65,6 @@ public class MovementCompnent {
     private void checkInAirOnStart(EntityComponent entityComponent,int width, int height, int[][] map){
         if(!collisionComponent.IsEntityOnFloor((int)entityComponent.x,(int)entityComponent.y,width,height,map)){inAir = true;}
     }
-
 
 
     public void update(EntityComponent entityComponent,int width, int height, int[][] map) { updateMovement(entityComponent,width,height,map); }

@@ -1,7 +1,6 @@
 package Game;
 
 import Helper.ConfigFileReader;
-
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
@@ -120,23 +119,21 @@ public class CollisionComponent {
         hitbox.width = width;
         hitbox.height = height;
         int row = (int) (hitbox.y / Game.TILES_SIZE);
-        int col = (int) (hitbox.x / Game.TILES_SIZE);
+        int col1 = (int) ((hitbox.x+35) / Game.TILES_SIZE);
+        int col2 = (int) ((hitbox.x) / Game.TILES_SIZE);
         if ((!IsSolid(hitbox.x, hitbox.y + hitbox.height + 1, levelData)) && CanMoveHere(x,y,width,height,levelData)) {
 
-            if( levelData[row][col] == -2){
-                System.out.println(currScore);
+            if( levelData[row][col1] == -2){
                 abstractTopBar.setScore(currScore+=1);
-                levelData[row][col] = 0;
+                levelData[row][col1] = 0;
             }
-
-            // EXTRA CHECK FOR COIN ????
+            if( levelData[row][col2] == -2){
+                abstractTopBar.setScore(currScore+=1);
+                levelData[row][col2] = 0;
+            }
 
         }
 
-
-
     }
-
-
 
 }
