@@ -1,6 +1,8 @@
 package Game;
 
 import Helper.ConfigFileReader;
+import Helper.Levels;
+
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
@@ -11,8 +13,10 @@ public class CollisionComponent {
     private int currScore = 0;
     private int timesFell = 0;
     private boolean didFall = false;
+    private final int[][] levelData;
 
-    public CollisionComponent(String configFile, AbstractTopBar abstractTopBar, AbstractHealthBar abstractHealthBar){
+    public CollisionComponent(String configFile, AbstractTopBar abstractTopBar, AbstractHealthBar abstractHealthBar,int[][] levelData){
+        this.levelData = levelData;
         this.configFile = configFile;
         this.abstractHealthBar = abstractHealthBar;
         this.abstractHealthBar.setHealthValue(0);
@@ -20,11 +24,11 @@ public class CollisionComponent {
     }
 
 
-    public boolean CanMoveHere(float x,float y, float width, float height, int[][] levelData){
-        if(!IsSolid(x,y,levelData)){
-            if(!IsSolid(x+width,y+height,levelData)){
-                if(!IsSolid(x+width,y,levelData)){
-                    if(!IsSolid(x,y+height,levelData)){
+    public boolean CanMoveHere(float x,float y, float width, float height){
+        if(!IsSolid(x,y)){
+            if(!IsSolid(x+width,y+height)){
+                if(!IsSolid(x+width,y)){
+                    if(!IsSolid(x,y+height)){
                         return true;
                     }
                 }
@@ -34,7 +38,7 @@ public class CollisionComponent {
     }
 
 
-    private boolean IsSolid(float x, float y, int[][] levelData){
+    private boolean IsSolid(float x, float y){
         HashMap<String, Integer> data = ConfigFileReader.getConfigFileReaderInstance().loadOrCreateConfig(configFile);
 
         if(x < 0.0 || x >= (Game.TILES_SIZE * Game.TILES_IN_WIDTH)){
@@ -92,6 +96,13 @@ public class CollisionComponent {
                     abstractHealthBar.setHealthValue(timesFell += 1);
                     setDidFall(true);
                 }
+                else if(abstractHealthBar.getHealthValue() == 5){
+                    setDidFall(false);
+                    timesFell = 0;
+                    abstractHealthBar.setHealthValue(timesFell);
+                    //REDRAW LEVEL
+
+                }
             }
 
             return tileYPos + yOffset - 1;
@@ -103,15 +114,15 @@ public class CollisionComponent {
     }
 
 
-    public boolean IsEntityOnFloor(int x,int y, int width, int height, int[][] levelData){
+    public boolean IsEntityOnFloor(int x,int y, int width, int height){
         Rectangle2D.Float hitbox = new Rectangle2D.Float();
         hitbox.x = x;
         hitbox.y = y;
         hitbox.width = width;
         hitbox.height = height;
         //check below bottomleft and bottomright
-        if(!IsSolid(hitbox.x, hitbox.y + hitbox.height+1, levelData)){
-            if(!IsSolid(hitbox.x + hitbox.width,hitbox.y + hitbox.height+1, levelData)){
+        if(!IsSolid(hitbox.x, hitbox.y + hitbox.height+1)){
+            if(!IsSolid(hitbox.x + hitbox.width,hitbox.y + hitbox.height+1)){
                 return false;
             }
         }
@@ -119,7 +130,7 @@ public class CollisionComponent {
     }
 
 
-    public void coinCollisionCheck(int x, int y, int width, int height, int[][] levelData,AbstractTopBar abstractTopBar) {
+    public void coinCollisionCheck(int x, int y, int width, int height,AbstractTopBar abstractTopBar) {
         Rectangle2D.Float hitbox = new Rectangle2D.Float();
         hitbox.x = x;
         hitbox.y = y;
@@ -128,7 +139,7 @@ public class CollisionComponent {
         int row = (int) (hitbox.y / Game.TILES_SIZE);
         int col1 = (int) ((hitbox.x+35) / Game.TILES_SIZE);
         int col2 = (int) ((hitbox.x) / Game.TILES_SIZE);
-        if ((!IsSolid(hitbox.x, hitbox.y + hitbox.height + 1, levelData)) && CanMoveHere(x,y,width,height,levelData)) {
+        if ((!IsSolid(hitbox.x, hitbox.y + hitbox.height + 1)) && CanMoveHere(x,y,width,height)) {
 
             if( levelData[row][col1] == -2){
                 abstractTopBar.setScore(currScore+=1);

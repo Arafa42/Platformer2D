@@ -1,5 +1,6 @@
 package Game;
 import Helper.ConfigFileReader;
+import Helper.Levels;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -25,27 +26,10 @@ public class Game implements Runnable{
     public final static int TILES_IN_HEIGHT = 16;
     public final static int TILES_SIZE = (int)(TILES_DEFAULT_SIZE);
     private int score = 0;
-
+    int map[][];
     String configFile;
 
-    int[][] map = {
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            { 0, 0, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, 0, 0, 0, 0},
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            { 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
-            { 2, 4, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            { 17, 17, 18, 0, 0, 0, 0, 16, 17, 18, 0, 0, 0, 0, 20, 21, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            { 33, 33, 34, 0, 0, 0, 0, 32, 33, 34, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-            { 49, 49, 50, 0, 0, 0, 0, 48, 49, 50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-    };
+
 
     public Game(AbstractFactory abstractFactory,final String configFile) {
         this.factory = abstractFactory;
@@ -55,6 +39,8 @@ public class Game implements Runnable{
     }
 
     private void initGame() {
+        Levels levels = new Levels();
+        this.map = levels.getLevel(1);
         input = factory.createInput();
         level = factory.createLevel(map,TILES_IN_HEIGHT,TILES_IN_WIDTH,TILES_SIZE);
         topBar = factory.createTopBar(score);
@@ -69,11 +55,8 @@ public class Game implements Runnable{
         drawables.add(healthBar);
         drawables.add(player);
 
-
-
-        collisionComponent = new CollisionComponent(configFile,topBar,healthBar);
+        collisionComponent = new CollisionComponent(configFile,topBar,healthBar,map);
         movementCompnent = new MovementCompnent(collisionComponent);
-
     }
 
     private void startGameLoop(){
@@ -112,7 +95,7 @@ public class Game implements Runnable{
                 }
 
                 EntityComponent entityComponent = player.getEntityComponent();
-                movementCompnent.update(entityComponent,(int)entityComponent.hitboxWidth,(int)entityComponent.hitboxHeight,map,topBar);
+                movementCompnent.update(entityComponent,(int)entityComponent.hitboxWidth,(int)entityComponent.hitboxHeight,topBar);
 
                 ups++;
                 deltaU--;
@@ -150,7 +133,7 @@ public class Game implements Runnable{
         }
         //DEAD -> RESET LEVEL
         if(healthBar.getHealthValue() == 5){
-            //System.out.println("You died !");
+            initGame();
         }
     }
 
