@@ -1,6 +1,7 @@
 package Game;
 import Helper.ConfigFileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Game implements Runnable{
@@ -10,6 +11,7 @@ public class Game implements Runnable{
     private AbstractBackground background;
     private ArrayList<Drawable> drawables;
     private static AbstractPlayer player;
+    private AbstractHealthBar healthBar;
     private AbstractLevel level;
     private AbstractTopBar topBar;
     private MovementCompnent movementCompnent;
@@ -56,18 +58,20 @@ public class Game implements Runnable{
         input = factory.createInput();
         level = factory.createLevel(map,TILES_IN_HEIGHT,TILES_IN_WIDTH,TILES_SIZE);
         topBar = factory.createTopBar(score);
-        player = factory.createPlayer(100, 550,35,35);
+        player = factory.createPlayer(100, 550,35,35,0);
+        healthBar = factory.createHealthBar();
         background = factory.createBackground();
 
         drawables = new ArrayList<Drawable>();
         drawables.add(background);
         drawables.add(level);
         drawables.add(topBar);
+        drawables.add(healthBar);
         drawables.add(player);
 
 
 
-        collisionComponent = new CollisionComponent(configFile,topBar);
+        collisionComponent = new CollisionComponent(configFile,topBar,healthBar);
         movementCompnent = new MovementCompnent(collisionComponent);
 
     }
@@ -98,6 +102,9 @@ public class Game implements Runnable{
             previousTime = currentTime;
 
             if(deltaU >= 1){
+
+                statusCheck();
+
                 AbstractInput.Inputs inputs = input.getInput();
                 if (inputs != null) {
                     checkMovement(inputs);
@@ -105,7 +112,7 @@ public class Game implements Runnable{
                 }
 
                 EntityComponent entityComponent = player.getEntityComponent();
-                movementCompnent.update(entityComponent,(int)entityComponent.hitboxWidth,(int)entityComponent.hitboxHeight,map);
+                movementCompnent.update(entityComponent,(int)entityComponent.hitboxWidth,(int)entityComponent.hitboxHeight,map,topBar);
 
                 ups++;
                 deltaU--;
@@ -133,6 +140,19 @@ public class Game implements Runnable{
         }
     }
 
+    private void statusCheck(){
+        //FELL ON GROUND
+        if((healthBar.getHealthValue() > 0 && healthBar.getHealthValue() < 6) && collisionComponent.isDidFall()){
+            movementCompnent.resetPosition(player.getEntityComponent());
+            collisionComponent.setDidFall(false);
+            //healthBar.setHealthValue(0);
+            //topBar.setScore(0);
+        }
+        //DEAD -> RESET LEVEL
+        if(healthBar.getHealthValue() == 5){
+            //System.out.println("You died !");
+        }
+    }
 
 
     private void checkMovement(AbstractInput.Inputs inputs) {

@@ -7,13 +7,15 @@ import java.util.HashMap;
 public class CollisionComponent {
 
     private final String configFile;
-    private final AbstractTopBar abstractTopBar;
+    private final AbstractHealthBar abstractHealthBar;
     private int currScore = 0;
+    private int timesFell = 0;
+    private boolean didFall = false;
 
-
-    public CollisionComponent(String configFile,AbstractTopBar abstractTopBar){
+    public CollisionComponent(String configFile, AbstractTopBar abstractTopBar, AbstractHealthBar abstractHealthBar){
         this.configFile = configFile;
-        this.abstractTopBar = abstractTopBar;
+        this.abstractHealthBar = abstractHealthBar;
+        this.abstractHealthBar.setHealthValue(0);
         currScore = abstractTopBar.getScore();
     }
 
@@ -84,7 +86,12 @@ public class CollisionComponent {
             int tileYPos = currentTile * Game.TILES_SIZE;
             int yOffset = (int)(Game.TILES_SIZE - hitbox.height);
             if(currentTile >= Game.TILES_IN_HEIGHT-1){
-                System.out.println("YOU SHOULD DIE HERE....");
+                //IF HEALTH VALUE < 5 BECAUSE ELSE YOU DIED
+                if(abstractHealthBar.getHealthValue() < 5) {
+                    System.out.println(abstractHealthBar.getHealthValue());
+                    abstractHealthBar.setHealthValue(timesFell += 1);
+                    setDidFall(true);
+                }
             }
 
             return tileYPos + yOffset - 1;
@@ -112,7 +119,7 @@ public class CollisionComponent {
     }
 
 
-    public void coinCollisionCheck(int x, int y, int width, int height, int[][] levelData) {
+    public void coinCollisionCheck(int x, int y, int width, int height, int[][] levelData,AbstractTopBar abstractTopBar) {
         Rectangle2D.Float hitbox = new Rectangle2D.Float();
         hitbox.x = x;
         hitbox.y = y;
@@ -136,4 +143,11 @@ public class CollisionComponent {
 
     }
 
+    public boolean isDidFall() {
+        return didFall;
+    }
+
+    public void setDidFall(boolean didFall) {
+        this.didFall = didFall;
+    }
 }

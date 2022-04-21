@@ -21,10 +21,13 @@ public class j2dPlayer extends AbstractPlayer {
     private int playerAction = IDLE;
     EntityComponent m = getEntityComponent();
     int x,y,hitboxWidth,hitboxHeight;
+    public enum statuses  {ALIVE,DEAD};
+    private statuses currentStatus;
 
 
-    public j2dPlayer(GraphicsContext graphicsContext, int x, int y, int hitboxWidth, int hitboxHeight) {
-        super(x, y, hitboxWidth, hitboxHeight);
+    public j2dPlayer(GraphicsContext graphicsContext, int x, int y, int hitboxWidth, int hitboxHeight,int healthValue) {
+        super(x, y, hitboxWidth, hitboxHeight,healthValue);
+        currentStatus = statuses.ALIVE;
         this.x = x;
         this.y = y;
         this.hitboxWidth = hitboxWidth;
@@ -122,7 +125,7 @@ public class j2dPlayer extends AbstractPlayer {
         }
     }
 
-
+    public statuses getCurrentStatus() {return currentStatus;}
 
 
 }

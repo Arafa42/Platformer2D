@@ -12,21 +12,19 @@ public class MovementCompnent {
     private CollisionComponent collisionComponent;
     private boolean left = false;
     private boolean right = false;
-    int currScore = 0;
-
 
 
     public MovementCompnent(CollisionComponent collisionComponent){
         this.collisionComponent = collisionComponent;
     }
 
-    private void updateMovement(EntityComponent entityComponent, int width, int height, int[][] map){
+    private void updateMovement(EntityComponent entityComponent, int width, int height, int[][] map,AbstractTopBar abstractTopBar){
         checkInAirOnStart(entityComponent,width,height,map);
         isMoving = false;
 
         float xSpeed = 0;
 
-        collisionComponent.coinCollisionCheck((int)entityComponent.x,(int)entityComponent.y,width,height,map);
+        collisionComponent.coinCollisionCheck((int)entityComponent.x,(int)entityComponent.y,width,height,map,abstractTopBar);
 
         if(left){xSpeed -=playerSpeed;}
         if(right){xSpeed += playerSpeed;}
@@ -66,11 +64,14 @@ public class MovementCompnent {
         if(!collisionComponent.IsEntityOnFloor((int)entityComponent.x,(int)entityComponent.y,width,height,map)){inAir = true;}
     }
 
+    public void resetPosition(EntityComponent entityComponent){
+        entityComponent.x = 100;
+        entityComponent.y = 550;
+    }
 
-    public void update(EntityComponent entityComponent,int width, int height, int[][] map) { updateMovement(entityComponent,width,height,map); }
+    public void update(EntityComponent entityComponent,int width, int height, int[][] map, AbstractTopBar abstractTopBar) { updateMovement(entityComponent,width,height,map,abstractTopBar); }
     public Boolean getIsMoving(){return isMoving;}
     public void setLeft(boolean left) {this.left = left;}
     public void setRight(boolean right) {this.right = right;}
-
 
 }

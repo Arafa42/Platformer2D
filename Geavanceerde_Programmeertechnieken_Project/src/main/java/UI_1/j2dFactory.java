@@ -19,12 +19,17 @@ public class j2dFactory extends AbstractFactory {
     }
 
     @Override
+    public AbstractHealthBar createHealthBar() {
+        return new j2dHealthBar(grCtx);
+    }
+
+    @Override
     public void render() {
         this.grCtx.render();
     }
 
     @Override
-    public AbstractPlayer createPlayer( int x, int y, int hitboxWidth, int hitboxHeight) {return new j2dPlayer(grCtx, x, y,hitboxWidth,hitboxHeight);}
+    public AbstractPlayer createPlayer( int x, int y, int hitboxWidth, int hitboxHeight, int healthValue) {return new j2dPlayer(grCtx, x, y,hitboxWidth,hitboxHeight,healthValue);}
 
     @Override
     public AbstractBackground createBackground() {
