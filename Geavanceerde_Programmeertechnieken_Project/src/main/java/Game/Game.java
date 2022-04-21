@@ -58,7 +58,7 @@ public class Game implements Runnable{
         input = factory.createInput();
         level = factory.createLevel(map,TILES_IN_HEIGHT,TILES_IN_WIDTH,TILES_SIZE);
         topBar = factory.createTopBar(score);
-        player = factory.createPlayer(100, 550,35,35,0);
+        player = factory.createPlayer(100, 550,30,35,0);
         healthBar = factory.createHealthBar();
         background = factory.createBackground();
 
