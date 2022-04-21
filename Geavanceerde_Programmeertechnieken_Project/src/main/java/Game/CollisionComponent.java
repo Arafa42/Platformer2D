@@ -1,8 +1,6 @@
 package Game;
 
 import Helper.ConfigFileReader;
-import Helper.Levels;
-
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
@@ -86,10 +84,11 @@ public class CollisionComponent {
         hitbox.height = height;
         int currentTile = (int) (hitbox.y / Game.TILES_SIZE);
         if(airSpeed > 0){
-            //falling or touching floor
+            //FALLING OR TOUCHING FLOOR
             int tileYPos = currentTile * Game.TILES_SIZE;
             int yOffset = (int)(Game.TILES_SIZE - hitbox.height);
             if(currentTile >= Game.TILES_IN_HEIGHT-1){
+                //FALLING ON GROUND = -1 HEALTH
                 //IF HEALTH VALUE < 5 BECAUSE ELSE YOU DIED
                 if(abstractHealthBar.getHealthValue() < 5) {
                     System.out.println(abstractHealthBar.getHealthValue());
@@ -100,8 +99,6 @@ public class CollisionComponent {
                     setDidFall(false);
                     timesFell = 0;
                     abstractHealthBar.setHealthValue(timesFell);
-                    //REDRAW LEVEL
-
                 }
             }
 
@@ -137,7 +134,7 @@ public class CollisionComponent {
         hitbox.width = width;
         hitbox.height = height;
         int row = (int) (hitbox.y / Game.TILES_SIZE);
-        int col1 = (int) ((hitbox.x+35) / Game.TILES_SIZE);
+        int col1 = (int) ((hitbox.x+30) / Game.TILES_SIZE);
         int col2 = (int) ((hitbox.x) / Game.TILES_SIZE);
         if ((!IsSolid(hitbox.x, hitbox.y + hitbox.height + 1)) && CanMoveHere(x,y,width,height)) {
 

@@ -5,6 +5,7 @@ import UI_1.GraphicsContext;
 public abstract class AbstractFactory {
     public abstract AbstractInput createInput();
     public abstract AbstractHealthBar createHealthBar();
+    public abstract AbstractBullet createBullet(double angle, int x, int y,int screenWidth, int screenHeight);
     public abstract AbstractPlayer createPlayer(int x, int y, int hitboxWidth, int hitboxHeight, int healthValue);
     public abstract void setGameDimensions(int GameCellsX, int GameCellsY);
     public abstract AbstractBackground createBackground();

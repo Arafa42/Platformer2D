@@ -19,9 +19,11 @@ public class j2dFactory extends AbstractFactory {
     }
 
     @Override
-    public AbstractHealthBar createHealthBar() {
-        return new j2dHealthBar(grCtx);
-    }
+    public AbstractHealthBar createHealthBar() {return new j2dHealthBar(grCtx);}
+
+
+    @Override
+    public AbstractBullet createBullet(double angle, int x, int y,int screenWidth, int screenHeight) {return new j2dBullet(grCtx,angle,x,y,screenWidth,screenHeight);}
 
     @Override
     public void render() {

@@ -1,5 +1,7 @@
 package Game;
 
+import java.util.ArrayList;
+
 public class MovementCompnent {
 
     private float playerSpeed = 3.0f;
@@ -9,6 +11,8 @@ public class MovementCompnent {
     private float jumpSpeed= -12f;
     private float fallSpeedAfterCollision = 1f;
     private boolean isMoving = false;
+
+
     private CollisionComponent collisionComponent;
     private boolean left = false;
     private boolean right = false;
@@ -17,7 +21,7 @@ public class MovementCompnent {
         this.collisionComponent = collisionComponent;
     }
 
-    private void updateMovement(EntityComponent entityComponent, int width, int height,AbstractTopBar abstractTopBar){
+    private void updateMovement(EntityComponent entityComponent, int width, int height, AbstractTopBar abstractTopBar){
         checkInAirOnStart(entityComponent,width,height);
         isMoving = false;
 
@@ -44,6 +48,8 @@ public class MovementCompnent {
         }
         else{updateXPos(xSpeed,entityComponent,width,height);}
         isMoving = true;
+
+
     }
 
     public void jump(){
@@ -66,6 +72,10 @@ public class MovementCompnent {
     public void resetPosition(EntityComponent entityComponent){
         entityComponent.x = 100;
         entityComponent.y = 550;
+    }
+
+    public void fire(){
+
     }
 
     public void update(EntityComponent entityComponent,int width, int height, AbstractTopBar abstractTopBar) { updateMovement(entityComponent,width,height,abstractTopBar); }

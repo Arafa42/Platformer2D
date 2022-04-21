@@ -28,7 +28,7 @@ public class j2dHealthBar extends AbstractHealthBar {
                 healthBarSprite[i] = healthbar.getSubimage(0,43*i,215,42);
             }
             if(i == 4){
-                healthBarSprite[i] = healthbar.getSubimage(0,41*i,215,42);
+                healthBarSprite[i] = healthbar.getSubimage(0,42*i,215,41);
             }
             if(i == 5){
                 healthBarSprite[i] = healthbar.getSubimage(0,41*i,215,42);
