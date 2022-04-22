@@ -1,7 +1,5 @@
 package Game;
 
-import java.util.ArrayList;
-
 public class MovementCompnent {
 
     private float playerSpeed = 3.0f;
