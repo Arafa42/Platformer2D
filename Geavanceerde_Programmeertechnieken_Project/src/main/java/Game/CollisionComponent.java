@@ -1,7 +1,6 @@
 package Game;
 
 import Helper.ConfigFileReader;
-import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
 public class CollisionComponent {
@@ -57,16 +56,12 @@ public class CollisionComponent {
     }
 
     public float GetEntityPosNextToWall(int x, int y, int width, int height, Float xSpeed){
-        Rectangle2D.Float hitbox = new Rectangle2D.Float();
-        hitbox.x = x;
-        hitbox.y = y;
-        hitbox.width = width;
-        hitbox.height = height;
-        int currentTile = (int)(hitbox.x / Game.TILES_SIZE);
+
+        int currentTile = (int)(x / Game.TILES_SIZE);
         if(xSpeed > 0){
             //right
             int tileXpos = currentTile * Game.TILES_SIZE;
-            int xOffset = (int)(Game.TILES_SIZE - hitbox.width);
+            int xOffset = (int)(Game.TILES_SIZE - width);
             return tileXpos + xOffset - 1;
         }
         else{
@@ -77,16 +72,12 @@ public class CollisionComponent {
     }
 
     public float GetEntityYPosUnderRoofOrAboveFloor(int x, int y, int width, int height, Float airSpeed){
-        Rectangle2D.Float hitbox = new Rectangle2D.Float();
-        hitbox.x = x;
-        hitbox.y = y;
-        hitbox.width = width;
-        hitbox.height = height;
-        int currentTile = (int) (hitbox.y / Game.TILES_SIZE);
+
+        int currentTile = (int) (y / Game.TILES_SIZE);
         if(airSpeed > 0){
             //FALLING OR TOUCHING FLOOR
             int tileYPos = currentTile * Game.TILES_SIZE;
-            int yOffset = (int)(Game.TILES_SIZE - hitbox.height);
+            int yOffset = (int)(Game.TILES_SIZE - height);
             if(currentTile >= Game.TILES_IN_HEIGHT-1){
                 //FALLING ON GROUND = -1 HEALTH
                 //IF HEALTH VALUE < 5 BECAUSE ELSE YOU DIED
@@ -112,14 +103,10 @@ public class CollisionComponent {
 
 
     public boolean IsEntityOnFloor(int x,int y, int width, int height){
-        Rectangle2D.Float hitbox = new Rectangle2D.Float();
-        hitbox.x = x;
-        hitbox.y = y;
-        hitbox.width = width;
-        hitbox.height = height;
+
         //check below bottomleft and bottomright
-        if(!IsSolid(hitbox.x, hitbox.y + hitbox.height+1)){
-            if(!IsSolid(hitbox.x + hitbox.width,hitbox.y + hitbox.height+1)){
+        if(!IsSolid(x, y + height+1)){
+            if(!IsSolid(x + width,y + height+1)){
                 return false;
             }
         }
@@ -128,15 +115,11 @@ public class CollisionComponent {
 
 
     public void coinCollisionCheck(int x, int y, int width, int height,AbstractTopBar abstractTopBar) {
-        Rectangle2D.Float hitbox = new Rectangle2D.Float();
-        hitbox.x = x;
-        hitbox.y = y;
-        hitbox.width = width;
-        hitbox.height = height;
-        int row = (int) (hitbox.y / Game.TILES_SIZE);
-        int col1 = (int) ((hitbox.x+30) / Game.TILES_SIZE);
-        int col2 = (int) ((hitbox.x) / Game.TILES_SIZE);
-        if ((!IsSolid(hitbox.x, hitbox.y + hitbox.height + 1)) && CanMoveHere(x,y,width,height)) {
+
+        int row = (int) (y / Game.TILES_SIZE);
+        int col1 = (int) ((x+30) / Game.TILES_SIZE);
+        int col2 = (int) ((x) / Game.TILES_SIZE);
+        if ((!IsSolid(x, y + height + 1)) && CanMoveHere(x,y,width,height)) {
 
             if( levelData[row][col1] == -2){
                 abstractTopBar.setScore(currScore+=1);

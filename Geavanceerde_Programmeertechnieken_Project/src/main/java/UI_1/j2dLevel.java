@@ -12,6 +12,13 @@ import static Helper.Constants.PlayerConstants.GetSpriteAmount;
 
 public class j2dLevel extends AbstractLevel {
 
+    //LEVEL MAP
+    //  0 = NR 200 ON SPRITESHEET WHICH IS EMPTY
+    // -2 = COINS
+    // -3 = GROUND ENEMY 1
+    // -4 = GROUND ENEMY 2
+    // -5 = SHOOTING ENEMY (WITH FOLLOWING SOME TYPE OF AI I GUESS)
+
     private GraphicsContext graphicsContext;
     private BufferedImage[] levelSprite;
     private BufferedImage[] coinSprite;
@@ -30,8 +37,6 @@ public class j2dLevel extends AbstractLevel {
     }
 
 
-
-
     public void importOutsideSprites(){
         //TILESET
         BufferedImage img = GetSpriteSheet(tile_spritesheet);
@@ -43,14 +48,12 @@ public class j2dLevel extends AbstractLevel {
             }
         }
 
-
         //COINS
         BufferedImage coins = GetSpriteSheet(coin_spritesheet);
         coinSprite = new BufferedImage[8];
-        for(int i=0;i<7;i++){
+        for(int i=0;i<6;i++){
             coinSprite[i] = coins.getSubimage(16*i,0,16,16);
         }
-
     }
 
 
@@ -59,7 +62,7 @@ public class j2dLevel extends AbstractLevel {
         if (aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndex++;
-            if (aniIndex >= 8) {
+            if (aniIndex >= 6) {
                 aniIndex = 0;
             }
         }

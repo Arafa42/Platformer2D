@@ -30,9 +30,10 @@ public abstract class AbstractBullet implements Drawable{
 
     public boolean update(){
         x += dx * speed;
-        y += dy;
 
-        if(x < -r || x > screenWidth + r || y < -r || y > screenHeight + r){return true;}
+        //y += dy;
+
+        if(x < -r || x-550 > screenWidth + r || y < -r || y > screenHeight + r){return true;}
 
         return false;
     }

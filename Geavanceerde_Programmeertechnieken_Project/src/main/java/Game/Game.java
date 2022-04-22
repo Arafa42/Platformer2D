@@ -100,7 +100,6 @@ public class Game implements Runnable{
                 AbstractInput.Inputs inputs = input.getInput();
                 if (inputs != null) {
                     checkMovement(inputs);
-                    System.out.println(bullets.size());
                     player.setDirection(inputs);
                 }
 
@@ -110,6 +109,7 @@ public class Game implements Runnable{
 
                 for(int i =0;i < bullets.size();i++){
                     boolean remove = bullets.get(i).update();
+                    System.out.println(remove);
                     if(remove){
                         bullets.remove(i);
                         i--;
@@ -164,6 +164,7 @@ public class Game implements Runnable{
         else if(inputs == AbstractInput.Inputs.JUMPING){
             movementCompnent.jump();
         }
+
         else if(inputs == AbstractInput.Inputs.ATTACKING){
             long elapsed = (System.nanoTime() - firingTimer) / 1000000;
             if(elapsed > firingDelay){
