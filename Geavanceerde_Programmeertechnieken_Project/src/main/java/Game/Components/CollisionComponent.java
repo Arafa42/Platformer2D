@@ -1,5 +1,8 @@
-package Game;
+package Game.Components;
 
+import Game.AbstractHealthBar;
+import Game.AbstractTopBar;
+import Game.Game;
 import Helper.ConfigFileReader;
 import java.util.HashMap;
 
@@ -12,7 +15,7 @@ public class CollisionComponent {
     private boolean didFall = false;
     private final int[][] levelData;
 
-    public CollisionComponent(String configFile, AbstractTopBar abstractTopBar, AbstractHealthBar abstractHealthBar,int[][] levelData){
+    public CollisionComponent(String configFile, AbstractTopBar abstractTopBar, AbstractHealthBar abstractHealthBar, int[][] levelData){
         this.levelData = levelData;
         this.configFile = configFile;
         this.abstractHealthBar = abstractHealthBar;
@@ -129,7 +132,6 @@ public class CollisionComponent {
                 abstractTopBar.setScore(currScore+=1);
                 levelData[row][col2] = 0;
             }
-
         }
 
     }

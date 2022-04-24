@@ -1,6 +1,7 @@
 package UI_1;
 
 import Game.*;
+import Game.Entities.AbstractPlayer;
 import Helper.ConfigFileReader;
 import java.util.HashMap;
 
@@ -31,7 +32,7 @@ public class j2dFactory extends AbstractFactory {
     }
 
     @Override
-    public AbstractPlayer createPlayer( int x, int y, int hitboxWidth, int hitboxHeight, int healthValue) {return new j2dPlayer(grCtx, x, y,hitboxWidth,hitboxHeight,healthValue);}
+    public AbstractPlayer createPlayer(int x, int y, int hitboxWidth, int hitboxHeight,float playerSpeed,boolean inAir, float airSpeed, float gravity,float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving) {return new j2dPlayer(grCtx, x, y,hitboxWidth,hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving);}
 
     @Override
     public AbstractBackground createBackground() {

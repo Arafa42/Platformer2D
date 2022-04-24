@@ -1,8 +1,8 @@
 package UI_1;
 
 import Game.AbstractInput;
-import Game.AbstractPlayer;
-import Game.EntityComponent;
+import Game.Entities.AbstractPlayer;
+import Game.Components.PositionComponent;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -19,19 +19,29 @@ public class j2dPlayer extends AbstractPlayer {
     private float xDrawOffset = 30;
     private float yDrawOffset = 8;
     private int playerAction = IDLE;
-    EntityComponent m = getEntityComponent();
+    PositionComponent m = getPositionComponent();
     int x,y,hitboxWidth,hitboxHeight;
+    boolean inAir,isMoving;
+    float playerSpeed,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision;
+
     public enum statuses  {ALIVE,DEAD};
     private statuses currentStatus;
 
 
-    public j2dPlayer(GraphicsContext graphicsContext, int x, int y, int hitboxWidth, int hitboxHeight,int healthValue) {
-        super(x, y, hitboxWidth, hitboxHeight,healthValue);
+    public j2dPlayer(GraphicsContext graphicsContext, int x, int y, int hitboxWidth, int hitboxHeight,float playerSpeed,boolean inAir, float airSpeed, float gravity,float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving) {
+        super(x, y, hitboxWidth, hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving);
         currentStatus = statuses.ALIVE;
         this.x = x;
         this.y = y;
         this.hitboxWidth = hitboxWidth;
         this.hitboxHeight = hitboxHeight;
+        this.playerSpeed = playerSpeed;
+        this.inAir = inAir;
+        this.airSpeed = airSpeed;
+        this.gravity = gravity;
+        this.jumpSpeed = jumpSpeed;
+        this.fallSpeedAfterCollision = fallSpeedAfterCollision;
+        this.isMoving = isMoving;
         this.graphicsContext = graphicsContext;
         loadAnimations();
     }
@@ -45,9 +55,9 @@ public class j2dPlayer extends AbstractPlayer {
     @Override
     public void draw() {
 
+        //SIDEWAYS CAMERA MOVEMENT
         graphicsContext.setCamX((int)m.x- graphicsContext.getViewPortX()/2);
         graphicsContext.setCamY((int)m.y- graphicsContext.getViewPortY()/2);
-
 
         if (graphicsContext.getCamX() > graphicsContext.getOffsetMaxX()){
             graphicsContext.setCamX(graphicsContext.getOffsetMaxX());
@@ -61,7 +71,6 @@ public class j2dPlayer extends AbstractPlayer {
         else if(graphicsContext.getCamY() < graphicsContext.getOffsetMinY()){
             graphicsContext.setCamY(graphicsContext.getOffsetMinY());
         }
-
 
         Graphics2D graphics2D = graphicsContext.getG2d();
         graphics2D.drawImage(animations[playerAction][aniIndex], (int) (m.x - xDrawOffset)-graphicsContext.getCamX(), (int) (m.y - yDrawOffset)-graphicsContext.getCamY(), (int)(90), (int)(63), null);

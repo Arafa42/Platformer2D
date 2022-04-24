@@ -1,4 +1,8 @@
 package Game;
+import Game.Components.CollisionComponent;
+import Game.Components.PositionComponent;
+import Game.Entities.AbstractPlayer;
+import Game.Systems.MovementSystem;
 import Helper.ConfigFileReader;
 import Helper.Levels;
 import java.util.ArrayList;
@@ -15,7 +19,7 @@ public class Game implements Runnable{
     private AbstractHealthBar healthBar;
     private AbstractLevel level;
     private AbstractTopBar topBar;
-    private MovementCompnent movementCompnent;
+    private MovementSystem movementSystem;
     private CollisionComponent collisionComponent;
 
     private final int FPS_SET = 60;
@@ -51,7 +55,7 @@ public class Game implements Runnable{
         input = factory.createInput();
         level = factory.createLevel(map,TILES_IN_HEIGHT,TILES_IN_WIDTH,TILES_SIZE);
         topBar = factory.createTopBar(score);
-        player = factory.createPlayer(100, 550,30,35,0);
+        player = factory.createPlayer(100, 550,30,35,3.0f,false,0f,0.3f,-12f,1f,false);
         bullets = new ArrayList<AbstractBullet>();
         healthBar = factory.createHealthBar();
         background = factory.createBackground();
@@ -65,7 +69,7 @@ public class Game implements Runnable{
         drawables.addAll(bullets);
 
         collisionComponent = new CollisionComponent(configFile,topBar,healthBar,map);
-        movementCompnent = new MovementCompnent(collisionComponent);
+        movementSystem = new MovementSystem(collisionComponent,player.getMovementComponent(),player.getPositionComponent());
     }
 
     private void startGameLoop(){
@@ -95,25 +99,20 @@ public class Game implements Runnable{
 
             if(deltaU >= 1){
 
+                //STATUS
                 statusCheck();
 
+                //INPUTS
                 AbstractInput.Inputs inputs = input.getInput();
-                if (inputs != null) {
-                    checkMovement(inputs);
-                    player.setDirection(inputs);
-                }
+                if (inputs != null) {checkMovement(inputs);player.setDirection(inputs);}
 
-                EntityComponent entityComponent = player.getEntityComponent();
-                movementCompnent.update(entityComponent,(int)entityComponent.hitboxWidth,(int)entityComponent.hitboxHeight,topBar);
+                //MOVEMENT UPDATE
+                movementSystem.update((int)player.getPositionComponent().hitboxWidth,(int)player.getPositionComponent().hitboxHeight,topBar);
 
-
+                //BULLETS
                 for(int i =0;i < bullets.size();i++){
                     boolean remove = bullets.get(i).update();
-                    System.out.println(remove);
-                    if(remove){
-                        bullets.remove(i);
-                        i--;
-                    }
+                    if(remove){bullets.remove(i);i--;}
                 }
 
                 ups++;
@@ -122,10 +121,10 @@ public class Game implements Runnable{
 
             if(deltaF >= 1){
 
-                for (Drawable drawable : drawables) {
-                    drawable.draw();
-                }
+                //DRAW
+                for (Drawable drawable : drawables) {drawable.draw();}
 
+                //RENDER
                 factory.render();
 
                 fps++;
@@ -145,7 +144,7 @@ public class Game implements Runnable{
         //FELL ON GROUND
         //ALSO IN COLLISION CLASS A CHECK WHEN FELL ON GROUND
         if((healthBar.getHealthValue() > 0 && healthBar.getHealthValue() < 6) && collisionComponent.isDidFall()){
-            movementCompnent.resetPosition(player.getEntityComponent());
+            movementSystem.resetPosition();
             collisionComponent.setDidFall(false);
         }
         //DEAD -> RESET LEVEL
@@ -156,27 +155,27 @@ public class Game implements Runnable{
 
 
     private void checkMovement(AbstractInput.Inputs inputs) {
-        if (movementCompnent.getIsMoving() && inputs == AbstractInput.Inputs.LEFT) {
-            movementCompnent.setLeft(true);
-        } else if (movementCompnent.getIsMoving() && inputs == AbstractInput.Inputs.RIGHT) {
-            movementCompnent.setRight(true);
+        if (player.getMovementComponent().isMoving() && inputs == AbstractInput.Inputs.LEFT) {
+            player.getMovementComponent().setLeft(true);
+        } else if (player.getMovementComponent().isMoving() && inputs == AbstractInput.Inputs.RIGHT) {
+            player.getMovementComponent().setRight(true);
         }
         else if(inputs == AbstractInput.Inputs.JUMPING){
-            movementCompnent.jump();
+            player.getMovementComponent().setJump(true);
         }
 
         else if(inputs == AbstractInput.Inputs.ATTACKING){
             long elapsed = (System.nanoTime() - firingTimer) / 1000000;
             if(elapsed > firingDelay){
                 HashMap<String, Integer> data = ConfigFileReader.getConfigFileReaderInstance().loadOrCreateConfig(configFile);
-                bullets.add(factory.createBullet(270,(int)player.getEntityComponent().x,(int)player.getEntityComponent().y,data.get("ScreenWidth"),data.get("ScreenHeight")));
+                bullets.add(factory.createBullet(270,(int)player.getPositionComponent().x,(int)player.getPositionComponent().y,data.get("ScreenWidth"),data.get("ScreenHeight")));
                 firingTimer = System.nanoTime();
                 drawables.addAll(bullets);
             }
         }
         else{
-            movementCompnent.setLeft(false);
-            movementCompnent.setRight(false);
+            player.getMovementComponent().setLeft(false);
+            player.getMovementComponent().setRight(false);
         }
 
     }
