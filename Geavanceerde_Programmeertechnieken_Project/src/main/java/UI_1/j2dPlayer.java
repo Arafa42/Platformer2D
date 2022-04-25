@@ -1,6 +1,6 @@
 package UI_1;
 
-import Game.AbstractInput;
+import Game.Entities.AbstractInput;
 import Game.Entities.AbstractPlayer;
 import Game.Components.PositionComponent;
 import javax.imageio.ImageIO;
@@ -28,8 +28,8 @@ public class j2dPlayer extends AbstractPlayer {
     private statuses currentStatus;
 
 
-    public j2dPlayer(GraphicsContext graphicsContext, int x, int y, int hitboxWidth, int hitboxHeight,float playerSpeed,boolean inAir, float airSpeed, float gravity,float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving) {
-        super(x, y, hitboxWidth, hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving);
+    public j2dPlayer(GraphicsContext graphicsContext, int x, int y, int hitboxWidth, int hitboxHeight,float playerSpeed,boolean inAir, float airSpeed, float gravity,float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving,int healthValue,int[][] map) {
+        super(x, y, hitboxWidth, hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving,healthValue,map);
         currentStatus = statuses.ALIVE;
         this.x = x;
         this.y = y;

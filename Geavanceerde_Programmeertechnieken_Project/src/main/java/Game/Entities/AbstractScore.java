@@ -1,9 +1,11 @@
-package Game;
+package Game.Entities;
 
-public abstract class AbstractTopBar implements Drawable{
+import Game.Drawable;
+
+public abstract class AbstractScore implements Drawable {
 
     private int score;
-    public AbstractTopBar(int score){
+    public AbstractScore(int score){
         this.score = score;
     }
     public int getScore() {return score;}

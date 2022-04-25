@@ -1,11 +1,11 @@
 package UI_1;
 
-import Game.AbstractTopBar;
+import Game.Entities.AbstractScore;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class j2dTopBar extends AbstractTopBar {
+public class j2dScore extends AbstractScore {
 
 
     private final GraphicsContext graphicsContext;
@@ -14,7 +14,7 @@ public class j2dTopBar extends AbstractTopBar {
 
 
 
-    public j2dTopBar(GraphicsContext graphicsContext,int score){
+    public j2dScore(GraphicsContext graphicsContext, int score){
         super(score);
         this.graphicsContext = graphicsContext;
         font = new Font("Courier New",1,20);

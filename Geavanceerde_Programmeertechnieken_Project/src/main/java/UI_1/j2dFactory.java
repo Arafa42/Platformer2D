@@ -1,7 +1,8 @@
 package UI_1;
 
 import Game.*;
-import Game.Entities.AbstractPlayer;
+import Game.Components.HealthComponent;
+import Game.Entities.*;
 import Helper.ConfigFileReader;
 import java.util.HashMap;
 
@@ -20,11 +21,11 @@ public class j2dFactory extends AbstractFactory {
     }
 
     @Override
-    public AbstractHealthBar createHealthBar() {return new j2dHealthBar(grCtx);}
+    public AbstractHealthBar createHealthBar(HealthComponent healthComponent) {return new j2dHealthBar(grCtx,healthComponent);}
 
 
     @Override
-    public AbstractBullet createBullet(double angle, int x, int y,int screenWidth, int screenHeight) {return new j2dBullet(grCtx,angle,x,y,screenWidth,screenHeight);}
+    public AbstractBullet createBullet(double angle, int x, int y, int screenWidth, int screenHeight) {return new j2dBullet(grCtx,angle,x,y,screenWidth,screenHeight);}
 
     @Override
     public void render() {
@@ -32,7 +33,9 @@ public class j2dFactory extends AbstractFactory {
     }
 
     @Override
-    public AbstractPlayer createPlayer(int x, int y, int hitboxWidth, int hitboxHeight,float playerSpeed,boolean inAir, float airSpeed, float gravity,float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving) {return new j2dPlayer(grCtx, x, y,hitboxWidth,hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving);}
+    public AbstractPlayer createPlayer(int x, int y, int hitboxWidth, int hitboxHeight,float playerSpeed,boolean inAir, float airSpeed, float gravity,float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving,int healthValue,int[][] map) {
+        return new j2dPlayer(grCtx, x, y,hitboxWidth,hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving,healthValue,map);
+    }
 
     @Override
     public AbstractBackground createBackground() {
@@ -40,12 +43,12 @@ public class j2dFactory extends AbstractFactory {
     }
 
     @Override
-    public AbstractTopBar createTopBar(int score) {
-        return new j2dTopBar(grCtx,score);
+    public AbstractScore createTopBar(int score) {
+        return new j2dScore(grCtx,score);
     }
 
     @Override
-    public AbstractLevel createLevel(int[][] tileArray, int TILES_IN_HEIGHT,int TILES_IN_WIDTH, int TILES_SIZE) {
+    public AbstractLevel createLevel(int[][] tileArray, int TILES_IN_HEIGHT, int TILES_IN_WIDTH, int TILES_SIZE) {
         return new j2dLevel(grCtx,tileArray, TILES_IN_HEIGHT, TILES_IN_WIDTH, TILES_SIZE);
     }
 

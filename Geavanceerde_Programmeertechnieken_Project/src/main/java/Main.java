@@ -12,7 +12,7 @@ public class Main {
 
     public Main(){}
     public void run() throws IOException {
-        AbstractFactory a = new j2dFactory("graphics_config.txt");
-        new Game(a,"graphics_config.txt");
+        AbstractFactory j2dFactory = new j2dFactory("graphics_config.txt");
+        new Game(j2dFactory,"graphics_config.txt");
     }
 }

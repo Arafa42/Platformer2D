@@ -1,7 +1,6 @@
 package Game;
-import Game.Components.CollisionComponent;
-import Game.Components.PositionComponent;
-import Game.Entities.AbstractPlayer;
+import Game.Entities.*;
+import Game.Systems.CollisionSystem;
 import Game.Systems.MovementSystem;
 import Helper.ConfigFileReader;
 import Helper.Levels;
@@ -18,9 +17,9 @@ public class Game implements Runnable{
     private ArrayList<AbstractBullet> bullets;
     private AbstractHealthBar healthBar;
     private AbstractLevel level;
-    private AbstractTopBar topBar;
+    private AbstractScore topBar;
     private MovementSystem movementSystem;
-    private CollisionComponent collisionComponent;
+    private CollisionSystem collisionSystem;
 
     private final int FPS_SET = 60;
     private final int UPS_SET = 60;
@@ -45,8 +44,6 @@ public class Game implements Runnable{
     }
 
     private void initGame() {
-        HashMap<String, Integer> data = ConfigFileReader.getConfigFileReaderInstance().loadOrCreateConfig(configFile);
-
         firingTimer = System.nanoTime();
         firingDelay = 200;
 
@@ -55,9 +52,9 @@ public class Game implements Runnable{
         input = factory.createInput();
         level = factory.createLevel(map,TILES_IN_HEIGHT,TILES_IN_WIDTH,TILES_SIZE);
         topBar = factory.createTopBar(score);
-        player = factory.createPlayer(100, 550,30,35,3.0f,false,0f,0.3f,-12f,1f,false);
+        player = factory.createPlayer(100, 550,30,35,3.0f,false,0f,0.3f,-12f,1f,false,0,map);
         bullets = new ArrayList<AbstractBullet>();
-        healthBar = factory.createHealthBar();
+        healthBar = factory.createHealthBar(player.getHealthComponent());
         background = factory.createBackground();
 
         drawables = new ArrayList<Drawable>();
@@ -68,8 +65,10 @@ public class Game implements Runnable{
         drawables.add(player);
         drawables.addAll(bullets);
 
-        collisionComponent = new CollisionComponent(configFile,topBar,healthBar,map);
-        movementSystem = new MovementSystem(collisionComponent,player.getMovementComponent(),player.getPositionComponent());
+        //PLAYER COLLISION AND MOVEMENT
+        collisionSystem = new CollisionSystem(player.getCollisionComponent(),player.getHealthComponent(),player.getPositionComponent(),player.getMovementComponent());
+        movementSystem = new MovementSystem(player.getCollisionComponent(),player.getMovementComponent(),player.getPositionComponent());
+
     }
 
     private void startGameLoop(){
@@ -106,8 +105,10 @@ public class Game implements Runnable{
                 AbstractInput.Inputs inputs = input.getInput();
                 if (inputs != null) {checkMovement(inputs);player.setDirection(inputs);}
 
-                //MOVEMENT UPDATE
-                movementSystem.update((int)player.getPositionComponent().hitboxWidth,(int)player.getPositionComponent().hitboxHeight,topBar);
+                //MOVEMENT & COLLISION UPDATE
+                collisionSystem.updateCollision(topBar);
+                movementSystem.update(topBar);
+
 
                 //BULLETS
                 for(int i =0;i < bullets.size();i++){
@@ -143,12 +144,13 @@ public class Game implements Runnable{
     private void statusCheck(){
         //FELL ON GROUND
         //ALSO IN COLLISION CLASS A CHECK WHEN FELL ON GROUND
-        if((healthBar.getHealthValue() > 0 && healthBar.getHealthValue() < 6) && collisionComponent.isDidFall()){
+        if((player.getHealthComponent().getHealthValue() > 0 && player.getHealthComponent().getHealthValue() < 6) && player.getCollisionComponent().isDidFall()){
             movementSystem.resetPosition();
-            collisionComponent.setDidFall(false);
+            player.getCollisionComponent().setTimesFell(player.getCollisionComponent().getTimesFell()+1);
+            player.getCollisionComponent().setDidFall(false);
         }
         //DEAD -> RESET LEVEL
-        if(healthBar.getHealthValue() == 5){
+        if(player.getHealthComponent().getHealthValue() == 5){
             initGame();
         }
     }

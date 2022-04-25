@@ -1,4 +1,6 @@
-package Game;
+package Game.Entities;
+
+import Game.Drawable;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

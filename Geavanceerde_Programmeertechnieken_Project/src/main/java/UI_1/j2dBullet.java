@@ -1,6 +1,6 @@
 package UI_1;
 
-import Game.AbstractBullet;
+import Game.Entities.AbstractBullet;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

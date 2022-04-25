@@ -1,6 +1,6 @@
 package UI_1;
 
-import Game.AbstractInput;
+import Game.Entities.AbstractInput;
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;

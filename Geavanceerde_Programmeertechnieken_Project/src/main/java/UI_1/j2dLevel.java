@@ -1,14 +1,9 @@
 package UI_1;
 
-import Game.AbstractLevel;
+import Game.Entities.AbstractLevel;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-
-import static Helper.Constants.PlayerConstants.GetSpriteAmount;
 
 public class j2dLevel extends AbstractLevel {
 

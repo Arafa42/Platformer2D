@@ -1,13 +1,21 @@
-package Game;
+package Game.Entities;
+
+import Game.Components.HealthComponent;
+import Game.Drawable;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
-public abstract class AbstractHealthBar implements Drawable{
+public abstract class AbstractHealthBar implements Drawable {
 
-    private int healthValue = 0;
+    private HealthComponent healthComponent;
+
+    public AbstractHealthBar(HealthComponent healthComponent){
+        this.healthComponent = healthComponent;
+    }
+
 
     public BufferedImage GetSpriteSheet(String fileName) {
         BufferedImage img = null;
@@ -26,6 +34,11 @@ public abstract class AbstractHealthBar implements Drawable{
         return img;
     }
 
-    public int getHealthValue() {return healthValue;}
-    public void setHealthValue(int healthValue) {this.healthValue = healthValue;}
+    public int GetHealthValue(){
+        return healthComponent.getHealthValue();
+    }
+
+
+
+
 }

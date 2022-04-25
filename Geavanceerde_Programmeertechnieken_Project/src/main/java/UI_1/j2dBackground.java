@@ -1,6 +1,6 @@
 package UI_1;
 
-import Game.AbstractBackground;
+import Game.Entities.AbstractBackground;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
