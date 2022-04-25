@@ -24,13 +24,8 @@ public class j2dPlayer extends AbstractPlayer {
     boolean inAir,isMoving;
     float playerSpeed,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision;
 
-    public enum statuses  {ALIVE,DEAD};
-    private statuses currentStatus;
-
-
     public j2dPlayer(GraphicsContext graphicsContext, int x, int y, int hitboxWidth, int hitboxHeight,float playerSpeed,boolean inAir, float airSpeed, float gravity,float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving,int healthValue,int[][] map) {
         super(x, y, hitboxWidth, hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving,healthValue,map);
-        currentStatus = statuses.ALIVE;
         this.x = x;
         this.y = y;
         this.hitboxWidth = hitboxWidth;
@@ -133,8 +128,6 @@ public class j2dPlayer extends AbstractPlayer {
             }
         }
     }
-
-    public statuses getCurrentStatus() {return currentStatus;}
 
 
 }

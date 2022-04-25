@@ -17,7 +17,7 @@ public class Game implements Runnable{
     private ArrayList<AbstractBullet> bullets;
     private AbstractHealthBar healthBar;
     private AbstractLevel level;
-    private AbstractScore topBar;
+    private AbstractScore scoreBar;
     private MovementSystem movementSystem;
     private CollisionSystem collisionSystem;
 
@@ -51,7 +51,7 @@ public class Game implements Runnable{
         this.map = levels.getLevel(1);
         input = factory.createInput();
         level = factory.createLevel(map,TILES_IN_HEIGHT,TILES_IN_WIDTH,TILES_SIZE);
-        topBar = factory.createTopBar(score);
+        scoreBar = factory.createTopBar(score);
         player = factory.createPlayer(100, 550,30,35,3.0f,false,0f,0.3f,-12f,1f,false,0,map);
         bullets = new ArrayList<AbstractBullet>();
         healthBar = factory.createHealthBar(player.getHealthComponent());
@@ -60,14 +60,14 @@ public class Game implements Runnable{
         drawables = new ArrayList<Drawable>();
         drawables.add(background);
         drawables.add(level);
-        drawables.add(topBar);
+        drawables.add(scoreBar);
         drawables.add(healthBar);
         drawables.add(player);
         drawables.addAll(bullets);
 
         //PLAYER COLLISION AND MOVEMENT
         collisionSystem = new CollisionSystem(player.getCollisionComponent(),player.getHealthComponent(),player.getPositionComponent(),player.getMovementComponent());
-        movementSystem = new MovementSystem(player.getCollisionComponent(),player.getMovementComponent(),player.getPositionComponent());
+        movementSystem = new MovementSystem(player.getMovementComponent(),player.getPositionComponent());
 
     }
 
@@ -106,8 +106,8 @@ public class Game implements Runnable{
                 if (inputs != null) {checkMovement(inputs);player.setDirection(inputs);}
 
                 //MOVEMENT & COLLISION UPDATE
-                collisionSystem.updateCollision(topBar);
-                movementSystem.update(topBar);
+                collisionSystem.updateCollision(scoreBar);
+                movementSystem.update();
 
 
                 //BULLETS
@@ -122,11 +122,15 @@ public class Game implements Runnable{
 
             if(deltaF >= 1){
 
-                //DRAW
-                for (Drawable drawable : drawables) {drawable.draw();}
 
+                //DRAW
+                final long start = System.nanoTime();
+                for (Drawable drawable : drawables) {drawable.draw();}
                 //RENDER
                 factory.render();
+                final long end = System.nanoTime();
+                System.out.println((end-start)/1000000);
+
 
                 fps++;
                 deltaF--;

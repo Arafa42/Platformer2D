@@ -2,7 +2,6 @@ package Game.Components;
 
 public class CollisionComponent {
 
-    private int currScore = 0;
     private int timesFell = 0;
     private boolean didFall = false;
     private final int[][] levelData;
@@ -11,8 +10,6 @@ public class CollisionComponent {
         this.levelData = levelData;
     }
 
-    public int getCurrScore() {return currScore;}
-    public void setCurrScore(int currScore) {this.currScore = currScore;}
     public int getTimesFell() {return timesFell;}
     public void setTimesFell(int timesFell) {this.timesFell = timesFell;}
     public boolean isDidFall() {return didFall;}

@@ -9,10 +9,10 @@ import Game.Game;
 
 public class CollisionSystem {
 
-    private CollisionComponent collisionComponent;
-    private HealthComponent healthComponent;
-    private PositionComponent positionComponent;
-    private MovementComponent movementComponent;
+    private final CollisionComponent collisionComponent;
+    private final HealthComponent healthComponent;
+    private final PositionComponent positionComponent;
+    private final MovementComponent movementComponent;
 
     public CollisionSystem(CollisionComponent collisionComponent, HealthComponent healthComponent,PositionComponent positionComponent,MovementComponent movementComponent){
         this.collisionComponent = collisionComponent;
@@ -23,7 +23,6 @@ public class CollisionSystem {
 
 
     public void updateCollision(AbstractScore abstractScore){
-
         checkInAirOnStart((int)positionComponent.hitboxWidth, (int)positionComponent.hitboxHeight);
         coinCollisionCheck((int)positionComponent.x,(int)positionComponent.y,(int)positionComponent.hitboxWidth,(int)positionComponent.hitboxHeight,abstractScore);
         if(!movementComponent.isInAir()){
@@ -46,26 +45,14 @@ public class CollisionSystem {
             }
         }
         else{updateXPos(movementComponent.getxSpeed(),(int)positionComponent.hitboxWidth, (int)positionComponent.hitboxHeight);}
-
     }
 
-
     public boolean CanMoveHere(float x,float y, float width, float height){
-        if(!IsSolid(x,y)){
-            if(!IsSolid(x+width,y+height)){
-                if(!IsSolid(x+width,y)){
-                    if(!IsSolid(x,y+height)){
-                        return true;
-                    }
-                }
-            }
-        }
+        if(!IsSolid(x,y)){if(!IsSolid(x+width,y+height)){if(!IsSolid(x+width,y)){if(!IsSolid(x,y+height)){return true;}}}}
         return false;
     }
 
-
-
-        private void updateXPos(float xSpeed, int width, int height){
+    private void updateXPos(float xSpeed, int width, int height){
         if(CanMoveHere(positionComponent.x+xSpeed,positionComponent.y, width, height)){positionComponent.x += xSpeed;}
         else{positionComponent.x = GetEntityPosNextToWall((int)positionComponent.x,(int)positionComponent.y, width, height, xSpeed);}
     }
@@ -79,44 +66,31 @@ public class CollisionSystem {
         if(!IsEntityOnFloor((int)positionComponent.x,(int)positionComponent.y,width,height)){movementComponent.setInAir(true);}
     }
 
-
     private boolean IsSolid(float x, float y){
-
-        if(x < 0.0 || x >= (Game.TILES_SIZE * Game.TILES_IN_WIDTH)){
-            return true;
-        }
-        if(y < 0.0 || y >= (Game.TILES_SIZE * Game.TILES_IN_HEIGHT)){
-            return true;
-        }
+        if(x < 0.0 || x >= (Game.TILES_SIZE * Game.TILES_IN_WIDTH)){return true;}
+        if(y < 0.0 || y >= (Game.TILES_SIZE * Game.TILES_IN_HEIGHT)){return true;}
 
         float xIndex = x / Game.TILES_SIZE;
         float yIndex = y / Game.TILES_SIZE;
 
         int value = collisionComponent.getLevelData()[(int) yIndex][(int)xIndex];
 
-
         if(value!=0 && value != 2 && value != 4 && value != 7 && value != -2){return true;}
+
         return false;
     }
 
     public float GetEntityPosNextToWall(int x, int y, int width, int height, Float xSpeed){
-
         int currentTile = (int)(x / Game.TILES_SIZE);
         if(xSpeed > 0){
-            //right
             int tileXpos = currentTile * Game.TILES_SIZE;
             int xOffset = (int)(Game.TILES_SIZE - width);
             return tileXpos + xOffset - 1;
         }
-        else{
-            //left
-            return currentTile * Game.TILES_SIZE;
-        }
-
+        else{return currentTile * Game.TILES_SIZE;}
     }
 
     public float GetEntityYPosUnderRoofOrAboveFloor(int x, int y, int width, int height, Float airSpeed){
-
         int currentTile = (int) (y / Game.TILES_SIZE);
         if(airSpeed > 0){
             //FALLING OR TOUCHING FLOOR
@@ -146,36 +120,28 @@ public class CollisionSystem {
         }
     }
 
-
     public boolean IsEntityOnFloor(int x,int y, int width, int height){
-
         //check below bottomleft and bottomright
-        if(!IsSolid(x, y + height+1)){
-            if(!IsSolid(x + width,y + height+1)){
-                return false;
-            }
-        }
+        if(!IsSolid(x, y + height+1)){if(!IsSolid(x + width,y + height+1)){return false;}}
         return true;
     }
 
-
     public void coinCollisionCheck(int x, int y, int width, int height, AbstractScore abstractTopBar) {
-
         int row = (int) (y / Game.TILES_SIZE);
         int col1 = (int) ((x+30) / Game.TILES_SIZE);
         int col2 = (int) ((x) / Game.TILES_SIZE);
         if ((!IsSolid(x, y + height + 1)) && CanMoveHere(x,y,width,height)) {
-
             if( collisionComponent.getLevelData()[row][col1] == -2){
-                abstractTopBar.setScore(collisionComponent.getCurrScore()+1);
+                abstractTopBar.setScore(abstractTopBar.getScore()+1);
+                System.out.println(abstractTopBar.getScore());
                 collisionComponent.getLevelData()[row][col1] = 0;
             }
             if( collisionComponent.getLevelData()[row][col2] == -2){
-                abstractTopBar.setScore(collisionComponent.getCurrScore()+1);
+                abstractTopBar.setScore(abstractTopBar.getScore()+1);
+                System.out.println(abstractTopBar.getScore());
                 collisionComponent.getLevelData()[row][col2] = 0;
             }
         }
-
     }
 
 }
