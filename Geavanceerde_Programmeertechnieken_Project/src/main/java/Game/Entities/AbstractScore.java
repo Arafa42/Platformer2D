@@ -1,20 +1,16 @@
 package Game.Entities;
 
+import Game.Components.ScoreComponent;
 import Game.Drawable;
 
 public abstract class AbstractScore implements Drawable {
 
-    private int score;
-    public AbstractScore(int score){
-        this.score = score;
-    }
-    public int getScore() {return score;}
-    public void setScore(int score) {this.score = score;}
+    private ScoreComponent scoreComponent;
 
-    @Override
-    public String toString() {
-        return "AbstractTopBar{" +
-                "score=" + score +
-                '}';
+    public AbstractScore(ScoreComponent scoreComponent){
+        this.scoreComponent = scoreComponent;
     }
+
+    public int GetCurrentScore(){return scoreComponent.getScore();}
+
 }

@@ -1,5 +1,6 @@
 package UI_1;
 
+import Game.Components.ScoreComponent;
 import Game.Entities.AbstractScore;
 
 import java.awt.*;
@@ -13,9 +14,8 @@ public class j2dScore extends AbstractScore {
     private final BufferedImage coin;
 
 
-
-    public j2dScore(GraphicsContext graphicsContext, int score){
-        super(score);
+    public j2dScore(GraphicsContext graphicsContext, ScoreComponent scoreComponent){
+        super(scoreComponent);
         this.graphicsContext = graphicsContext;
         font = new Font("Courier New",1,20);
         String coinImagePath = "src/main/resources/assets/images/SpriteSheets/collectibles/coin.png";
@@ -28,7 +28,7 @@ public class j2dScore extends AbstractScore {
         g2d.setFont(font);
         g2d.setColor(Color.WHITE);
         g2d.drawString("x",graphicsContext.getFrame().getWidth()/20,30);
-        String scr = String.valueOf(getScore());
+        String scr = String.valueOf(GetCurrentScore());
         g2d.drawString(scr,graphicsContext.getFrame().getWidth()/15,30);
         g2d.drawImage(coin,graphicsContext.getFrame().getWidth()/60,10, null);
 

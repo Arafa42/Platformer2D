@@ -51,9 +51,9 @@ public class Game implements Runnable{
         this.map = levels.getLevel(1);
         input = factory.createInput();
         level = factory.createLevel(map,TILES_IN_HEIGHT,TILES_IN_WIDTH,TILES_SIZE);
-        scoreBar = factory.createTopBar(score);
-        player = factory.createPlayer(100, 550,30,35,3.0f,false,0f,0.3f,-12f,1f,false,0,map);
+        player = factory.createPlayer(100, 550,30,35,3.0f,false,0f,0.3f,-12f,1f,false,0,map,0);
         bullets = new ArrayList<AbstractBullet>();
+        scoreBar = factory.createScoreBar(player.getScoreComponent());
         healthBar = factory.createHealthBar(player.getHealthComponent());
         background = factory.createBackground();
 
@@ -66,7 +66,7 @@ public class Game implements Runnable{
         drawables.addAll(bullets);
 
         //PLAYER COLLISION AND MOVEMENT
-        collisionSystem = new CollisionSystem(player.getCollisionComponent(),player.getHealthComponent(),player.getPositionComponent(),player.getMovementComponent());
+        collisionSystem = new CollisionSystem(player.getCollisionComponent(),player.getHealthComponent(),player.getPositionComponent(),player.getMovementComponent(),player.getScoreComponent());
         movementSystem = new MovementSystem(player.getMovementComponent(),player.getPositionComponent());
 
     }
@@ -122,15 +122,11 @@ public class Game implements Runnable{
 
             if(deltaF >= 1){
 
-
                 //DRAW
-                final long start = System.nanoTime();
                 for (Drawable drawable : drawables) {drawable.draw();}
+
                 //RENDER
                 factory.render();
-                final long end = System.nanoTime();
-                System.out.println((end-start)/1000000);
-
 
                 fps++;
                 deltaF--;

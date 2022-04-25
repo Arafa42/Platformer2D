@@ -2,6 +2,7 @@ package UI_1;
 
 import Game.*;
 import Game.Components.HealthComponent;
+import Game.Components.ScoreComponent;
 import Game.Entities.*;
 import Helper.ConfigFileReader;
 import java.util.HashMap;
@@ -33,8 +34,8 @@ public class j2dFactory extends AbstractFactory {
     }
 
     @Override
-    public AbstractPlayer createPlayer(int x, int y, int hitboxWidth, int hitboxHeight,float playerSpeed,boolean inAir, float airSpeed, float gravity,float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving,int healthValue,int[][] map) {
-        return new j2dPlayer(grCtx, x, y,hitboxWidth,hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving,healthValue,map);
+    public AbstractPlayer createPlayer(int x, int y, int hitboxWidth, int hitboxHeight,float playerSpeed,boolean inAir, float airSpeed, float gravity,float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving,int healthValue,int[][] map,int score) {
+        return new j2dPlayer(grCtx, x, y,hitboxWidth,hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving,healthValue,map,score);
     }
 
     @Override
@@ -43,8 +44,8 @@ public class j2dFactory extends AbstractFactory {
     }
 
     @Override
-    public AbstractScore createTopBar(int score) {
-        return new j2dScore(grCtx,score);
+    public AbstractScore createScoreBar(ScoreComponent scoreComponent) {
+        return new j2dScore(grCtx,scoreComponent);
     }
 
     @Override

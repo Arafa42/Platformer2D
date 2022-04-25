@@ -1,10 +1,7 @@
 package Game.Systems;
 
-import Game.Components.CollisionComponent;
-import Game.Components.MovementComponent;
-import Game.Components.PositionComponent;
+import Game.Components.*;
 import Game.Entities.AbstractScore;
-import Game.Components.HealthComponent;
 import Game.Game;
 
 public class CollisionSystem {
@@ -13,18 +10,20 @@ public class CollisionSystem {
     private final HealthComponent healthComponent;
     private final PositionComponent positionComponent;
     private final MovementComponent movementComponent;
+    private final ScoreComponent scoreComponent;
 
-    public CollisionSystem(CollisionComponent collisionComponent, HealthComponent healthComponent,PositionComponent positionComponent,MovementComponent movementComponent){
+    public CollisionSystem(CollisionComponent collisionComponent, HealthComponent healthComponent,PositionComponent positionComponent,MovementComponent movementComponent,ScoreComponent scoreComponent){
         this.collisionComponent = collisionComponent;
         this.healthComponent = healthComponent;
         this.positionComponent = positionComponent;
         this.movementComponent = movementComponent;
+        this.scoreComponent = scoreComponent;
     }
 
 
     public void updateCollision(AbstractScore abstractScore){
         checkInAirOnStart((int)positionComponent.hitboxWidth, (int)positionComponent.hitboxHeight);
-        coinCollisionCheck((int)positionComponent.x,(int)positionComponent.y,(int)positionComponent.hitboxWidth,(int)positionComponent.hitboxHeight,abstractScore);
+        coinCollisionCheck((int)positionComponent.x,(int)positionComponent.y,(int)positionComponent.hitboxWidth,(int)positionComponent.hitboxHeight);
         if(!movementComponent.isInAir()){
             if(!IsEntityOnFloor((int)positionComponent.x,(int)positionComponent.y,(int)positionComponent.hitboxWidth,(int)positionComponent.hitboxHeight)){
                 movementComponent.setInAir(true);
@@ -100,10 +99,10 @@ public class CollisionSystem {
                 //FALLING ON GROUND = -1 HEALTH
                 //IF HEALTH VALUE < 5 BECAUSE ELSE YOU DIED
                 if(healthComponent.getHealthValue() < 5) {
-                    System.out.println(collisionComponent.getTimesFell());
+                    //System.out.println(collisionComponent.getTimesFell());
                     healthComponent.setHealthValue(collisionComponent.getTimesFell()+1);
                     collisionComponent.setDidFall(true);
-                    System.out.println("CollSys 87 : " + healthComponent.getHealthValue());
+                    //System.out.println("CollSys 87 : " + healthComponent.getHealthValue());
                 }
                 else if(healthComponent.getHealthValue() == 5){
                     collisionComponent.setDidFall(false);
@@ -126,19 +125,19 @@ public class CollisionSystem {
         return true;
     }
 
-    public void coinCollisionCheck(int x, int y, int width, int height, AbstractScore abstractTopBar) {
+    public void coinCollisionCheck(int x, int y, int width, int height) {
         int row = (int) (y / Game.TILES_SIZE);
         int col1 = (int) ((x+30) / Game.TILES_SIZE);
         int col2 = (int) ((x) / Game.TILES_SIZE);
         if ((!IsSolid(x, y + height + 1)) && CanMoveHere(x,y,width,height)) {
             if( collisionComponent.getLevelData()[row][col1] == -2){
-                abstractTopBar.setScore(abstractTopBar.getScore()+1);
-                System.out.println(abstractTopBar.getScore());
+                scoreComponent.setScore(scoreComponent.getScore()+1);
+                System.out.println(scoreComponent.getScore());
                 collisionComponent.getLevelData()[row][col1] = 0;
             }
             if( collisionComponent.getLevelData()[row][col2] == -2){
-                abstractTopBar.setScore(abstractTopBar.getScore()+1);
-                System.out.println(abstractTopBar.getScore());
+                scoreComponent.setScore(scoreComponent.getScore()+1);
+                System.out.println(scoreComponent.getScore());
                 collisionComponent.getLevelData()[row][col2] = 0;
             }
         }
