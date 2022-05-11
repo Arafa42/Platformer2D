@@ -1,7 +1,6 @@
 package Game.Systems;
 
 import Game.Components.*;
-import Game.Entities.AbstractScore;
 import Game.Game;
 
 public class CollisionSystem {
@@ -20,8 +19,7 @@ public class CollisionSystem {
         this.scoreComponent = scoreComponent;
     }
 
-
-    public void updateCollision(AbstractScore abstractScore){
+    public void updateCollision(){
         checkInAirOnStart((int)positionComponent.hitboxWidth, (int)positionComponent.hitboxHeight);
         coinCollisionCheck((int)positionComponent.x,(int)positionComponent.y,(int)positionComponent.hitboxWidth,(int)positionComponent.hitboxHeight);
         if(!movementComponent.isInAir()){

@@ -3,7 +3,7 @@ package Game.Components;
 public class HealthComponent {
 
     private int healthValue;
-    
+
     public HealthComponent(int healthValue){
         this.healthValue = healthValue;
     }

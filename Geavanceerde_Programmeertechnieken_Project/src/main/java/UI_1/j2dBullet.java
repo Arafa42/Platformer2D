@@ -1,9 +1,11 @@
 package UI_1;
 
+import Game.Components.BulletComponent;
 import Game.Entities.AbstractBullet;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class j2dBullet extends AbstractBullet {
     private final GraphicsContext graphicsContext;
@@ -13,8 +15,8 @@ public class j2dBullet extends AbstractBullet {
     private String bullet_spritesheet = "/assets/images/SpriteSheets/Bullets/bulletsSpriteSheet.png";
 
 
-    public j2dBullet(GraphicsContext graphicsContext,double angle, int x, int y,int screenWidth, int screenHeight){
-        super(angle, x, y, screenWidth, screenHeight);
+    public j2dBullet(GraphicsContext graphicsContext, BulletComponent bulletComponent){
+        super(bulletComponent);
         this.graphicsContext = graphicsContext;
         //String imagePath = "src/main/resources/assets/images/SpriteSheets/Bullets/bulletsSpriteSheet.png";
         //image = this.graphicsContext.loadImages(imagePath, 10,10, false);

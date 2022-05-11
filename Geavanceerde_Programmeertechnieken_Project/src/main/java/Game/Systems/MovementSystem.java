@@ -1,7 +1,5 @@
 package Game.Systems;
 
-import Game.Components.CollisionComponent;
-import Game.Entities.AbstractScore;
 import Game.Components.MovementComponent;
 import Game.Components.PositionComponent;
 
@@ -19,8 +17,14 @@ public class MovementSystem {
         movementComponent.setMoving(false);
         movementComponent.setxSpeed(0);
         if(movementComponent.isJump()){jump();movementComponent.setJump(false);}
-        if(movementComponent.isLeft()){movementComponent.setxSpeed(-(int)movementComponent.getPlayerSpeed());}
-        if(movementComponent.isRight()){movementComponent.setxSpeed((int)movementComponent.getPlayerSpeed());}
+        if(movementComponent.isLeft()){
+            movementComponent.setxSpeed(-(int)movementComponent.getPlayerSpeed());
+            //positionComponent.x += movementComponent.getxSpeed();
+        }
+        if(movementComponent.isRight()){movementComponent.setxSpeed(
+                (int)movementComponent.getPlayerSpeed());
+                //positionComponent.x += movementComponent.getxSpeed();
+        }
         movementComponent.setMoving(true);
     }
 

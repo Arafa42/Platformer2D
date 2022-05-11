@@ -1,5 +1,7 @@
 package Game;
+import Game.Components.BulletComponent;
 import Game.Entities.*;
+import Game.Systems.BulletSystem;
 import Game.Systems.CollisionSystem;
 import Game.Systems.MovementSystem;
 import Helper.ConfigFileReader;
@@ -12,7 +14,6 @@ public class Game implements Runnable{
     private final AbstractFactory factory;
     private AbstractInput input;
     private AbstractBackground background;
-    private ArrayList<Drawable> drawables;
     private AbstractPlayer player;
     private ArrayList<AbstractBullet> bullets;
     private AbstractHealthBar healthBar;
@@ -20,23 +21,24 @@ public class Game implements Runnable{
     private AbstractScore scoreBar;
     private MovementSystem movementSystem;
     private CollisionSystem collisionSystem;
-
+    private BulletSystem bulletSystem;
+    private ArrayList<Drawable> drawables;
     private final int FPS_SET = 60;
     private final int UPS_SET = 60;
     private Thread gameThread;
+    int map[][];
+    String configFile;
+    HashMap<String, Integer> data;
     public final static int TILES_DEFAULT_SIZE = 48;
     public final static int TILES_IN_WIDTH = 30;
     public final static int TILES_IN_HEIGHT = 16;
     public final static int TILES_SIZE = (int)(TILES_DEFAULT_SIZE);
-    private int score = 0;
-    int map[][];
-    String configFile;
-
     private long firingTimer;
     private long firingDelay;
 
 
     public Game(AbstractFactory abstractFactory,final String configFile) {
+        data = ConfigFileReader.getConfigFileReaderInstance().loadOrCreateConfig(configFile);
         this.factory = abstractFactory;
         this.configFile = configFile;
         initGame();
@@ -44,19 +46,20 @@ public class Game implements Runnable{
     }
 
     private void initGame() {
+        //FIRING BULLET
         firingTimer = System.nanoTime();
         firingDelay = 200;
-
+        //LEVEL & ENTITY DATA
         Levels levels = new Levels();
         this.map = levels.getLevel(1);
         input = factory.createInput();
         level = factory.createLevel(map,TILES_IN_HEIGHT,TILES_IN_WIDTH,TILES_SIZE);
-        player = factory.createPlayer(100, 550,30,35,3.0f,false,0f,0.3f,-12f,1f,false,0,map,0);
+        player = factory.createPlayer(100, 550,30,35,3.0f,false,0f,0.3f,-12f,1f,false,0,map,0,270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2);
         bullets = new ArrayList<AbstractBullet>();
         scoreBar = factory.createScoreBar(player.getScoreComponent());
         healthBar = factory.createHealthBar(player.getHealthComponent());
         background = factory.createBackground();
-
+        //DRAWABLES
         drawables = new ArrayList<Drawable>();
         drawables.add(background);
         drawables.add(level);
@@ -64,11 +67,10 @@ public class Game implements Runnable{
         drawables.add(healthBar);
         drawables.add(player);
         drawables.addAll(bullets);
-
-        //PLAYER COLLISION AND MOVEMENT
+        //SYSTEMS
         collisionSystem = new CollisionSystem(player.getCollisionComponent(),player.getHealthComponent(),player.getPositionComponent(),player.getMovementComponent(),player.getScoreComponent());
         movementSystem = new MovementSystem(player.getMovementComponent(),player.getPositionComponent());
-
+        bulletSystem = new BulletSystem(bullets);
     }
 
     private void startGameLoop(){
@@ -78,9 +80,7 @@ public class Game implements Runnable{
 
     @Override
     public void run() {
-        HashMap<String, Integer> data = ConfigFileReader.getConfigFileReaderInstance().loadOrCreateConfig(configFile);
         factory.setGameDimensions((int)(data.get("ScreenWidth")), (int)(data.get("ScreenHeight")));
-
         double timePerFrame = 1000000000.0 / FPS_SET;
         double timerUpdate =  1000000000.0 / UPS_SET;
         long previousTime = System.nanoTime();
@@ -100,21 +100,13 @@ public class Game implements Runnable{
 
                 //STATUS
                 statusCheck();
-
                 //INPUTS
                 AbstractInput.Inputs inputs = input.getInput();
                 if (inputs != null) {checkMovement(inputs);player.setDirection(inputs);}
-
-                //MOVEMENT & COLLISION UPDATE
-                collisionSystem.updateCollision(scoreBar);
+                //SYSTEMS UPDATE
+                collisionSystem.updateCollision();
                 movementSystem.update();
-
-
-                //BULLETS
-                for(int i =0;i < bullets.size();i++){
-                    boolean remove = bullets.get(i).update();
-                    if(remove){bullets.remove(i);i--;}
-                }
+                bulletSystem.update();
 
                 ups++;
                 deltaU--;
@@ -124,7 +116,6 @@ public class Game implements Runnable{
 
                 //DRAW
                 for (Drawable drawable : drawables) {drawable.draw();}
-
                 //RENDER
                 factory.render();
 
@@ -159,18 +150,18 @@ public class Game implements Runnable{
     private void checkMovement(AbstractInput.Inputs inputs) {
         if (player.getMovementComponent().isMoving() && inputs == AbstractInput.Inputs.LEFT) {
             player.getMovementComponent().setLeft(true);
-        } else if (player.getMovementComponent().isMoving() && inputs == AbstractInput.Inputs.RIGHT) {
+        }
+        else if (player.getMovementComponent().isMoving() && inputs == AbstractInput.Inputs.RIGHT) {
             player.getMovementComponent().setRight(true);
         }
         else if(inputs == AbstractInput.Inputs.JUMPING){
             player.getMovementComponent().setJump(true);
         }
-
         else if(inputs == AbstractInput.Inputs.ATTACKING){
+            //FIRE BULLETS
             long elapsed = (System.nanoTime() - firingTimer) / 1000000;
             if(elapsed > firingDelay){
-                HashMap<String, Integer> data = ConfigFileReader.getConfigFileReaderInstance().loadOrCreateConfig(configFile);
-                bullets.add(factory.createBullet(270,(int)player.getPositionComponent().x,(int)player.getPositionComponent().y,data.get("ScreenWidth"),data.get("ScreenHeight")));
+                bullets.add(factory.createBullet(new BulletComponent(player.getPositionComponent().x,player.getPositionComponent().y, 270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2)));
                 firingTimer = System.nanoTime();
                 drawables.addAll(bullets);
             }
@@ -179,10 +170,7 @@ public class Game implements Runnable{
             player.getMovementComponent().setLeft(false);
             player.getMovementComponent().setRight(false);
         }
-
     }
 
+
 }
-
-
-

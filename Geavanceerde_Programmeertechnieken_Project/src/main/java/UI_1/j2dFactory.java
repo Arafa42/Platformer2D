@@ -1,6 +1,7 @@
 package UI_1;
 
 import Game.*;
+import Game.Components.BulletComponent;
 import Game.Components.HealthComponent;
 import Game.Components.ScoreComponent;
 import Game.Entities.*;
@@ -26,7 +27,7 @@ public class j2dFactory extends AbstractFactory {
 
 
     @Override
-    public AbstractBullet createBullet(double angle, int x, int y, int screenWidth, int screenHeight) {return new j2dBullet(grCtx,angle,x,y,screenWidth,screenHeight);}
+    public AbstractBullet createBullet(BulletComponent bulletComponent) {return new j2dBullet(grCtx,bulletComponent);}
 
     @Override
     public void render() {
@@ -34,8 +35,8 @@ public class j2dFactory extends AbstractFactory {
     }
 
     @Override
-    public AbstractPlayer createPlayer(int x, int y, int hitboxWidth, int hitboxHeight,float playerSpeed,boolean inAir, float airSpeed, float gravity,float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving,int healthValue,int[][] map,int score) {
-        return new j2dPlayer(grCtx, x, y,hitboxWidth,hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving,healthValue,map,score);
+    public AbstractPlayer createPlayer(int x, int y, int hitboxWidth, int hitboxHeight,float playerSpeed,boolean inAir, float airSpeed, float gravity,float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving,int healthValue,int[][] map,int score,double bulletAngle,int bulletSpeed,int screenWidth,int screenHeight,int bulletRadius) {
+        return new j2dPlayer(grCtx, x, y,hitboxWidth,hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving,healthValue,map,score,bulletAngle,bulletSpeed,screenWidth,screenHeight,bulletRadius);
     }
 
     @Override

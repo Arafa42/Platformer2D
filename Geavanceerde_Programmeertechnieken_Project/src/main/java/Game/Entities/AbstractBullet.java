@@ -1,37 +1,21 @@
 package Game.Entities;
 
+import Game.Components.BulletComponent;
 import Game.Drawable;
+import Game.Systems.BulletSystem;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public abstract class AbstractBullet implements Drawable {
 
-    private double x;
-    private double y;
-    private int r;
-    private double dx;
-    private double dy;
-    private double rad;
-    private double speed;
-    private int screenWidth;
-    private int screenHeight;
+    BulletComponent bulletComponent;
 
-
-
-    public AbstractBullet(double angle, int x, int y,int screenWidth, int screenHeight){
-        this.screenWidth = screenWidth;
-        this.screenHeight = screenHeight;
-        this.x = x;
-        this.y = y;
-        r = 2;
-        rad = Math.toRadians(angle);
-        dx = -Math.sin(rad);
-        dy = Math.cos(rad);
-        speed = 5;
-
+    public AbstractBullet(BulletComponent bulletComponent){
+        this.bulletComponent = bulletComponent;
     }
 
     public BufferedImage GetSpriteSheet(String fileName) {
@@ -52,17 +36,10 @@ public abstract class AbstractBullet implements Drawable {
     }
 
 
-    public boolean update(){
-        x += dx * speed;
+    public BulletComponent GetBulletComponent(){return bulletComponent;}
+    public double getX(){return bulletComponent.getX();}
+    public double getY(){return bulletComponent.getY();}
+    public int getR(){return bulletComponent.getR();}
 
-        //y += dy;
 
-        if(x < -r || x-550 > screenWidth + r || y < -r || y > screenHeight + r){return true;}
-
-        return false;
-    }
-
-    public double getX() {return x;}
-    public double getY() {return y;}
-    public int getR() {return r;}
 }

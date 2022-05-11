@@ -3,7 +3,7 @@ package Game.Entities;
 import Game.Components.ScoreComponent;
 import Game.Drawable;
 
-public abstract class AbstractScore implements Drawable {
+public abstract class AbstractScore implements Drawable{
 
     private ScoreComponent scoreComponent;
 
