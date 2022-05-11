@@ -20,23 +20,14 @@ public class j2dPlayer extends AbstractPlayer {
     private float yDrawOffset = 8;
     private int playerAction = IDLE;
     PositionComponent m = getPositionComponent();
-    int x,y,hitboxWidth,hitboxHeight;
-    boolean inAir,isMoving;
-    float playerSpeed,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision;
+    //int x,y,hitboxWidth,hitboxHeight;
 
     public j2dPlayer(GraphicsContext graphicsContext, int x, int y, int hitboxWidth, int hitboxHeight,float playerSpeed,boolean inAir, float airSpeed, float gravity,float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving,int healthValue,int[][] map,int score,double bulletAngle,int bulletSpeed,int screenWidth,int screenHeight,int bulletRadius) {
         super(x, y, hitboxWidth, hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving,healthValue,map,score,bulletAngle,bulletSpeed,screenWidth,screenHeight,bulletRadius);
-        this.x = x;
-        this.y = y;
-        this.hitboxWidth = hitboxWidth;
-        this.hitboxHeight = hitboxHeight;
-        this.playerSpeed = playerSpeed;
-        this.inAir = inAir;
-        this.airSpeed = airSpeed;
-        this.gravity = gravity;
-        this.jumpSpeed = jumpSpeed;
-        this.fallSpeedAfterCollision = fallSpeedAfterCollision;
-        this.isMoving = isMoving;
+        //this.x = x;
+        //this.y = y;
+        //this.hitboxWidth = hitboxWidth;
+        //this.hitboxHeight = hitboxHeight;
         this.graphicsContext = graphicsContext;
         loadAnimations();
     }
@@ -69,8 +60,8 @@ public class j2dPlayer extends AbstractPlayer {
 
         Graphics2D graphics2D = graphicsContext.getG2d();
         graphics2D.drawImage(animations[playerAction][aniIndex], (int) (m.x - xDrawOffset)-graphicsContext.getCamX(), (int) (m.y - yDrawOffset)-graphicsContext.getCamY(), (int)(90), (int)(63), null);
-        graphics2D.setColor(Color.RED);
-        graphics2D.drawRect((int)m.x-graphicsContext.getCamX(), (int)m.y-graphicsContext.getCamY(), (int)hitboxWidth, (int)hitboxHeight);
+        //graphics2D.setColor(Color.RED);
+        //graphics2D.drawRect((int)m.x-graphicsContext.getCamX(), (int)m.y-graphicsContext.getCamY(), (int)hitboxWidth, (int)hitboxHeight);
         update();
     }
 

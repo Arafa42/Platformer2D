@@ -19,8 +19,11 @@ public class Game implements Runnable{
     private AbstractHealthBar healthBar;
     private AbstractLevel level;
     private AbstractScore scoreBar;
+    private AbstractEnemy enemy;
     private MovementSystem movementSystem;
+    private MovementSystem movementSystem2;
     private CollisionSystem collisionSystem;
+    private CollisionSystem collisionSystem2;
     private BulletSystem bulletSystem;
     private ArrayList<Drawable> drawables;
     private final int FPS_SET = 60;
@@ -35,6 +38,11 @@ public class Game implements Runnable{
     public final static int TILES_SIZE = (int)(TILES_DEFAULT_SIZE);
     private long firingTimer;
     private long firingDelay;
+    private enum EnemyType{
+        GROUND1,
+        GROUND2,
+        SHOOTER1
+    }
 
 
     public Game(AbstractFactory abstractFactory,final String configFile) {
@@ -54,6 +62,7 @@ public class Game implements Runnable{
         this.map = levels.getLevel(1);
         input = factory.createInput();
         level = factory.createLevel(map,TILES_IN_HEIGHT,TILES_IN_WIDTH,TILES_SIZE);
+        enemy = factory.createEnemy(700, 250,40,35,3.0f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND2.toString());
         player = factory.createPlayer(100, 550,30,35,3.0f,false,0f,0.3f,-12f,1f,false,0,map,0,270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2);
         bullets = new ArrayList<AbstractBullet>();
         scoreBar = factory.createScoreBar(player.getScoreComponent());
@@ -67,9 +76,12 @@ public class Game implements Runnable{
         drawables.add(healthBar);
         drawables.add(player);
         drawables.addAll(bullets);
+        drawables.add(enemy);
         //SYSTEMS
         collisionSystem = new CollisionSystem(player.getCollisionComponent(),player.getHealthComponent(),player.getPositionComponent(),player.getMovementComponent(),player.getScoreComponent());
+        collisionSystem2 = new CollisionSystem(enemy.getCollisionComponent(),enemy.getHealthComponent(),enemy.getPositionComponent(),enemy.getMovementComponent(),null);
         movementSystem = new MovementSystem(player.getMovementComponent(),player.getPositionComponent());
+        movementSystem2  =new MovementSystem(enemy.getMovementComponent(),enemy.getPositionComponent());
         bulletSystem = new BulletSystem(bullets);
     }
 
@@ -105,7 +117,9 @@ public class Game implements Runnable{
                 if (inputs != null) {checkMovement(inputs);player.setDirection(inputs);}
                 //SYSTEMS UPDATE
                 collisionSystem.updateCollision();
+                collisionSystem2.updateCollision();
                 movementSystem.update();
+                movementSystem2.update();
                 bulletSystem.update();
 
                 ups++;

@@ -77,7 +77,7 @@ public class j2dLevel extends AbstractLevel {
         for(int i = 0;i<TILES_IN_HEIGHT;i++){
             for(int j =0;j<TILES_IN_WIDTH;j++) {
                 int index = getSpriteIndex(j, i);
-                if (index != -2) {
+                if (index != -2 && index != -3) {
                     if (index == 0) {
                         index = 200;
                     }

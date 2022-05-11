@@ -40,6 +40,11 @@ public class j2dFactory extends AbstractFactory {
     }
 
     @Override
+    public AbstractEnemy createEnemy(int x, int y, int hitboxWidth, int hitboxHeight, float playerSpeed, boolean inAir, float airSpeed, float gravity, float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving, int healthValue,int[][] map,String type) {
+        return new j2dEnemy(grCtx,x, y,hitboxWidth,hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving,healthValue,map,type);
+    }
+
+    @Override
     public AbstractBackground createBackground() {
         return new j2dBackground(grCtx);
     }
