@@ -4,10 +4,7 @@ import Game.Components.CollisionComponent;
 import Game.Components.MovementComponent;
 import Game.Components.PositionComponent;
 import Game.Entities.*;
-import Game.Systems.BulletSystem;
-import Game.Systems.CollisionSystem;
-import Game.Systems.EnemyMovementSystem;
-import Game.Systems.MovementSystem;
+import Game.Systems.*;
 import Helper.ConfigFileReader;
 import Helper.Levels;
 import java.util.ArrayList;
@@ -28,12 +25,13 @@ public class Game implements Runnable{
     private AbstractEnemy enemy;
     private AbstractEnemy enemy2;
     //SYSTEMS INIT
-    private MovementSystem movementSystem;
+    private PlayerMovementSystem playerMovementSystem;
     private CollisionSystem collisionSystem;
     private CollisionSystem collisionSystem2;
     private CollisionSystem collisionSystem3;
     private BulletSystem bulletSystem;
     private EnemyMovementSystem enemyMovementSystem;
+    private CoinSystem coinSystem;
     //ARRAYLIST COMPONENTS
     private ArrayList<MovementComponent> movementComponents;
     private ArrayList<PositionComponent> positionComponents;
@@ -105,12 +103,13 @@ public class Game implements Runnable{
         positionComponents.add(enemy.getPositionComponent());
         positionComponents.add(enemy2.getPositionComponent());
         //SYSTEMS
-        collisionSystem = new CollisionSystem(player.getCollisionComponent(),player.getHealthComponent(),player.getPositionComponent(),player.getMovementComponent(),player.getScoreComponent());
-        collisionSystem2 = new CollisionSystem(enemy.getCollisionComponent(),enemy.getHealthComponent(),enemy.getPositionComponent(),enemy.getMovementComponent(),null);
-        collisionSystem3 = new CollisionSystem(enemy2.getCollisionComponent(),enemy2.getHealthComponent(),enemy2.getPositionComponent(),enemy2.getMovementComponent(),null);
-        movementSystem = new MovementSystem(player.getMovementComponent(),player.getPositionComponent());
+        collisionSystem = new CollisionSystem(player.getCollisionComponent(),player.getHealthComponent(),player.getPositionComponent(),player.getMovementComponent());
+        collisionSystem2 = new CollisionSystem(enemy.getCollisionComponent(),enemy.getHealthComponent(),enemy.getPositionComponent(),enemy.getMovementComponent());
+        collisionSystem3 = new CollisionSystem(enemy2.getCollisionComponent(),enemy2.getHealthComponent(),enemy2.getPositionComponent(),enemy2.getMovementComponent());
+        playerMovementSystem = new PlayerMovementSystem(player.getMovementComponent(),player.getPositionComponent());
         bulletSystem = new BulletSystem(bullets);
         enemyMovementSystem  = new EnemyMovementSystem(collisionComponents,positionComponents,movementComponents);
+        coinSystem = new CoinSystem(player.getCollisionComponent(),player.getScoreComponent(),player.getPositionComponent());
     }
 
     private void startGameLoop(){
@@ -147,9 +146,8 @@ public class Game implements Runnable{
                 collisionSystem.updateCollision();
                 collisionSystem2.updateCollision();
                 collisionSystem3.updateCollision();
-                movementSystem.update();
-                //movementSystem2.update();
-                //movementSystem3.update();
+                playerMovementSystem.update();
+                coinSystem.update();
                 bulletSystem.update();
                 enemyMovementSystem.update();
 
@@ -181,7 +179,7 @@ public class Game implements Runnable{
         //FELL ON GROUND
         //ALSO IN COLLISION CLASS A CHECK WHEN FELL ON GROUND
         if((player.getHealthComponent().getHealthValue() > 0 && player.getHealthComponent().getHealthValue() < 6) && player.getCollisionComponent().isDidFall()){
-            movementSystem.resetPosition();
+            playerMovementSystem.resetPosition();
             player.getCollisionComponent().setTimesFell(player.getCollisionComponent().getTimesFell()+1);
             player.getCollisionComponent().setDidFall(false);
         }

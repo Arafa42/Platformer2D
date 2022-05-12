@@ -9,19 +9,17 @@ public class CollisionSystem {
     private final HealthComponent healthComponent;
     private final PositionComponent positionComponent;
     private final MovementComponent movementComponent;
-    private final ScoreComponent scoreComponent;
 
-    public CollisionSystem(CollisionComponent collisionComponent, HealthComponent healthComponent,PositionComponent positionComponent,MovementComponent movementComponent,ScoreComponent scoreComponent){
+    public CollisionSystem(CollisionComponent collisionComponent, HealthComponent healthComponent,PositionComponent positionComponent,MovementComponent movementComponent){
         this.collisionComponent = collisionComponent;
         this.healthComponent = healthComponent;
         this.positionComponent = positionComponent;
         this.movementComponent = movementComponent;
-        this.scoreComponent = scoreComponent;
     }
 
     public void updateCollision(){
         checkInAirOnStart((int)positionComponent.hitboxWidth, (int)positionComponent.hitboxHeight);
-        coinCollisionCheck((int)positionComponent.x,(int)positionComponent.y,(int)positionComponent.hitboxWidth,(int)positionComponent.hitboxHeight);
+        //coinCollisionCheck((int)positionComponent.x,(int)positionComponent.y,(int)positionComponent.hitboxWidth,(int)positionComponent.hitboxHeight);
         if(!movementComponent.isInAir()){
             if(!IsEntityOnFloor((int)positionComponent.x,(int)positionComponent.y,(int)positionComponent.hitboxWidth,(int)positionComponent.hitboxHeight)){
                 movementComponent.setInAir(true);
@@ -123,23 +121,23 @@ public class CollisionSystem {
         return true;
     }
 
-    public void coinCollisionCheck(int x, int y, int width, int height) {
-        if (scoreComponent != null) {
-            int row = (int) (y / Game.TILES_SIZE);
-            int col1 = (int) ((x + 30) / Game.TILES_SIZE);
-            int col2 = (int) ((x) / Game.TILES_SIZE);
-            if ((!IsSolid(x, y + height + 1)) && CanMoveHere(x, y, width, height)) {
-                if (collisionComponent.getLevelData()[row][col1] == -2) {
-                    scoreComponent.setScore(scoreComponent.getScore() + 1);
-                    System.out.println(scoreComponent.getScore());
-                    collisionComponent.getLevelData()[row][col1] = 0;
-                }
-                if (collisionComponent.getLevelData()[row][col2] == -2) {
-                    scoreComponent.setScore(scoreComponent.getScore() + 1);
-                    System.out.println(scoreComponent.getScore());
-                    collisionComponent.getLevelData()[row][col2] = 0;
-                }
-            }
-        }
-    }
+//    public void coinCollisionCheck(int x, int y, int width, int height) {
+//        if (scoreComponent != null) {
+//            int row = (int) (y / Game.TILES_SIZE);
+//            int col1 = (int) ((x + 30) / Game.TILES_SIZE);
+//            int col2 = (int) ((x) / Game.TILES_SIZE);
+//            if ((!IsSolid(x, y + height + 1)) && CanMoveHere(x, y, width, height)) {
+//                if (collisionComponent.getLevelData()[row][col1] == -2) {
+//                    scoreComponent.setScore(scoreComponent.getScore() + 1);
+//                    System.out.println(scoreComponent.getScore());
+//                    collisionComponent.getLevelData()[row][col1] = 0;
+//                }
+//                if (collisionComponent.getLevelData()[row][col2] == -2) {
+//                    scoreComponent.setScore(scoreComponent.getScore() + 1);
+//                    System.out.println(scoreComponent.getScore());
+//                    collisionComponent.getLevelData()[row][col2] = 0;
+//                }
+//            }
+//        }
+//    }
 }

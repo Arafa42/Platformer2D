@@ -3,12 +3,12 @@ package Game.Systems;
 import Game.Components.MovementComponent;
 import Game.Components.PositionComponent;
 
-public class MovementSystem {
+public class PlayerMovementSystem {
 
     private PositionComponent positionComponent;
     private MovementComponent movementComponent;
 
-    public MovementSystem(MovementComponent movementComponent, PositionComponent positionComponent){
+    public PlayerMovementSystem(MovementComponent movementComponent, PositionComponent positionComponent){
         this.movementComponent = movementComponent;
         this.positionComponent = positionComponent;
     }
