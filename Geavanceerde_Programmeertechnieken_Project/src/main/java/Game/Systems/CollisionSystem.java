@@ -6,13 +6,13 @@ import Game.Game;
 public class CollisionSystem {
 
     private final CollisionComponent collisionComponent;
-    private final HealthComponent healthComponent;
+    //private final HealthComponent healthComponent;
     private final PositionComponent positionComponent;
     private final MovementComponent movementComponent;
 
-    public CollisionSystem(CollisionComponent collisionComponent, HealthComponent healthComponent,PositionComponent positionComponent,MovementComponent movementComponent){
+    public CollisionSystem(CollisionComponent collisionComponent,PositionComponent positionComponent,MovementComponent movementComponent){
         this.collisionComponent = collisionComponent;
-        this.healthComponent = healthComponent;
+        //this.healthComponent = healthComponent;
         this.positionComponent = positionComponent;
         this.movementComponent = movementComponent;
     }
@@ -94,17 +94,17 @@ public class CollisionSystem {
             if(currentTile >= Game.TILES_IN_HEIGHT-1){
                 //FALLING ON GROUND = -1 HEALTH
                 //IF HEALTH VALUE < 5 BECAUSE ELSE YOU DIED
-                if(healthComponent.getHealthValue() < 5) {
-                    //System.out.println(collisionComponent.getTimesFell());
-                    healthComponent.setHealthValue(collisionComponent.getTimesFell()+1);
-                    collisionComponent.setDidFall(true);
-                    //System.out.println("CollSys 87 : " + healthComponent.getHealthValue());
-                }
-                else if(healthComponent.getHealthValue() == 5){
-                    collisionComponent.setDidFall(false);
-                    collisionComponent.setTimesFell(0);
-                    healthComponent.setHealthValue(collisionComponent.getTimesFell());
-                }
+//                if(healthComponent.getHealthValue() < 5) {
+//                    //System.out.println(collisionComponent.getTimesFell());
+//                    healthComponent.setHealthValue(collisionComponent.getTimesFell()+1);
+//                    collisionComponent.setDidFall(true);
+//                    //System.out.println("CollSys 87 : " + healthComponent.getHealthValue());
+//                }
+//                else if(healthComponent.getHealthValue() == 5){
+//                    collisionComponent.setDidFall(false);
+//                    collisionComponent.setTimesFell(0);
+//                    healthComponent.setHealthValue(collisionComponent.getTimesFell());
+//                }
             }
 
             return tileYPos + yOffset - 1;

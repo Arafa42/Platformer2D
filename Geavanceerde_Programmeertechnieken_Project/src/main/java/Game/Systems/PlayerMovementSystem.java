@@ -34,11 +34,6 @@ public class PlayerMovementSystem {
         movementComponent.setAirSpeed(movementComponent.getJumpSpeed());
     }
 
-    public void resetPosition(){
-        positionComponent.x = 100;
-        positionComponent.y = 550;
-    }
-
     public void update() { updateMovement(); }
 
 }

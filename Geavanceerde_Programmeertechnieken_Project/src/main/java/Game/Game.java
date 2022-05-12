@@ -32,6 +32,7 @@ public class Game implements Runnable{
     private BulletSystem bulletSystem;
     private EnemyMovementSystem enemyMovementSystem;
     private CoinSystem coinSystem;
+    private HealthSystem healthSystem;
     //ARRAYLIST COMPONENTS
     private ArrayList<MovementComponent> movementComponents;
     private ArrayList<PositionComponent> positionComponents;
@@ -103,13 +104,14 @@ public class Game implements Runnable{
         positionComponents.add(enemy.getPositionComponent());
         positionComponents.add(enemy2.getPositionComponent());
         //SYSTEMS
-        collisionSystem = new CollisionSystem(player.getCollisionComponent(),player.getHealthComponent(),player.getPositionComponent(),player.getMovementComponent());
-        collisionSystem2 = new CollisionSystem(enemy.getCollisionComponent(),enemy.getHealthComponent(),enemy.getPositionComponent(),enemy.getMovementComponent());
-        collisionSystem3 = new CollisionSystem(enemy2.getCollisionComponent(),enemy2.getHealthComponent(),enemy2.getPositionComponent(),enemy2.getMovementComponent());
+        collisionSystem = new CollisionSystem(player.getCollisionComponent(),player.getPositionComponent(),player.getMovementComponent());
+        collisionSystem2 = new CollisionSystem(enemy.getCollisionComponent(),enemy.getPositionComponent(),enemy.getMovementComponent());
+        collisionSystem3 = new CollisionSystem(enemy2.getCollisionComponent(),enemy2.getPositionComponent(),enemy2.getMovementComponent());
         playerMovementSystem = new PlayerMovementSystem(player.getMovementComponent(),player.getPositionComponent());
         bulletSystem = new BulletSystem(bullets);
         enemyMovementSystem  = new EnemyMovementSystem(collisionComponents,positionComponents,movementComponents);
         coinSystem = new CoinSystem(player.getCollisionComponent(),player.getScoreComponent(),player.getPositionComponent());
+        healthSystem = new HealthSystem(player.getPositionComponent(),player.getMovementComponent(),player.getCollisionComponent(),player.getHealthComponent());
     }
 
     private void startGameLoop(){
@@ -136,9 +138,8 @@ public class Game implements Runnable{
             previousTime = currentTime;
 
             if(deltaU >= 1){
-
-                //STATUS
-                statusCheck();
+                //DEAD CHECK (IF PLAYER LOST 5 HEARTS => RESET LEVEL)
+                if(player.getHealthComponent().getHealthValue() == 5){initGame();}
                 //INPUTS
                 AbstractInput.Inputs inputs = input.getInput();
                 if (inputs != null) {checkMovement(inputs);player.setDirection(inputs);}
@@ -150,6 +151,7 @@ public class Game implements Runnable{
                 coinSystem.update();
                 bulletSystem.update();
                 enemyMovementSystem.update();
+                healthSystem.update();
 
                 ups++;
                 deltaU--;
@@ -175,19 +177,6 @@ public class Game implements Runnable{
         }
     }
 
-    private void statusCheck(){
-        //FELL ON GROUND
-        //ALSO IN COLLISION CLASS A CHECK WHEN FELL ON GROUND
-        if((player.getHealthComponent().getHealthValue() > 0 && player.getHealthComponent().getHealthValue() < 6) && player.getCollisionComponent().isDidFall()){
-            playerMovementSystem.resetPosition();
-            player.getCollisionComponent().setTimesFell(player.getCollisionComponent().getTimesFell()+1);
-            player.getCollisionComponent().setDidFall(false);
-        }
-        //DEAD -> RESET LEVEL
-        if(player.getHealthComponent().getHealthValue() == 5){
-            initGame();
-        }
-    }
 
 
     private void checkMovement(AbstractInput.Inputs inputs) {
