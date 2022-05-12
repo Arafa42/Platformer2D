@@ -29,8 +29,6 @@ public class Game implements Runnable{
     private AbstractEnemy enemy2;
     //SYSTEMS INIT
     private MovementSystem movementSystem;
-    private MovementSystem movementSystem2;
-    private MovementSystem movementSystem3;
     private CollisionSystem collisionSystem;
     private CollisionSystem collisionSystem2;
     private CollisionSystem collisionSystem3;
@@ -111,8 +109,6 @@ public class Game implements Runnable{
         collisionSystem2 = new CollisionSystem(enemy.getCollisionComponent(),enemy.getHealthComponent(),enemy.getPositionComponent(),enemy.getMovementComponent(),null);
         collisionSystem3 = new CollisionSystem(enemy2.getCollisionComponent(),enemy2.getHealthComponent(),enemy2.getPositionComponent(),enemy2.getMovementComponent(),null);
         movementSystem = new MovementSystem(player.getMovementComponent(),player.getPositionComponent());
-        //movementSystem2  =new MovementSystem(enemy.getMovementComponent(),enemy.getPositionComponent());
-        //movementSystem3  =new MovementSystem(enemy2.getMovementComponent(),enemy2.getPositionComponent());
         bulletSystem = new BulletSystem(bullets);
         enemyMovementSystem  = new EnemyMovementSystem(collisionComponents,positionComponents,movementComponents);
     }
