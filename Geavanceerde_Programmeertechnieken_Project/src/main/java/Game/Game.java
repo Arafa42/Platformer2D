@@ -37,6 +37,8 @@ public class Game implements Runnable{
     private ArrayList<MovementComponent> movementComponents;
     private ArrayList<PositionComponent> positionComponents;
     private ArrayList<CollisionComponent> collisionComponents;
+    //ARRAYLIST ENTITIES
+    private ArrayList<AbstractEnemy> enemies;
     //DRAWABLES ARRAY
     private ArrayList<Drawable> drawables;
     //OTHER INITS
@@ -66,6 +68,7 @@ public class Game implements Runnable{
         movementComponents = new ArrayList<>();
         collisionComponents = new ArrayList<>();
         positionComponents = new ArrayList<>();
+        enemies = new ArrayList<>();
         initGame();
         startGameLoop();
     }
@@ -79,8 +82,8 @@ public class Game implements Runnable{
         this.map = levels.getLevel(1);
         input = factory.createInput();
         level = factory.createLevel(map,TILES_IN_HEIGHT,TILES_IN_WIDTH,TILES_SIZE);
-        enemy = factory.createEnemy(800, 450,40,35,1.0f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND2.toString());
-        enemy2 = factory.createEnemy(400, 450,40,35,1.0f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND1.toString());
+        enemy = factory.createEnemy(800, 450,40,35,1f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND2.toString());
+        enemy2 = factory.createEnemy(400, 450,40,35,1f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND1.toString());
         player = factory.createPlayer(100, 550,30,35,3.0f,false,0f,0.3f,-12f,1f,false,0,map,0,270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2);
         bullets = new ArrayList<AbstractBullet>();
         scoreBar = factory.createScoreBar(player.getScoreComponent());
@@ -111,7 +114,11 @@ public class Game implements Runnable{
         bulletSystem = new BulletSystem(bullets);
         enemyMovementSystem  = new EnemyMovementSystem(collisionComponents,positionComponents,movementComponents);
         coinSystem = new CoinSystem(player.getCollisionComponent(),player.getScoreComponent(),player.getPositionComponent());
-        healthSystem = new HealthSystem(player.getPositionComponent(),player.getMovementComponent(),player.getCollisionComponent(),player.getHealthComponent());
+
+        //TEST
+        enemies.add(enemy);
+        enemies.add(enemy2);
+        healthSystem = new HealthSystem(enemies,player);
     }
 
     private void startGameLoop(){

@@ -1,40 +1,39 @@
 package Game.Systems;
 
-import Game.Components.CollisionComponent;
-import Game.Components.HealthComponent;
-import Game.Components.MovementComponent;
-import Game.Components.PositionComponent;
+import Game.Entities.AbstractEnemy;
+import Game.Entities.AbstractPlayer;
 import Game.Game;
+
+import java.util.ArrayList;
 
 public class HealthSystem {
 
+    ArrayList<AbstractEnemy> enemies;
+    AbstractPlayer player;
 
-    private PositionComponent positionComponent;
-    private MovementComponent movementComponent;
-    private CollisionComponent collisionComponent;
-    private HealthComponent healthComponent;
-
-    public HealthSystem(PositionComponent positionComponent, MovementComponent movementComponent, CollisionComponent collisionComponent, HealthComponent healthComponent){
-        this.positionComponent = positionComponent;
-        this.movementComponent = movementComponent;
-        this.collisionComponent = collisionComponent;
-        this.healthComponent = healthComponent;
+    public HealthSystem(ArrayList<AbstractEnemy> enemies, AbstractPlayer player){
+        this.enemies = enemies;
+        this.player = player;
     }
 
     public void update(){
         statusCheck();
-        checkHealthOnFall((int)positionComponent.y, (int)positionComponent.hitboxHeight, movementComponent.getAirSpeed());
+        checkHealthOnFall((int)player.getPositionComponent().y, (int)player.getPositionComponent().hitboxHeight, player.getMovementComponent().getAirSpeed());
         checkHealthOnCollisionWithEnemyOrEnemyBullet();
     }
 
     private void checkHealthOnCollisionWithEnemyOrEnemyBullet(){
-        //GET POSITION OF PLAYER
-        // GET WHAT TILE HE IS ON IN MAP
-        // GET POSITION OF ALL ENEMIES
-        // GET ALL TILES THE ENEMIES ARE ON
-        //IF PLAYER TILE IS SAME AS AN ENEMY PLAYER LIFE POINTS GO -1
-
+        for(int i =0;i<enemies.size();i++){
+            if(isIntersect(player.getPositionComponent().x,player.getPositionComponent().y,player.getPositionComponent().hitboxWidth,player.getPositionComponent().hitboxHeight,enemies.get(i).getPositionComponent().x,enemies.get(i).getPositionComponent().y,enemies.get(i).getPositionComponent().hitboxWidth,enemies.get(i).getPositionComponent().hitboxHeight)){
+                player.getHealthComponent().setHealthValue(player.getCollisionComponent().getTimesFell()+1);
+                player.getCollisionComponent().setDidFall(true);
+            }
+        }
     }
+
+    private boolean isIntersect(float Ax, float Ay, float Aw, float Ah, float Bx, float By, float Bw, float Bh)
+    {return Bx + Bw > Ax && By + Bh > Ay && Ax + Aw > Bx && Ay + Ah > By;}
+
 
     private void checkHealthOnFall(int y, int height, float airSpeed){
         int currentTile = (int) (y / Game.TILES_SIZE);
@@ -45,16 +44,14 @@ public class HealthSystem {
             if(currentTile >= Game.TILES_IN_HEIGHT-1){
                 //FALLING ON GROUND = -1 HEALTH
                 //IF HEALTH VALUE < 5 BECAUSE ELSE YOU DIED
-                if(healthComponent.getHealthValue() < 5) {
-                    //System.out.println(collisionComponent.getTimesFell());
-                    healthComponent.setHealthValue(collisionComponent.getTimesFell()+1);
-                    collisionComponent.setDidFall(true);
-                    //System.out.println("CollSys 87 : " + healthComponent.getHealthValue());
+                if(player.getHealthComponent().getHealthValue() < 5) {
+                    player.getHealthComponent().setHealthValue(player.getCollisionComponent().getTimesFell()+1);
+                    player.getCollisionComponent().setDidFall(true);
                 }
-                else if(healthComponent.getHealthValue() == 5){
-                    collisionComponent.setDidFall(false);
-                    collisionComponent.setTimesFell(0);
-                    healthComponent.setHealthValue(collisionComponent.getTimesFell());
+                else if(player.getHealthComponent().getHealthValue() == 5){
+                    player.getCollisionComponent().setDidFall(false);
+                    player.getCollisionComponent().setTimesFell(0);
+                    player.getHealthComponent().setHealthValue(player.getCollisionComponent().getTimesFell());
                 }
             }
         }
@@ -63,10 +60,10 @@ public class HealthSystem {
     private void statusCheck(){
         //FELL ON GROUND
         //ALSO IN COLLISION CLASS A CHECK WHEN FELL ON GROUND
-        if((healthComponent.getHealthValue() > 0 && healthComponent.getHealthValue() < 6) && collisionComponent.isDidFall()){
+        if((player.getHealthComponent().getHealthValue() > 0 && player.getHealthComponent().getHealthValue() < 6) && player.getCollisionComponent().isDidFall()){
             resetPosition();
-            collisionComponent.setTimesFell(collisionComponent.getTimesFell()+1);
-            collisionComponent.setDidFall(false);
+            player.getCollisionComponent().setTimesFell(player.getCollisionComponent().getTimesFell()+1);
+            player.getCollisionComponent().setDidFall(false);
         }
         //IF ENEMY HIT PLAYER
         //IF ENEMY BULLET HIT PLAYER
@@ -74,8 +71,8 @@ public class HealthSystem {
     }
 
     private void resetPosition(){
-        positionComponent.x = 100;
-        positionComponent.y = 550;
+        player.getPositionComponent().x = 100;
+        player.getPositionComponent().y = 550;
     }
 
 }

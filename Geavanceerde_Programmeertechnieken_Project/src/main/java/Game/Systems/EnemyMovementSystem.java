@@ -34,7 +34,7 @@ public class EnemyMovementSystem {
         for (int i =0;i<positionComponents.size();i++){
             //System.out.println("x"+i  +  " : " + positionComponents.get(i).x);
             //MoveEnemy(positionComponents.get(i).x, positionComponents.get(i).y);
-                    System.out.println(collisionComponents.get(i).getLevelData()[(int) (positionComponents.get(i).y / Game.TILES_SIZE) + 1][(int) (positionComponents.get(i).x / Game.TILES_SIZE) - 1]);
+                    //System.out.println(collisionComponents.get(i).getLevelData()[(int) (positionComponents.get(i).y / Game.TILES_SIZE) + 1][(int) (positionComponents.get(i).x / Game.TILES_SIZE) - 1]);
                     if (collisionComponents.get(i).getLevelData()[(int) (positionComponents.get(i).y / Game.TILES_SIZE) + 1][(int) (positionComponents.get(i).x / Game.TILES_SIZE) - 1] == 0) {
                         //System.out.println(j + " IS TRUE");
                         //movementComponents.get(j).setRight(true);
