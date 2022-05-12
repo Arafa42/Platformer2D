@@ -1,5 +1,8 @@
 package Game;
 import Game.Components.BulletComponent;
+import Game.Components.CollisionComponent;
+import Game.Components.MovementComponent;
+import Game.Components.PositionComponent;
 import Game.Entities.*;
 import Game.Systems.BulletSystem;
 import Game.Systems.CollisionSystem;
@@ -23,13 +26,20 @@ public class Game implements Runnable{
     private AbstractLevel level;
     private AbstractScore scoreBar;
     private AbstractEnemy enemy;
+    private AbstractEnemy enemy2;
     //SYSTEMS INIT
     private MovementSystem movementSystem;
     private MovementSystem movementSystem2;
+    private MovementSystem movementSystem3;
     private CollisionSystem collisionSystem;
     private CollisionSystem collisionSystem2;
+    private CollisionSystem collisionSystem3;
     private BulletSystem bulletSystem;
     private EnemyMovementSystem enemyMovementSystem;
+    //ARRAYLIST COMPONENTS
+    private ArrayList<MovementComponent> movementComponents;
+    private ArrayList<PositionComponent> positionComponents;
+    private ArrayList<CollisionComponent> collisionComponents;
     //DRAWABLES ARRAY
     private ArrayList<Drawable> drawables;
     //OTHER INITS
@@ -56,6 +66,9 @@ public class Game implements Runnable{
         data = ConfigFileReader.getConfigFileReaderInstance().loadOrCreateConfig(configFile);
         this.factory = abstractFactory;
         this.configFile = configFile;
+        movementComponents = new ArrayList<>();
+        collisionComponents = new ArrayList<>();
+        positionComponents = new ArrayList<>();
         initGame();
         startGameLoop();
     }
@@ -70,6 +83,7 @@ public class Game implements Runnable{
         input = factory.createInput();
         level = factory.createLevel(map,TILES_IN_HEIGHT,TILES_IN_WIDTH,TILES_SIZE);
         enemy = factory.createEnemy(800, 450,40,35,1.0f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND2.toString());
+        enemy2 = factory.createEnemy(400, 450,40,35,1.0f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND1.toString());
         player = factory.createPlayer(100, 550,30,35,3.0f,false,0f,0.3f,-12f,1f,false,0,map,0,270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2);
         bullets = new ArrayList<AbstractBullet>();
         scoreBar = factory.createScoreBar(player.getScoreComponent());
@@ -84,13 +98,23 @@ public class Game implements Runnable{
         drawables.add(player);
         drawables.addAll(bullets);
         drawables.add(enemy);
+        drawables.add(enemy2);
+        //ARRAYLIST ADD COMPONENTS
+        movementComponents.add(enemy.getMovementComponent());
+        movementComponents.add(enemy2.getMovementComponent());
+        collisionComponents.add(enemy.getCollisionComponent());
+        collisionComponents.add(enemy2.getCollisionComponent());
+        positionComponents.add(enemy.getPositionComponent());
+        positionComponents.add(enemy2.getPositionComponent());
         //SYSTEMS
         collisionSystem = new CollisionSystem(player.getCollisionComponent(),player.getHealthComponent(),player.getPositionComponent(),player.getMovementComponent(),player.getScoreComponent());
         collisionSystem2 = new CollisionSystem(enemy.getCollisionComponent(),enemy.getHealthComponent(),enemy.getPositionComponent(),enemy.getMovementComponent(),null);
+        collisionSystem3 = new CollisionSystem(enemy2.getCollisionComponent(),enemy2.getHealthComponent(),enemy2.getPositionComponent(),enemy2.getMovementComponent(),null);
         movementSystem = new MovementSystem(player.getMovementComponent(),player.getPositionComponent());
-        movementSystem2  =new MovementSystem(enemy.getMovementComponent(),enemy.getPositionComponent());
+        //movementSystem2  =new MovementSystem(enemy.getMovementComponent(),enemy.getPositionComponent());
+        //movementSystem3  =new MovementSystem(enemy2.getMovementComponent(),enemy2.getPositionComponent());
         bulletSystem = new BulletSystem(bullets);
-        enemyMovementSystem  = new EnemyMovementSystem(enemy.getCollisionComponent(),enemy.getPositionComponent(),enemy.getMovementComponent());
+        enemyMovementSystem  = new EnemyMovementSystem(collisionComponents,positionComponents,movementComponents);
     }
 
     private void startGameLoop(){
@@ -126,8 +150,10 @@ public class Game implements Runnable{
                 //SYSTEMS UPDATE
                 collisionSystem.updateCollision();
                 collisionSystem2.updateCollision();
+                collisionSystem3.updateCollision();
                 movementSystem.update();
-                movementSystem2.update();
+                //movementSystem2.update();
+                //movementSystem3.update();
                 bulletSystem.update();
                 enemyMovementSystem.update();
 
