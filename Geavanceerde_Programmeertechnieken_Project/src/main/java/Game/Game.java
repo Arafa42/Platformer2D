@@ -33,6 +33,7 @@ public class Game implements Runnable{
     private EnemyMovementSystem enemyMovementSystem;
     private CoinSystem coinSystem;
     private HealthSystem healthSystem;
+    private PowerUpSystem powerUpSystem;
     //ARRAYLIST COMPONENTS
     private ArrayList<MovementComponent> movementComponents;
     private ArrayList<PositionComponent> positionComponents;
@@ -114,7 +115,7 @@ public class Game implements Runnable{
         bulletSystem = new BulletSystem(bullets);
         enemyMovementSystem  = new EnemyMovementSystem(collisionComponents,positionComponents,movementComponents);
         coinSystem = new CoinSystem(player.getCollisionComponent(),player.getScoreComponent(),player.getPositionComponent());
-
+        powerUpSystem = new PowerUpSystem(player.getCollisionComponent(),player.getPositionComponent(),player.getMovementComponent());
         //TEST
         enemies.add(enemy);
         enemies.add(enemy2);
@@ -154,11 +155,13 @@ public class Game implements Runnable{
                 collisionSystem.updateCollision();
                 collisionSystem2.updateCollision();
                 collisionSystem3.updateCollision();
+                powerUpSystem.update();
                 playerMovementSystem.update();
                 coinSystem.update();
                 bulletSystem.update();
                 enemyMovementSystem.update();
                 healthSystem.update();
+
 
                 ups++;
                 deltaU--;
@@ -170,7 +173,7 @@ public class Game implements Runnable{
                 for (Drawable drawable : drawables) {drawable.draw();}
                 //RENDER
                 factory.render();
-
+                System.out.println(fps);
                 fps++;
                 deltaF--;
 

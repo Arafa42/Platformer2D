@@ -38,5 +38,4 @@ public abstract class AbstractElement implements Drawable {
         this.direction = direction;
     }
     public AbstractInput.Inputs getDirection() {return direction;}
-
 }
