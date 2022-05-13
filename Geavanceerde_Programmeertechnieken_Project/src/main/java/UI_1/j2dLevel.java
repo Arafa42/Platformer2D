@@ -94,16 +94,19 @@ public class j2dLevel extends AbstractLevel {
                 }
                 else if(index == -2){
                         g2d.drawImage(coinSprite[aniIndex],(j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE,null);
-                        //g2d.drawRect((j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE);
+                        g2d.drawRect((j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE);
                 }
                 else if(index == -3){
                     g2d.drawImage(powerUpSprite[7],(j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE,null);
+                    g2d.drawRect((j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE);
                 }
                 else if(index == -4){
                     g2d.drawImage(powerUpSprite[1],(j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE,null);
+                    g2d.drawRect((j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE);
                 }
                 else if(index == -5){
                     g2d.drawImage(powerUpSprite[5],(j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE,null);
+                    g2d.drawRect((j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE);
                 }
             }
         }

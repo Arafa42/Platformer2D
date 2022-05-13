@@ -12,11 +12,13 @@ public class PowerUpSystem extends Thread {
     private CollisionComponent collisionComponent;
     private PositionComponent positionComponent;
     private MovementComponent movementComponent;
+    private HealthComponent healthComponent;
 
-    public PowerUpSystem(CollisionComponent collisionComponent,PositionComponent positionComponent,MovementComponent movementComponent){
+    public PowerUpSystem(CollisionComponent collisionComponent,PositionComponent positionComponent,MovementComponent movementComponent, HealthComponent healthComponent){
         this.collisionComponent = collisionComponent;
         this.positionComponent = positionComponent;
         this.movementComponent = movementComponent;
+        this.healthComponent = healthComponent;
     }
 
     public void update() {
@@ -60,7 +62,7 @@ public class PowerUpSystem extends Thread {
 
     private void extraJump() {
         float prevJumpSpeed = movementComponent.getJumpSpeed();
-        movementComponent.setJumpSpeed(movementComponent.getJumpSpeed()-4);
+        movementComponent.setJumpSpeed(movementComponent.getJumpSpeed()-3);
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {
                     @Override
@@ -87,7 +89,12 @@ public class PowerUpSystem extends Thread {
     }
 
     private void extraLife(){
-        //EXTRA HEART IF NOT FULL
+        int currHealthValueOfPlayer = healthComponent.getHealthValue();
+
+        if(currHealthValueOfPlayer != 0){
+            healthComponent.setHealthValue(currHealthValueOfPlayer-1);
+            collisionComponent.setTimesFell(collisionComponent.getTimesFell()-1);
+        }
     }
 
 

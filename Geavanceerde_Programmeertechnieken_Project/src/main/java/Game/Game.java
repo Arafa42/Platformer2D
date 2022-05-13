@@ -66,15 +66,15 @@ public class Game implements Runnable{
         data = ConfigFileReader.getConfigFileReaderInstance().loadOrCreateConfig(configFile);
         this.factory = abstractFactory;
         this.configFile = configFile;
-        movementComponents = new ArrayList<>();
-        collisionComponents = new ArrayList<>();
-        positionComponents = new ArrayList<>();
-        enemies = new ArrayList<>();
         initGame();
         startGameLoop();
     }
 
     private void initGame() {
+        movementComponents = new ArrayList<>();
+        collisionComponents = new ArrayList<>();
+        positionComponents = new ArrayList<>();
+        enemies = new ArrayList<>();
         //FIRING BULLET
         firingTimer = System.nanoTime();
         firingDelay = 200;
@@ -115,7 +115,7 @@ public class Game implements Runnable{
         bulletSystem = new BulletSystem(bullets);
         enemyMovementSystem  = new EnemyMovementSystem(collisionComponents,positionComponents,movementComponents);
         coinSystem = new CoinSystem(player.getCollisionComponent(),player.getScoreComponent(),player.getPositionComponent());
-        powerUpSystem = new PowerUpSystem(player.getCollisionComponent(),player.getPositionComponent(),player.getMovementComponent());
+        powerUpSystem = new PowerUpSystem(player.getCollisionComponent(),player.getPositionComponent(),player.getMovementComponent(),player.getHealthComponent());
         //TEST
         enemies.add(enemy);
         enemies.add(enemy2);
@@ -162,13 +162,10 @@ public class Game implements Runnable{
                 enemyMovementSystem.update();
                 healthSystem.update();
 
-
                 ups++;
                 deltaU--;
             }
-
             if(deltaF >= 1){
-
                 //DRAW
                 for (Drawable drawable : drawables) {drawable.draw();}
                 //RENDER
@@ -176,9 +173,7 @@ public class Game implements Runnable{
                 System.out.println(fps);
                 fps++;
                 deltaF--;
-
             }
-
             if(System.currentTimeMillis() - lastCheck >=1000){
                 lastCheck = System.currentTimeMillis();
                 fps = 0;

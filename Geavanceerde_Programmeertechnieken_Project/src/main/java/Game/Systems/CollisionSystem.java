@@ -6,20 +6,17 @@ import Game.Game;
 public class CollisionSystem {
 
     private final CollisionComponent collisionComponent;
-    //private final HealthComponent healthComponent;
     private final PositionComponent positionComponent;
     private final MovementComponent movementComponent;
 
     public CollisionSystem(CollisionComponent collisionComponent,PositionComponent positionComponent,MovementComponent movementComponent){
         this.collisionComponent = collisionComponent;
-        //this.healthComponent = healthComponent;
         this.positionComponent = positionComponent;
         this.movementComponent = movementComponent;
     }
 
     public void updateCollision(){
         checkInAirOnStart((int)positionComponent.hitboxWidth, (int)positionComponent.hitboxHeight);
-        //coinCollisionCheck((int)positionComponent.x,(int)positionComponent.y,(int)positionComponent.hitboxWidth,(int)positionComponent.hitboxHeight);
         if(!movementComponent.isInAir()){
             if(!IsEntityOnFloor((int)positionComponent.x,(int)positionComponent.y,(int)positionComponent.hitboxWidth,(int)positionComponent.hitboxHeight)){
                 movementComponent.setInAir(true);
@@ -88,29 +85,11 @@ public class CollisionSystem {
     public float GetEntityYPosUnderRoofOrAboveFloor(int x, int y, int width, int height, Float airSpeed){
         int currentTile = (int) (y / Game.TILES_SIZE);
         if(airSpeed > 0){
-            //FALLING OR TOUCHING FLOOR
             int tileYPos = currentTile * Game.TILES_SIZE;
             int yOffset = (int)(Game.TILES_SIZE - height);
-            if(currentTile >= Game.TILES_IN_HEIGHT-1){
-                //FALLING ON GROUND = -1 HEALTH
-                //IF HEALTH VALUE < 5 BECAUSE ELSE YOU DIED
-//                if(healthComponent.getHealthValue() < 5) {
-//                    //System.out.println(collisionComponent.getTimesFell());
-//                    healthComponent.setHealthValue(collisionComponent.getTimesFell()+1);
-//                    collisionComponent.setDidFall(true);
-//                    //System.out.println("CollSys 87 : " + healthComponent.getHealthValue());
-//                }
-//                else if(healthComponent.getHealthValue() == 5){
-//                    collisionComponent.setDidFall(false);
-//                    collisionComponent.setTimesFell(0);
-//                    healthComponent.setHealthValue(collisionComponent.getTimesFell());
-//                }
-            }
-
             return tileYPos + yOffset - 1;
         }
         else{
-            //jumping
             return currentTile * Game.TILES_SIZE;
         }
     }
@@ -121,23 +100,4 @@ public class CollisionSystem {
         return true;
     }
 
-//    public void coinCollisionCheck(int x, int y, int width, int height) {
-//        if (scoreComponent != null) {
-//            int row = (int) (y / Game.TILES_SIZE);
-//            int col1 = (int) ((x + 30) / Game.TILES_SIZE);
-//            int col2 = (int) ((x) / Game.TILES_SIZE);
-//            if ((!IsSolid(x, y + height + 1)) && CanMoveHere(x, y, width, height)) {
-//                if (collisionComponent.getLevelData()[row][col1] == -2) {
-//                    scoreComponent.setScore(scoreComponent.getScore() + 1);
-//                    System.out.println(scoreComponent.getScore());
-//                    collisionComponent.getLevelData()[row][col1] = 0;
-//                }
-//                if (collisionComponent.getLevelData()[row][col2] == -2) {
-//                    scoreComponent.setScore(scoreComponent.getScore() + 1);
-//                    System.out.println(scoreComponent.getScore());
-//                    collisionComponent.getLevelData()[row][col2] = 0;
-//                }
-//            }
-//        }
-//    }
 }

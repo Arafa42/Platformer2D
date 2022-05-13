@@ -2,7 +2,6 @@ package UI_1;
 
 import Game.Components.PositionComponent;
 import Game.Entities.AbstractEnemy;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
