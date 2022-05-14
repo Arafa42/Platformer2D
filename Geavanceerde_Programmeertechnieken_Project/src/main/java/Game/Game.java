@@ -18,7 +18,8 @@ public class Game implements Runnable{
     private AbstractInput input;
     private AbstractBackground background;
     private AbstractPlayer player;
-    private ArrayList<AbstractBullet> bullets;
+    private ArrayList<AbstractBullet> playerBullets;
+    private ArrayList<AbstractBullet> enemyBullets;
     private AbstractHealthBar healthBar;
     private AbstractLevel level;
     private AbstractScore scoreBar;
@@ -30,6 +31,7 @@ public class Game implements Runnable{
     private CollisionSystem collisionSystem2;
     private CollisionSystem collisionSystem3;
     private BulletSystem bulletSystem;
+    private EnemyBulletSystem bulletSystem2;
     private EnemyMovementSystem enemyMovementSystem;
     private CoinSystem coinSystem;
     private HealthSystem healthSystem;
@@ -87,7 +89,8 @@ public class Game implements Runnable{
         enemy = factory.createEnemy(800, 450,40,35,1f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND2.toString());
         enemy2 = factory.createEnemy(400, 450,40,35,1f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND1.toString());
         player = factory.createPlayer(100, 550,30,35,3.0f,false,0f,0.3f,-12f,1f,false,0,map,0,270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2);
-        bullets = new ArrayList<AbstractBullet>();
+        playerBullets = new ArrayList<AbstractBullet>();
+        enemyBullets = new ArrayList<AbstractBullet>();
         scoreBar = factory.createScoreBar(player.getScoreComponent());
         healthBar = factory.createHealthBar(player.getHealthComponent());
         background = factory.createBackground();
@@ -98,7 +101,8 @@ public class Game implements Runnable{
         drawables.add(scoreBar);
         drawables.add(healthBar);
         drawables.add(player);
-        drawables.addAll(bullets);
+        drawables.addAll(playerBullets);
+        drawables.addAll(enemyBullets);
         drawables.add(enemy);
         drawables.add(enemy2);
         //ARRAYLIST ADD COMPONENTS
@@ -113,7 +117,7 @@ public class Game implements Runnable{
         collisionSystem2 = new CollisionSystem(enemy.getCollisionComponent(),enemy.getPositionComponent(),enemy.getMovementComponent());
         collisionSystem3 = new CollisionSystem(enemy2.getCollisionComponent(),enemy2.getPositionComponent(),enemy2.getMovementComponent());
         playerMovementSystem = new PlayerMovementSystem(player.getMovementComponent(),player.getPositionComponent());
-        bulletSystem = new BulletSystem(bullets);
+        bulletSystem = new BulletSystem(playerBullets);
         enemyMovementSystem  = new EnemyMovementSystem(collisionComponents,positionComponents,movementComponents);
         System.out.println(enemy.getMovementComponent().isRight());
         coinSystem = new CoinSystem(player.getCollisionComponent(),player.getScoreComponent(),player.getPositionComponent());
@@ -122,7 +126,9 @@ public class Game implements Runnable{
         enemies.add(enemy);
         enemies.add(enemy2);
         healthSystem = new HealthSystem(enemies,player);
-        enemyHealthSystem = new EnemyHealthSystem(bullets,enemies);
+        enemyHealthSystem = new EnemyHealthSystem(playerBullets,enemies);
+        bulletSystem2 = new EnemyBulletSystem(enemyBullets,enemies,data.get("ScreenWidth"),data.get("ScreenHeight"),drawables, factory);
+
     }
 
     private void startGameLoop(){
@@ -186,6 +192,7 @@ public class Game implements Runnable{
         playerMovementSystem.update();
         coinSystem.update();
         bulletSystem.update();
+        bulletSystem2.update();
         enemyMovementSystem.update();
         healthSystem.update();
         enemyHealthSystem.update();
@@ -206,10 +213,10 @@ public class Game implements Runnable{
             //FIRE BULLETS
             long elapsed = (System.nanoTime() - firingTimer) / 1000000;
             if(elapsed > firingDelay){
-                bullets.add(factory.createBullet(new BulletComponent(player.getPositionComponent().x,player.getPositionComponent().y, 25,16,270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2)));
+                playerBullets.add(factory.createBullet(new BulletComponent(player.getPositionComponent().x,player.getPositionComponent().y, 25,16,270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2)));
                 firingTimer = System.nanoTime();
-                System.out.println(bullets.size());
-                drawables.addAll(bullets);
+                //System.out.println(playerBullets.size());
+                drawables.addAll(playerBullets);
             }
         }
         else{
