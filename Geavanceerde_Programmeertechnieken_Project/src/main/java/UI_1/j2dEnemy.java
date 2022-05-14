@@ -16,13 +16,9 @@ public class j2dEnemy extends AbstractEnemy {
     private int aniTick, aniIndex, aniSpeed = 15;
     private float xDrawOffset = 5;
     private float yDrawOffset = 8;
-    private int TILES_IN_HEIGHT,TILES_IN_WIDTH,TILES_SIZE;
-    private int tileMap[][];
     PositionComponent m = getPositionComponent();
     private int hitboxWidth,hitboxHeight;
     String type;
-
-
 
     public j2dEnemy(GraphicsContext graphicsContext,int x, int y, int hitboxWidth, int hitboxHeight, float playerSpeed, boolean inAir, float airSpeed, float gravity, float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving, int healthValue,int[][] map,String type) {
         super(x, y, hitboxWidth, hitboxHeight, playerSpeed, inAir, airSpeed, gravity, jumpSpeed, fallSpeedAfterCollision, isMoving, healthValue,map,type);
@@ -32,7 +28,6 @@ public class j2dEnemy extends AbstractEnemy {
         this.type = type;
         importOutsideSprites();
     }
-
 
     public void importOutsideSprites(){
         //ENEMIES
@@ -52,7 +47,6 @@ public class j2dEnemy extends AbstractEnemy {
         }
     }
 
-
     private void updateAnimationTick() {
         aniTick++;
         if (aniTick >= aniSpeed) {
@@ -68,20 +62,19 @@ public class j2dEnemy extends AbstractEnemy {
         updateAnimationTick();
     }
 
-
     @Override
     public void draw() {
         update();
         Graphics2D g2d = graphicsContext.getG2d();
-        if(Objects.equals(type, "GROUND1")){
-            g2d.drawImage(enemySprite1[aniIndex],(int) (m.x - xDrawOffset)-graphicsContext.getCamX(), (int) (m.y - yDrawOffset)-graphicsContext.getCamY(), (int)(50), (int)(50),null);
+        if (getEnemyComponent().getActive()) {
+            if(Objects.equals(type, "GROUND1")) {
+                g2d.drawImage(enemySprite1[aniIndex], (int) (m.x - xDrawOffset) - graphicsContext.getCamX(), (int) (m.y - yDrawOffset) - graphicsContext.getCamY(), (int) (50), (int) (50), null);
         }
-        if(Objects.equals(type, "GROUND2")){
-            g2d.drawImage(enemySprite2[aniIndex],(int) (m.x - xDrawOffset)-graphicsContext.getCamX(), (int) (m.y - yDrawOffset)-graphicsContext.getCamY(), (int)(50), (int)(50),null);
+        if(Objects.equals(type, "GROUND2")) {
+                g2d.drawImage(enemySprite2[aniIndex], (int) (m.x - xDrawOffset) - graphicsContext.getCamX(), (int) (m.y - yDrawOffset) - graphicsContext.getCamY(), (int) (50), (int) (50), null);
         }
-        //g2d.drawRect((j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE);
-        g2d.setColor(Color.RED);
-        g2d.drawRect((int)m.x-graphicsContext.getCamX(), (int)m.y-graphicsContext.getCamY(), (int)hitboxWidth, (int)hitboxHeight);
+            g2d.setColor(Color.RED);
+            g2d.drawRect((int) m.x - graphicsContext.getCamX(), (int) m.y - graphicsContext.getCamY(), (int) hitboxWidth, (int) hitboxHeight);
+        }
     }
-
 }

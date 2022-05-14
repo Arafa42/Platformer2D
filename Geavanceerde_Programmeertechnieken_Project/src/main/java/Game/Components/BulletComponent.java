@@ -3,6 +3,9 @@ package Game.Components;
 public class BulletComponent {
     private double x;
     private double y;
+    private boolean isActive = true;
+    private int hitboxWidth;
+    private int hitboxHeight;
     private int r;
     private double dx;
     private double dy;
@@ -13,9 +16,11 @@ public class BulletComponent {
     private double angle;
 
 
-    public BulletComponent(double x,double y,double angle,double speed, int screenWidth, int screenHeight,int r){
+    public BulletComponent(double x,double y,int hitboxWidth,int hitboxHeight,double angle,double speed, int screenWidth, int screenHeight,int r){
         this.x = x;
         this.y = y;
+        this.hitboxWidth = hitboxWidth;
+        this.hitboxHeight = hitboxHeight;
         this.r = r;
         this.angle = angle;
         this.rad = Math.toRadians(angle);
@@ -31,6 +36,12 @@ public class BulletComponent {
     public void setX(double x) {this.x = x;}
     public double getY() {return y;}
     public void setY(double y) {this.y = y;}
+    public int getHitboxWidth() {return hitboxWidth;}
+    public void setHitboxWidth(int hitboxWidth) {this.hitboxWidth = hitboxWidth;}
+    public boolean isActive() {return isActive;}
+    public void setActive(boolean active) {isActive = active;}
+    public int getHitboxHeight() {return hitboxHeight;}
+    public void setHitboxHeight(int hitboxHeight) {this.hitboxHeight = hitboxHeight;}
     public double getDx() {return dx;}
     public void setDx(double dx) {this.dx = dx;}
     public double getDy() {return dy;}
@@ -49,7 +60,7 @@ public class BulletComponent {
     public void setAngle(double angle) {this.angle = angle;}
 
     public BulletComponent getNewBulletComponent(){
-        return new BulletComponent(x,y,angle,speed,screenWidth,screenHeight,r);
+        return new BulletComponent(x,y,hitboxWidth,hitboxHeight,angle,speed,screenWidth,screenHeight,r);
     }
 
 }

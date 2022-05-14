@@ -16,6 +16,7 @@ public abstract class AbstractEnemy implements Drawable {
     private final CollisionComponent collisionComponent;
     private final HealthComponent healthComponent;
     private final ArrayList<BulletComponent> bulletsComponent;
+    private final EnemyComponent enemyComponent;
     private String type;
 
     public AbstractEnemy(int x, int y, int hitboxWidth, int hitboxHeight,float playerSpeed,boolean inAir, float airSpeed, float gravity,float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving,int healthValue,int[][] map,String type){
@@ -24,6 +25,7 @@ public abstract class AbstractEnemy implements Drawable {
         this.healthComponent = new HealthComponent(healthValue);
         this.collisionComponent = new CollisionComponent(map);
         this.bulletsComponent = new ArrayList<BulletComponent>();
+        this.enemyComponent = new EnemyComponent(true);
         this.type = type;
     }
 
@@ -53,5 +55,6 @@ public abstract class AbstractEnemy implements Drawable {
     public ArrayList<BulletComponent> getBulletsComponent(){return bulletsComponent;}
     public void addBulletsComponent(BulletComponent bulletComponent){bulletsComponent.add(bulletComponent);}
     public HealthComponent getHealthComponent(){return healthComponent;}
+    public EnemyComponent getEnemyComponent() {return enemyComponent;}
     public String getType() {return type;}
 }

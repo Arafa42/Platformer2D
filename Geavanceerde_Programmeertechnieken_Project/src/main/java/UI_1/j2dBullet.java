@@ -72,9 +72,11 @@ public class j2dBullet extends AbstractBullet {
         updateAni();
         Graphics2D g2d = graphicsContext.getG2d();
         //g2d.fillOval(((int)(getX()-getR())+50)-graphicsContext.getCamX(),((int)(getY()-getR())+15)-graphicsContext.getCamY(),3 * getR(),3*getR());
-        g2d.drawImage(bulletSprite[aniIndex],((int)(getX()-getR())+50)-graphicsContext.getCamX(),((int)(getY()-getR())+15)-graphicsContext.getCamY(),null);
-        g2d.setColor(Color.RED);
-        g2d.drawRect(((int)(getX()-getR())+50)-graphicsContext.getCamX(), ((int)(getY()-getR())+15)-graphicsContext.getCamY(), 25, 16);
+        if (GetBulletComponent().isActive()) {
+            g2d.drawImage(bulletSprite[aniIndex], ((int) (getX() - getR()) + 50) - graphicsContext.getCamX(), ((int) (getY() - getR()) + 15) - graphicsContext.getCamY(), null);
+            g2d.setColor(Color.RED);
+            g2d.drawRect(((int) (getX() - getR()) + 50) - graphicsContext.getCamX(), ((int) (getY() - getR()) + 15) - graphicsContext.getCamY(), GetBulletComponent().getHitboxWidth(), GetBulletComponent().getHitboxHeight());
+        }
     }
 
 }

@@ -34,6 +34,7 @@ public class Game implements Runnable{
     private CoinSystem coinSystem;
     private HealthSystem healthSystem;
     private PowerUpSystem powerUpSystem;
+    private EnemyHealthSystem enemyHealthSystem;
     //ARRAYLIST COMPONENTS
     private ArrayList<MovementComponent> movementComponents;
     private ArrayList<PositionComponent> positionComponents;
@@ -116,10 +117,11 @@ public class Game implements Runnable{
         enemyMovementSystem  = new EnemyMovementSystem(collisionComponents,positionComponents,movementComponents);
         coinSystem = new CoinSystem(player.getCollisionComponent(),player.getScoreComponent(),player.getPositionComponent());
         powerUpSystem = new PowerUpSystem(player.getCollisionComponent(),player.getPositionComponent(),player.getMovementComponent(),player.getHealthComponent());
-        //TEST
+        //ADD ENEMIES
         enemies.add(enemy);
         enemies.add(enemy2);
         healthSystem = new HealthSystem(enemies,player);
+        enemyHealthSystem = new EnemyHealthSystem(bullets,enemies);
     }
 
     private void startGameLoop(){
@@ -152,15 +154,7 @@ public class Game implements Runnable{
                 AbstractInput.Inputs inputs = input.getInput();
                 if (inputs != null) {checkMovement(inputs);player.setDirection(inputs);}
                 //SYSTEMS UPDATE
-                collisionSystem.updateCollision();
-                collisionSystem2.updateCollision();
-                collisionSystem3.updateCollision();
-                powerUpSystem.update();
-                playerMovementSystem.update();
-                coinSystem.update();
-                bulletSystem.update();
-                enemyMovementSystem.update();
-                healthSystem.update();
+                systemsUpdate();
 
                 ups++;
                 deltaU--;
@@ -170,7 +164,7 @@ public class Game implements Runnable{
                 for (Drawable drawable : drawables) {drawable.draw();}
                 //RENDER
                 factory.render();
-                System.out.println(fps);
+                //System.out.println(fps);
                 fps++;
                 deltaF--;
             }
@@ -182,6 +176,19 @@ public class Game implements Runnable{
         }
     }
 
+
+    private void systemsUpdate(){
+        collisionSystem.updateCollision();
+        collisionSystem2.updateCollision();
+        collisionSystem3.updateCollision();
+        powerUpSystem.update();
+        playerMovementSystem.update();
+        coinSystem.update();
+        bulletSystem.update();
+        enemyMovementSystem.update();
+        healthSystem.update();
+        enemyHealthSystem.update();
+    }
 
 
     private void checkMovement(AbstractInput.Inputs inputs) {
@@ -198,8 +205,9 @@ public class Game implements Runnable{
             //FIRE BULLETS
             long elapsed = (System.nanoTime() - firingTimer) / 1000000;
             if(elapsed > firingDelay){
-                bullets.add(factory.createBullet(new BulletComponent(player.getPositionComponent().x,player.getPositionComponent().y, 270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2)));
+                bullets.add(factory.createBullet(new BulletComponent(player.getPositionComponent().x,player.getPositionComponent().y, 25,16,270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2)));
                 firingTimer = System.nanoTime();
+                System.out.println(bullets.size());
                 drawables.addAll(bullets);
             }
         }
