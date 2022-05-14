@@ -1,5 +1,6 @@
 package Game.Systems;
 
+import Game.Entities.AbstractBullet;
 import Game.Entities.AbstractEnemy;
 import Game.Entities.AbstractPlayer;
 import Game.Game;
@@ -10,24 +11,40 @@ public class PlayerHealthSystem {
 
     ArrayList<AbstractEnemy> enemies;
     AbstractPlayer player;
+    ArrayList<AbstractBullet> enemyBullets;
 
-    public PlayerHealthSystem(ArrayList<AbstractEnemy> enemies, AbstractPlayer player){
+    public PlayerHealthSystem(ArrayList<AbstractEnemy> enemies, AbstractPlayer player, ArrayList<AbstractBullet> enemyBullets){
         this.enemies = enemies;
         this.player = player;
+        this.enemyBullets = enemyBullets;
     }
 
     public void update(){
         statusCheck();
         checkHealthOnFall((int)player.getPositionComponent().y, (int)player.getPositionComponent().hitboxHeight, player.getMovementComponent().getAirSpeed());
-        checkHealthOnCollisionWithEnemyOrEnemyBullet();
+        checkHealthOnCollisionWithEnemy();
+        checkHealthOnCollisionWithEnemyBullet();
     }
 
-    private void checkHealthOnCollisionWithEnemyOrEnemyBullet(){
+    private void checkHealthOnCollisionWithEnemy(){
         for(int i =0;i<enemies.size();i++){
             if(isIntersect(player.getPositionComponent().x,player.getPositionComponent().y,player.getPositionComponent().hitboxWidth,player.getPositionComponent().hitboxHeight,enemies.get(i).getPositionComponent().x,enemies.get(i).getPositionComponent().y,enemies.get(i).getPositionComponent().hitboxWidth,enemies.get(i).getPositionComponent().hitboxHeight)){
                 player.getHealthComponent().setHealthValue(player.getCollisionComponent().getTimesFell()+1);
                 player.getCollisionComponent().setDidFall(true);
             }
+        }
+    }
+
+    private void checkHealthOnCollisionWithEnemyBullet(){
+        for(int i =0;i<enemyBullets.size();i++){
+                if(isIntersect((float)enemyBullets.get(i).getX(),(float)enemyBullets.get(i).getY(),enemyBullets.get(i).GetBulletComponent().getHitboxWidth(), enemyBullets.get(i).GetBulletComponent().getHitboxHeight(),player.getPositionComponent().x,player.getPositionComponent().y,player.getPositionComponent().hitboxWidth,player.getPositionComponent().hitboxHeight)){
+                    //PLAYER DEAD
+                    player.getHealthComponent().setHealthValue(player.getCollisionComponent().getTimesFell()+1);
+                    player.getCollisionComponent().setDidFall(true);
+                    //BULLET REMOVAL
+                    enemyBullets.get(i).GetBulletComponent().setActive(false);
+                    enemyBullets.remove(i);
+                }
         }
     }
 

@@ -125,7 +125,7 @@ public class Game implements Runnable{
         //ADD ENEMIES
         enemies.add(enemy);
         enemies.add(enemy2);
-        healthSystem = new PlayerHealthSystem(enemies,player);
+        healthSystem = new PlayerHealthSystem(enemies,player,enemyBullets);
         enemyHealthSystem = new EnemyHealthSystem(playerBullets,enemies);
         bulletSystem2 = new EnemyBulletSystem(enemyBullets,enemies,data.get("ScreenWidth"),data.get("ScreenHeight"),drawables, factory,player);
 
