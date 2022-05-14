@@ -36,17 +36,25 @@ public class EnemyBulletSystem {
         //System.out.println(bullets.size());
         for(int i=0;i<bullets.size();i++) {
             bullets.get(i).GetBulletComponent().setX(bullets.get(i).GetBulletComponent().getX() + (bullets.get(i).GetBulletComponent().getDx() * bullets.get(i).GetBulletComponent().getSpeed()));
-            if (bullets.get(i).GetBulletComponent().getX() < -bullets.get(i).GetBulletComponent().getR() || bullets.get(i).GetBulletComponent().getX() - 550 > bullets.get(i).GetBulletComponent().getScreenWidth() + bullets.get(i).GetBulletComponent().getR() || bullets.get(i).GetBulletComponent().getY() < -bullets.get(i).GetBulletComponent().getR() || bullets.get(i).GetBulletComponent().getY() > bullets.get(i).GetBulletComponent().getScreenHeight() + bullets.get(i).GetBulletComponent().getR()) {
+            if (bullets.get(i).GetBulletComponent().getX() < -bullets.get(i).GetBulletComponent().getR()-100 || bullets.get(i).GetBulletComponent().getX() - 550 > bullets.get(i).GetBulletComponent().getScreenWidth() + bullets.get(i).GetBulletComponent().getR() || bullets.get(i).GetBulletComponent().getY() < -bullets.get(i).GetBulletComponent().getR() || bullets.get(i).GetBulletComponent().getY() > bullets.get(i).GetBulletComponent().getScreenHeight() + bullets.get(i).GetBulletComponent().getR()) {
+                bullets.get(i).GetBulletComponent().setActive(false);
                 bullets.remove(i);
             }
         }
     }
 
     private void fire(){
+
         long elapsed = (System.nanoTime() - firingTimer) / 1000000;
         if(elapsed > firingDelay) {
             for (int i = 0; i < enemies.size(); i++) {
-                bullets.add(factory.createBullet(new BulletComponent(enemies.get(i).getPositionComponent().x, enemies.get(i).getPositionComponent().y, 25, 16, 270, 5, screenWidth, screenHeight, 2)));
+                //BULLET DIRECTION
+                if(enemies.get(i).getMovementComponent().getxSpeed() > 0){
+                    bullets.add(factory.createBullet(new BulletComponent(enemies.get(i).getPositionComponent().x, enemies.get(i).getPositionComponent().y, 25, 16, 270, 5, screenWidth, screenHeight, 2)));
+                }
+                if(enemies.get(i).getMovementComponent().getxSpeed() < 0){
+                    bullets.add(factory.createBullet(new BulletComponent(enemies.get(i).getPositionComponent().x-50, enemies.get(i).getPositionComponent().y, 25, 16, 90, 5, screenWidth, screenHeight, 2)));
+                }
                 firingTimer = System.nanoTime();
                 //System.out.println(bullets.size());
                 drawables.addAll(bullets);

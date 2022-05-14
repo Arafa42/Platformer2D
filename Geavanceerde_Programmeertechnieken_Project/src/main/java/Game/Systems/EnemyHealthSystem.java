@@ -6,11 +6,11 @@ import java.util.ArrayList;
 
 public class EnemyHealthSystem {
 
-    private ArrayList<AbstractBullet> abstractBullets;
+    private ArrayList<AbstractBullet> playerBullets;
     private ArrayList<AbstractEnemy> enemies;
 
-    public EnemyHealthSystem(ArrayList<AbstractBullet> abstractBullets, ArrayList<AbstractEnemy> enemies){
-        this.abstractBullets = abstractBullets;
+    public EnemyHealthSystem(ArrayList<AbstractBullet> playerBullets, ArrayList<AbstractEnemy> enemies){
+        this.playerBullets = playerBullets;
         this.enemies = enemies;
     }
 
@@ -21,13 +21,13 @@ public class EnemyHealthSystem {
 
     private void checkPlayerBulletEnemyCollision() {
 
-            for (int i = 0; i < abstractBullets.size(); i++) {
+            for (int i = 0; i < playerBullets.size(); i++) {
                 for (int j = 0; j < enemies.size(); j++) {
-                    if (isIntersect((float) abstractBullets.get(i).GetBulletComponent().getX(), (float) abstractBullets.get(i).GetBulletComponent().getY(), abstractBullets.get(i).GetBulletComponent().getHitboxWidth(), abstractBullets.get(i).GetBulletComponent().getHitboxHeight(), enemies.get(j).getPositionComponent().x, enemies.get(j).getPositionComponent().y, enemies.get(j).getPositionComponent().hitboxWidth, enemies.get(j).getPositionComponent().hitboxHeight)) {
+                    if (isIntersect((float) playerBullets.get(i).GetBulletComponent().getX(), (float) playerBullets.get(i).GetBulletComponent().getY(), playerBullets.get(i).GetBulletComponent().getHitboxWidth(), playerBullets.get(i).GetBulletComponent().getHitboxHeight(), enemies.get(j).getPositionComponent().x, enemies.get(j).getPositionComponent().y, enemies.get(j).getPositionComponent().hitboxWidth, enemies.get(j).getPositionComponent().hitboxHeight)) {
                             enemies.get(j).getEnemyComponent().setActive(false);
                             enemies.remove(j);
-                            abstractBullets.get(i).GetBulletComponent().setActive(false);
-                            abstractBullets.remove(i);
+                            playerBullets.get(i).GetBulletComponent().setActive(false);
+                            playerBullets.remove(i);
                         }
                 }
             }
