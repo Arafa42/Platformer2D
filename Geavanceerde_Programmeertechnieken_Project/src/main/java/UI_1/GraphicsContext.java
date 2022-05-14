@@ -18,12 +18,13 @@ public class GraphicsContext {
     private Graphics2D g2d;
     private int size;
 
-    private int viewPortX = 666;
+    private int viewPortX = 1008;
     private int viewPortY = 800;
-    private int offsetMaxX = 1280 - viewPortX;
+    private int offsetMaxX = 2016 - viewPortX;
     private int offsetMaxY = 800 - viewPortY;
     private int offsetMinX = 0;
     private int offsetMinY = 0;
+
 
     public Graphics2D getG2d() {
         return g2d;

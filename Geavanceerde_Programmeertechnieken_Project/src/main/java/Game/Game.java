@@ -53,7 +53,7 @@ public class Game implements Runnable{
     String configFile;
     HashMap<String, Integer> data;
     public final static int TILES_DEFAULT_SIZE = 48;
-    public final static int TILES_IN_WIDTH = 30;
+    public final static int TILES_IN_WIDTH = 42;
     public final static int TILES_IN_HEIGHT = 16;
     public final static int TILES_SIZE = (int)(TILES_DEFAULT_SIZE);
     private long firingTimer;
@@ -84,8 +84,8 @@ public class Game implements Runnable{
         this.map = levels.getLevel(1);
         input = factory.createInput();
         level = factory.createLevel(map,TILES_IN_HEIGHT,TILES_IN_WIDTH,TILES_SIZE);
-        enemy = factory.createEnemy(800, 450,40,35,1f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND2.toString());
-        enemy2 = factory.createEnemy(400, 450,40,35,1f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND1.toString());
+        enemy = factory.createEnemy(800, 350,40,35,1f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND2.toString());
+        enemy2 = factory.createEnemy(450, 350,40,35,1f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND1.toString());
         player = factory.createPlayer(100, 550,30,35,3.0f,false,0f,0.3f,-12f,1f,false,0,map,0,270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2);
         playerBullets = new ArrayList<AbstractBullet>();
         enemyBullets = new ArrayList<AbstractBullet>();
