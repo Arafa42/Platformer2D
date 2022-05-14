@@ -14,18 +14,16 @@ public class j2dLevel extends AbstractLevel {
     // -4 = GROUND ENEMY 2
     // -5 = SHOOTING ENEMY (WITH FOLLOWING SOME TYPE OF AI I GUESS)
 
-    private GraphicsContext graphicsContext;
+    private final GraphicsContext graphicsContext;
     private BufferedImage[] levelSprite;
     private BufferedImage[] coinSprite;
     private BufferedImage[] powerUpSprite;
-    private int aniTick, aniIndex, aniSpeed = 10;
-    private String tile_spritesheet = "/assets/images/SpriteSheets/tilesets.png";
-    private String coin_spritesheet = "/assets/images/SpriteSheets/collectibles/coins.png";
-    private String powerups_spritesheet = "/assets/images/SpriteSheets/powerups/powerupsprite.png";
-    private int TILES_IN_WIDTH, TILES_IN_HEIGHT, TILES_SIZE;
+    private int aniTick;
+    private int aniIndex;
+    private final int TILES_IN_WIDTH, TILES_IN_HEIGHT, TILES_SIZE;
 
     public j2dLevel(GraphicsContext graphicsContext, int[][] tileArray, int TILES_IN_HEIGHT, int TILES_IN_WIDTH, int TILES_SIZE) {
-        super(tileArray, TILES_IN_HEIGHT, TILES_IN_WIDTH, TILES_SIZE);
+        super(tileArray);
         this.TILES_IN_WIDTH = TILES_IN_WIDTH;
         this.TILES_IN_HEIGHT = TILES_IN_HEIGHT;
         this.TILES_SIZE = TILES_SIZE;
@@ -36,6 +34,7 @@ public class j2dLevel extends AbstractLevel {
 
     public void importOutsideSprites(){
         //TILESET
+        String tile_spritesheet = "/assets/images/SpriteSheets/tilesets.png";
         BufferedImage img = GetSpriteSheet(tile_spritesheet);
         levelSprite = new BufferedImage[256];
         for(int i =0;i<16;i++){
@@ -46,6 +45,7 @@ public class j2dLevel extends AbstractLevel {
         }
 
         //COINS
+        String coin_spritesheet = "/assets/images/SpriteSheets/collectibles/coins.png";
         BufferedImage coins = GetSpriteSheet(coin_spritesheet);
         coinSprite = new BufferedImage[8];
         for(int i=0;i<6;i++){
@@ -53,6 +53,7 @@ public class j2dLevel extends AbstractLevel {
         }
 
         //POWERUPS
+        String powerups_spritesheet = "/assets/images/SpriteSheets/powerups/powerupsprite.png";
         BufferedImage powerup = GetSpriteSheet(powerups_spritesheet);
         powerUpSprite = new BufferedImage[10];
         for(int i=0;i<8;i++){
@@ -63,6 +64,7 @@ public class j2dLevel extends AbstractLevel {
 
     private void updateAnimationTick() {
         aniTick++;
+        int aniSpeed = 10;
         if (aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndex++;
@@ -104,7 +106,7 @@ public class j2dLevel extends AbstractLevel {
                     g2d.drawImage(powerUpSprite[1],(j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE,null);
                     g2d.drawRect((j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE);
                 }
-                else if(index == -5){
+                else {
                     g2d.drawImage(powerUpSprite[5],(j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE,null);
                     g2d.drawRect((j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE);
                 }
