@@ -4,11 +4,11 @@ import Game.Entities.AbstractBullet;
 
 import java.util.ArrayList;
 
-public class BulletSystem {
+public class PlayerBulletSystem {
 
     private ArrayList<AbstractBullet> bullets;
 
-    public BulletSystem(ArrayList<AbstractBullet> abstractBullets){
+    public PlayerBulletSystem(ArrayList<AbstractBullet> abstractBullets){
         this.bullets = abstractBullets;
     }
 

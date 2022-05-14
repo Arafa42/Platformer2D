@@ -30,11 +30,11 @@ public class Game implements Runnable{
     private CollisionSystem collisionSystem;
     private CollisionSystem collisionSystem2;
     private CollisionSystem collisionSystem3;
-    private BulletSystem bulletSystem;
+    private PlayerBulletSystem bulletSystem;
     private EnemyBulletSystem bulletSystem2;
     private EnemyMovementSystem enemyMovementSystem;
     private CoinSystem coinSystem;
-    private HealthSystem healthSystem;
+    private PlayerHealthSystem healthSystem;
     private PowerUpSystem powerUpSystem;
     private EnemyHealthSystem enemyHealthSystem;
     //ARRAYLIST COMPONENTS
@@ -117,7 +117,7 @@ public class Game implements Runnable{
         collisionSystem2 = new CollisionSystem(enemy.getCollisionComponent(),enemy.getPositionComponent(),enemy.getMovementComponent());
         collisionSystem3 = new CollisionSystem(enemy2.getCollisionComponent(),enemy2.getPositionComponent(),enemy2.getMovementComponent());
         playerMovementSystem = new PlayerMovementSystem(player.getMovementComponent(),player.getPositionComponent());
-        bulletSystem = new BulletSystem(playerBullets);
+        bulletSystem = new PlayerBulletSystem(playerBullets);
         enemyMovementSystem  = new EnemyMovementSystem(collisionComponents,positionComponents,movementComponents);
         System.out.println(enemy.getMovementComponent().isRight());
         coinSystem = new CoinSystem(player.getCollisionComponent(),player.getScoreComponent(),player.getPositionComponent());
@@ -125,9 +125,9 @@ public class Game implements Runnable{
         //ADD ENEMIES
         enemies.add(enemy);
         enemies.add(enemy2);
-        healthSystem = new HealthSystem(enemies,player);
+        healthSystem = new PlayerHealthSystem(enemies,player);
         enemyHealthSystem = new EnemyHealthSystem(playerBullets,enemies);
-        bulletSystem2 = new EnemyBulletSystem(enemyBullets,enemies,data.get("ScreenWidth"),data.get("ScreenHeight"),drawables, factory);
+        bulletSystem2 = new EnemyBulletSystem(enemyBullets,enemies,data.get("ScreenWidth"),data.get("ScreenHeight"),drawables, factory,player);
 
     }
 

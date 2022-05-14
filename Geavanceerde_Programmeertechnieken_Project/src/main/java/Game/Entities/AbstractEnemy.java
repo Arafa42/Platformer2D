@@ -25,7 +25,7 @@ public abstract class AbstractEnemy implements Drawable {
         this.healthComponent = new HealthComponent(healthValue);
         this.collisionComponent = new CollisionComponent(map);
         this.bulletsComponent = new ArrayList<BulletComponent>();
-        this.enemyComponent = new EnemyComponent(true);
+        this.enemyComponent = new EnemyComponent(true,300,300);
         this.type = type;
     }
 

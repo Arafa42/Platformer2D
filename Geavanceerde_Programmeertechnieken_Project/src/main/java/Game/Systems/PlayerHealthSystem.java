@@ -6,12 +6,12 @@ import Game.Game;
 
 import java.util.ArrayList;
 
-public class HealthSystem {
+public class PlayerHealthSystem {
 
     ArrayList<AbstractEnemy> enemies;
     AbstractPlayer player;
 
-    public HealthSystem(ArrayList<AbstractEnemy> enemies, AbstractPlayer player){
+    public PlayerHealthSystem(ArrayList<AbstractEnemy> enemies, AbstractPlayer player){
         this.enemies = enemies;
         this.player = player;
     }

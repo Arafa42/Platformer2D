@@ -79,6 +79,9 @@ public class j2dEnemy extends AbstractEnemy {
                 }
                 g2d.setColor(Color.RED);
                 g2d.drawRect((int) m.x - graphicsContext.getCamX(), (int) m.y - graphicsContext.getCamY(), hitboxWidth, hitboxHeight);
+
+                //g2d.setColor(Color.PINK);
+                //g2d.drawRect(((int)getEnemyComponent().getAreaX() - graphicsContext.getCamX())  , (int)getEnemyComponent().getAreaY() - graphicsContext.getCamY(), getEnemyComponent().getAreaHitboxWidth(), getEnemyComponent().getAreaHitboxHeight());
             }
         }
         if (getMovementComponent().getxSpeed() > 0) {
@@ -91,6 +94,9 @@ public class j2dEnemy extends AbstractEnemy {
                 }
                 g2d.setColor(Color.RED);
                 g2d.drawRect((int) m.x - graphicsContext.getCamX(), (int) m.y - graphicsContext.getCamY(), hitboxWidth, hitboxHeight);
+
+                //g2d.setColor(Color.PINK);
+                //g2d.drawRect(((int)getEnemyComponent().getAreaX() - graphicsContext.getCamX()) , (int)getEnemyComponent().getAreaY() - graphicsContext.getCamY(), getEnemyComponent().getAreaHitboxWidth(), getEnemyComponent().getAreaHitboxHeight());
             }
         }
     }
