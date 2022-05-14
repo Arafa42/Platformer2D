@@ -61,9 +61,7 @@ public class Game implements Runnable{
     private enum EnemyType{
         GROUND1,
         GROUND2,
-        SHOOTER1
     }
-
 
     public Game(AbstractFactory abstractFactory,final String configFile) {
         data = ConfigFileReader.getConfigFileReaderInstance().loadOrCreateConfig(configFile);
@@ -128,7 +126,6 @@ public class Game implements Runnable{
         healthSystem = new PlayerHealthSystem(enemies,player,enemyBullets);
         enemyHealthSystem = new EnemyHealthSystem(playerBullets,enemies);
         bulletSystem2 = new EnemyBulletSystem(enemyBullets,enemies,data.get("ScreenWidth"),data.get("ScreenHeight"),drawables, factory,player);
-
     }
 
     private void startGameLoop(){
@@ -183,7 +180,6 @@ public class Game implements Runnable{
         }
     }
 
-
     private void systemsUpdate(){
         collisionSystem.updateCollision();
         collisionSystem2.updateCollision();
@@ -224,6 +220,5 @@ public class Game implements Runnable{
             player.getMovementComponent().setRight(false);
         }
     }
-
 
 }

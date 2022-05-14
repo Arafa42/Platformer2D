@@ -4,7 +4,6 @@ import Game.Entities.AbstractBullet;
 import Game.Entities.AbstractEnemy;
 import Game.Entities.AbstractPlayer;
 import Game.Game;
-
 import java.util.ArrayList;
 
 public class PlayerHealthSystem {
@@ -37,7 +36,7 @@ public class PlayerHealthSystem {
 
     private void checkHealthOnCollisionWithEnemyBullet(){
         for(int i =0;i<enemyBullets.size();i++){
-                if(isIntersect((float)enemyBullets.get(i).getX(),(float)enemyBullets.get(i).getY(),enemyBullets.get(i).GetBulletComponent().getHitboxWidth(), enemyBullets.get(i).GetBulletComponent().getHitboxHeight(),player.getPositionComponent().x,player.getPositionComponent().y,player.getPositionComponent().hitboxWidth,player.getPositionComponent().hitboxHeight)){
+                if(isIntersect((float)enemyBullets.get(i).getX()+50,(float)enemyBullets.get(i).getY(),enemyBullets.get(i).GetBulletComponent().getHitboxWidth(), enemyBullets.get(i).GetBulletComponent().getHitboxHeight(),player.getPositionComponent().x,player.getPositionComponent().y,player.getPositionComponent().hitboxWidth,player.getPositionComponent().hitboxHeight)){
                     //PLAYER DEAD
                     player.getHealthComponent().setHealthValue(player.getCollisionComponent().getTimesFell()+1);
                     player.getCollisionComponent().setDidFall(true);
@@ -75,16 +74,11 @@ public class PlayerHealthSystem {
     }
 
     private void statusCheck(){
-        //FELL ON GROUND
-        //ALSO IN COLLISION CLASS A CHECK WHEN FELL ON GROUND
         if((player.getHealthComponent().getHealthValue() > 0 && player.getHealthComponent().getHealthValue() < 6) && player.getCollisionComponent().isDidFall()){
             resetPosition();
             player.getCollisionComponent().setTimesFell(player.getCollisionComponent().getTimesFell()+1);
             player.getCollisionComponent().setDidFall(false);
         }
-        //IF ENEMY HIT PLAYER
-        //IF ENEMY BULLET HIT PLAYER
-        //IF PLAYER BULLET HIT ENEMY
     }
 
     private void resetPosition(){
