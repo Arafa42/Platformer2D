@@ -66,15 +66,29 @@ public class j2dEnemy extends AbstractEnemy {
     public void draw() {
         update();
         Graphics2D g2d = graphicsContext.getG2d();
-        if (getEnemyComponent().getActive()) {
-            if(Objects.equals(type, "GROUND1")) {
-                g2d.drawImage(enemySprite1[aniIndex], (int) (m.x - xDrawOffset) - graphicsContext.getCamX(), (int) (m.y - yDrawOffset) - graphicsContext.getCamY(), (int) (50), (int) (50), null);
+        if (getMovementComponent().getxSpeed() < 0) {
+            if (getEnemyComponent().getActive()) {
+                if (Objects.equals(type, "GROUND1")) {
+                    g2d.drawImage(enemySprite1[aniIndex], (int) (m.x - xDrawOffset) - graphicsContext.getCamX(), (int) (m.y - yDrawOffset) - graphicsContext.getCamY(), (int) (50), (int) (50), null);
+                }
+                if (Objects.equals(type, "GROUND2")) {
+                    g2d.drawImage(enemySprite2[aniIndex], (int) (m.x - xDrawOffset) - graphicsContext.getCamX(), (int) (m.y - yDrawOffset) - graphicsContext.getCamY(), (int) (50), (int) (50), null);
+                }
+                g2d.setColor(Color.RED);
+                g2d.drawRect((int) m.x - graphicsContext.getCamX(), (int) m.y - graphicsContext.getCamY(), (int) hitboxWidth, (int) hitboxHeight);
+            }
         }
-        if(Objects.equals(type, "GROUND2")) {
-                g2d.drawImage(enemySprite2[aniIndex], (int) (m.x - xDrawOffset) - graphicsContext.getCamX(), (int) (m.y - yDrawOffset) - graphicsContext.getCamY(), (int) (50), (int) (50), null);
-        }
-            g2d.setColor(Color.RED);
-            g2d.drawRect((int) m.x - graphicsContext.getCamX(), (int) m.y - graphicsContext.getCamY(), (int) hitboxWidth, (int) hitboxHeight);
+        if (getMovementComponent().getxSpeed() > 0) {
+            if (getEnemyComponent().getActive()) {
+                if (Objects.equals(type, "GROUND1")) {
+                    g2d.drawImage(enemySprite1[aniIndex], (int) (m.x - xDrawOffset+50) - graphicsContext.getCamX(), (int) (m.y - yDrawOffset) - graphicsContext.getCamY(), -(int) (50), (int) (50), null);
+                }
+                if (Objects.equals(type, "GROUND2")) {
+                    g2d.drawImage(enemySprite2[aniIndex], (int) (m.x - xDrawOffset+50) - graphicsContext.getCamX(), (int) (m.y - yDrawOffset) - graphicsContext.getCamY(), -(int) (50), (int) (50), null);
+                }
+                g2d.setColor(Color.RED);
+                g2d.drawRect((int) m.x - graphicsContext.getCamX(), (int) m.y - graphicsContext.getCamY(), (int) hitboxWidth, (int) hitboxHeight);
+            }
         }
     }
 }

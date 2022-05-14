@@ -115,6 +115,7 @@ public class Game implements Runnable{
         playerMovementSystem = new PlayerMovementSystem(player.getMovementComponent(),player.getPositionComponent());
         bulletSystem = new BulletSystem(bullets);
         enemyMovementSystem  = new EnemyMovementSystem(collisionComponents,positionComponents,movementComponents);
+        System.out.println(enemy.getMovementComponent().isRight());
         coinSystem = new CoinSystem(player.getCollisionComponent(),player.getScoreComponent(),player.getPositionComponent());
         powerUpSystem = new PowerUpSystem(player.getCollisionComponent(),player.getPositionComponent(),player.getMovementComponent(),player.getHealthComponent());
         //ADD ENEMIES
