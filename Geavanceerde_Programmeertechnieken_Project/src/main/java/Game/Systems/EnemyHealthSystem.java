@@ -36,7 +36,8 @@ public class EnemyHealthSystem {
                             System.out.println("ENEMY" + j + " HIT");
                             enemies.get(j).getEnemyComponent().setActive(false);
                             enemies.remove(j);
-                            //abstractBullets.remove(i);
+                            abstractBullets.get(i).GetBulletComponent().setActive(false);
+                            abstractBullets.remove(i);
                         }
                 }
             }
