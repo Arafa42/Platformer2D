@@ -147,6 +147,9 @@ public class Game implements Runnable{
         enemyHealthSystem = new EnemyHealthSystem(playerBullets,enemies);
         bulletSystem2 = new EnemyBulletSystem(enemyBullets,enemies,data.get("ScreenWidth"),data.get("ScreenHeight"),drawables, factory,player);
         levelSystem = new LevelSystem(player);
+        SoundSystem.volume = SoundSystem.Volume.MEDIUM;
+        SoundSystem.LEVEL1.play(false);
+        //SoundSystem.Volume.LOW;
     }
 
     private void startGameLoop(){
