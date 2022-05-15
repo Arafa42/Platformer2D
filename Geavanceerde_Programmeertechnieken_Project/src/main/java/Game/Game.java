@@ -170,14 +170,10 @@ public class Game implements Runnable{
 
             if(deltaU >= 1){
                 //CHECK FOR LEVEL CHANGE
-                //CALL INIT IF SWITCH LEVEL IS TRUE
-                //CHECK WHICH NUMBER OF LEVEL TO LOAD
-                // SET CORRECT POSITIONS FOR ENEMIES AND PLAYER
                 if(player.getLevelComponent().isSwitchLevel()){
                     player.getLevelComponent().setSwitchLevel(false);
                     initGame(player.getLevelComponent().getLevelToLoad());
                 }
-
                 //DEAD CHECK (IF PLAYER LOST 5 HEARTS => RESET LEVEL)
                 if(player.getHealthComponent().getHealthValue() == 5){
                     initGame(player.getLevelComponent().getLevelToLoad());
