@@ -61,6 +61,8 @@ public class PowerUpSystem extends Thread {
 
 
     private void extraJump() {
+        SoundSystem.volume = SoundSystem.Volume.HIGH;
+        SoundSystem.POWERUP.play(false);
         float prevJumpSpeed = movementComponent.getJumpSpeed();
         movementComponent.setJumpSpeed(movementComponent.getJumpSpeed()-3);
         new java.util.Timer().schedule(
@@ -75,6 +77,8 @@ public class PowerUpSystem extends Thread {
     }
 
     private void extraSpeed(){
+        SoundSystem.volume = SoundSystem.Volume.HIGH;
+        SoundSystem.POWERUP.play(false);
         float prevPlayerSpeed = movementComponent.getPlayerSpeed();
         movementComponent.setPlayerSpeed(movementComponent.getPlayerSpeed()+2);
         new java.util.Timer().schedule(
@@ -89,8 +93,9 @@ public class PowerUpSystem extends Thread {
     }
 
     private void extraLife(){
+        SoundSystem.volume = SoundSystem.Volume.HIGH;
+        SoundSystem.POWERUP.play(false);
         int currHealthValueOfPlayer = healthComponent.getHealthValue();
-
         if(currHealthValueOfPlayer != 0){
             healthComponent.setHealthValue(currHealthValueOfPlayer-1);
             collisionComponent.setTimesFell(collisionComponent.getTimesFell()-1);

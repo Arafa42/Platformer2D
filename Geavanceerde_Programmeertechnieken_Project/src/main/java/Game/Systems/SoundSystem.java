@@ -9,9 +9,19 @@ import java.net.URL;
 
     public enum SoundSystem {
         LEVEL1("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\TV-Blonde-Ocarina.wav"),
-        MISS("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\TV-Blonde-Ocarina.wav"),
-        BG("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\TV-Blonde-Ocarina.wav"),
-        CONGRATS("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\TV-Blonde-Ocarina.wav");
+        LEVEL2("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\fusion42.wav"),
+        LEVEL3("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\Sheikh.wav"),
+        ENEMYISHIT("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\enemyHit.wav"),
+        PLAYERBULLET("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\playerShooting.wav"),
+        JUMP("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\jump.wav"),
+        POWERUP("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\powerup.wav"),
+        COINSCOLLECTED("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\coinCollected.wav"),
+        PLAYERDEAD("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\playerDead.wav"),
+        LEVELPASSED("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\LevelComplete.wav"),
+        PLAYERISHIT("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\playerHurt.wav"),
+        GAMEOVER("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\GameOver.wav"),
+        ENEMYBULLET("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\enemyShooting.wav");
+
 
         // Nested class for specifying volume
         public static enum Volume {
@@ -54,7 +64,7 @@ import java.net.URL;
                 if(volume == Volume.LOW) {
                     FloatControl gainControl =
                             (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                    gainControl.setValue(-20.0f);
+                    gainControl.setValue(-15.0f);
                 }
                 if(volume == Volume.MEDIUM) {
                     FloatControl gainControl =
@@ -73,6 +83,23 @@ import java.net.URL;
             clip.stop();
             clip.setFramePosition(0);
         }
+
+        public void stopAllPlayingSounds(){
+            SoundSystem.LEVEL1.stop();
+            SoundSystem.LEVEL2.stop();
+            SoundSystem.LEVEL3.stop();
+            SoundSystem.COINSCOLLECTED.stop();
+            SoundSystem.ENEMYISHIT.stop();
+            SoundSystem.PLAYERBULLET.stop();
+            SoundSystem.JUMP.stop();
+            SoundSystem.PLAYERDEAD.stop();
+            SoundSystem.LEVELPASSED.stop();
+            SoundSystem.POWERUP.stop();
+            SoundSystem.PLAYERISHIT.stop();
+            SoundSystem.ENEMYBULLET.stop();
+            SoundSystem.GAMEOVER.stop();
+        }
+
 
         public void mute() //don't play sounds(Mute Sound is selected from Options menu)
         {

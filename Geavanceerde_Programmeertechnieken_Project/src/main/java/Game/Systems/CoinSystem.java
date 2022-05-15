@@ -27,10 +27,14 @@ public class CoinSystem {
             int col1 = (int) ((x + 30) / Game.TILES_SIZE);
             int col2 = (int) ((x) / Game.TILES_SIZE);
                 if (collisionComponent.getLevelData()[row][col1] == -2) {
+                    SoundSystem.volume = SoundSystem.Volume.HIGH;
+                    SoundSystem.COINSCOLLECTED.play(false);
                     scoreComponent.setScore(scoreComponent.getScore() + 1);
                     collisionComponent.getLevelData()[row][col1] = 0;
                 }
                 if (collisionComponent.getLevelData()[row][col2] == -2) {
+                    SoundSystem.volume = SoundSystem.Volume.HIGH;
+                    SoundSystem.COINSCOLLECTED.play(false);
                     scoreComponent.setScore(scoreComponent.getScore() + 1);
                     collisionComponent.getLevelData()[row][col2] = 0;
                 }

@@ -38,6 +38,8 @@ public class PlayerHealthSystem {
         for(int i =0;i<enemyBullets.size();i++){
                 if(isIntersect((float)enemyBullets.get(i).getX()+50,(float)enemyBullets.get(i).getY(),enemyBullets.get(i).GetBulletComponent().getHitboxWidth(), enemyBullets.get(i).GetBulletComponent().getHitboxHeight(),player.getPositionComponent().x,player.getPositionComponent().y,player.getPositionComponent().hitboxWidth,player.getPositionComponent().hitboxHeight)){
                     //PLAYER DEAD
+                    SoundSystem.volume = SoundSystem.Volume.HIGH;
+                    SoundSystem.PLAYERISHIT.play(false);
                     player.getHealthComponent().setHealthValue(player.getCollisionComponent().getTimesFell()+1);
                     player.getCollisionComponent().setDidFall(true);
                     //BULLET REMOVAL
@@ -61,6 +63,8 @@ public class PlayerHealthSystem {
                 //FALLING ON GROUND = -1 HEALTH
                 //IF HEALTH VALUE < 5 BECAUSE ELSE YOU DIED
                 if(player.getHealthComponent().getHealthValue() < 5) {
+                    SoundSystem.volume = SoundSystem.Volume.HIGH;
+                    SoundSystem.PLAYERISHIT.play(false);
                     player.getHealthComponent().setHealthValue(player.getCollisionComponent().getTimesFell()+1);
                     player.getCollisionComponent().setDidFall(true);
                 }

@@ -27,8 +27,12 @@ public class PlayerMovementSystem {
     }
 
     public void jump(){
-        if(movementComponent.isInAir()){return;}
+        if(movementComponent.isInAir()){
+            return;
+        }
         movementComponent.setInAir(true);
+        SoundSystem.volume = SoundSystem.Volume.HIGH;
+        SoundSystem.JUMP.play(false);
         movementComponent.setAirSpeed(movementComponent.getJumpSpeed());
     }
 

@@ -79,17 +79,24 @@ public class Game implements Runnable{
 
     private void initGame(int levelToLoad) {
 
+        SoundSystem.volume = SoundSystem.Volume.LOW;
         if(levelToLoad == 1){
             bgLayer1 = "src/main/resources/assets/images/SpriteSheets/background/sky_cloud.png";
             bgLayer2 = "src/main/resources/assets/images/SpriteSheets/background/mountain2.png";
+            SoundSystem.LEVEL1.stopAllPlayingSounds();
+            SoundSystem.LEVEL1.play(true);
         }
         else if(levelToLoad == 2){
             bgLayer1 = "src/main/resources/assets/images/SpriteSheets/background/level2/sky_lightened.png";
             bgLayer2 = "src/main/resources/assets/images/SpriteSheets/background/level2/glacial_mountains.png";
+            SoundSystem.LEVEL2.stopAllPlayingSounds();
+            SoundSystem.LEVEL2.play(true);
         }
         else if(levelToLoad == 3){
             bgLayer1 = "src/main/resources/assets/images/SpriteSheets/background/level3/far-buildings.png";
             bgLayer2 = "src/main/resources/assets/images/SpriteSheets/background/level3/foreground.png";
+            SoundSystem.LEVEL3.stopAllPlayingSounds();
+            SoundSystem.LEVEL3.play(true);
         }
 
         movementComponents = new ArrayList<>();
@@ -147,9 +154,6 @@ public class Game implements Runnable{
         enemyHealthSystem = new EnemyHealthSystem(playerBullets,enemies);
         bulletSystem2 = new EnemyBulletSystem(enemyBullets,enemies,data.get("ScreenWidth"),data.get("ScreenHeight"),drawables, factory,player);
         levelSystem = new LevelSystem(player);
-        SoundSystem.volume = SoundSystem.Volume.MEDIUM;
-        SoundSystem.LEVEL1.play(false);
-        //SoundSystem.Volume.LOW;
     }
 
     private void startGameLoop(){
@@ -196,6 +200,13 @@ public class Game implements Runnable{
                 }
                 //DEAD CHECK (IF PLAYER LOST 5 HEARTS => RESET LEVEL)
                 if(player.getHealthComponent().getHealthValue() == 5){
+                    SoundSystem.volume = SoundSystem.Volume.HIGH;
+                    SoundSystem.PLAYERDEAD.play(false);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     initGame(player.getLevelComponent().getLevelToLoad());
                 }
                 //INPUTS
@@ -253,6 +264,8 @@ public class Game implements Runnable{
             //FIRE BULLETS
             long elapsed = (System.nanoTime() - firingTimer) / 1000000;
             if(elapsed > firingDelay){
+                SoundSystem.volume = SoundSystem.Volume.HIGH;
+                SoundSystem.PLAYERBULLET.play(false);
                 playerBullets.add(factory.createBullet(new BulletComponent("PLAYER",player.getPositionComponent().x,player.getPositionComponent().y, 25,16,270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2)));
                 firingTimer = System.nanoTime();
                 drawables.addAll(playerBullets);

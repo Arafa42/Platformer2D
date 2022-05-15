@@ -24,6 +24,8 @@ public class EnemyHealthSystem {
             for (int i = 0; i < playerBullets.size(); i++) {
                 for (int j = 0; j < enemies.size(); j++) {
                     if (isIntersect((float) playerBullets.get(i).GetBulletComponent().getX(), (float) playerBullets.get(i).GetBulletComponent().getY(), playerBullets.get(i).GetBulletComponent().getHitboxWidth(), playerBullets.get(i).GetBulletComponent().getHitboxHeight(), enemies.get(j).getPositionComponent().x, enemies.get(j).getPositionComponent().y, enemies.get(j).getPositionComponent().hitboxWidth, enemies.get(j).getPositionComponent().hitboxHeight)) {
+                            SoundSystem.volume = SoundSystem.Volume.HIGH;
+                            SoundSystem.ENEMYISHIT.play(false);
                             enemies.get(j).getEnemyComponent().setActive(false);
                             enemies.remove(j);
                             playerBullets.get(i).GetBulletComponent().setActive(false);
