@@ -60,5 +60,8 @@ public class j2dFactory extends AbstractFactory {
     }
 
     @Override
+    public AbstractMenu createMenu() {return new j2dMenu(grCtx);}
+
+    @Override
     public void setGameDimensions(int GameCellsX, int GameCellsY) {this.grCtx.setGameDimensions(GameCellsX, GameCellsY);}
 }

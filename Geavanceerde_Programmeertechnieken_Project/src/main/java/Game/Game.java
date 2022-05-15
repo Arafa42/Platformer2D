@@ -9,6 +9,7 @@ import Helper.ConfigFileReader;
 import Helper.Levels;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Game implements Runnable{
 
@@ -25,6 +26,7 @@ public class Game implements Runnable{
     private AbstractScore scoreBar;
     private AbstractEnemy enemy;
     private AbstractEnemy enemy2;
+    private AbstractMenu menu;
     //SYSTEMS INIT
     private PlayerMovementSystem playerMovementSystem;
     private CollisionSystem collisionSystem;
@@ -46,7 +48,8 @@ public class Game implements Runnable{
     private ArrayList<AbstractEnemy> enemies;
     //DRAWABLES ARRAY
     private ArrayList<Drawable> drawables;
-    //LEVELS
+    private ArrayList<Drawable> menuDrawables;
+    //LEVEL
     Levels levels;
     //BG LAYERS
     private String bgLayer1;
@@ -55,6 +58,7 @@ public class Game implements Runnable{
     private final int FPS_SET = 60;
     private final int UPS_SET = 60;
     private Thread gameThread;
+    private boolean inMenu = true;
     int map[][];
     String configFile;
     HashMap<String, Integer> data;
@@ -73,8 +77,17 @@ public class Game implements Runnable{
         data = ConfigFileReader.getConfigFileReaderInstance().loadOrCreateConfig(configFile);
         this.factory = abstractFactory;
         this.configFile = configFile;
-        initGame(1);
+        initMenu();
+        //initGame(1);
         startGameLoop();
+    }
+
+    private void initMenu(){
+        input = factory.createInput();
+        menu = factory.createMenu();
+        menuDrawables = new ArrayList<Drawable>();
+        menuDrawables.add(menu);
+        //startGameLoop();
     }
 
     private void initGame(int levelToLoad) {
@@ -193,36 +206,52 @@ public class Game implements Runnable{
             previousTime = currentTime;
 
             if(deltaU >= 1){
-                //CHECK FOR LEVEL CHANGE
-                if(player.getLevelComponent().isSwitchLevel()){
-                    player.getLevelComponent().setSwitchLevel(false);
-                    initGame(player.getLevelComponent().getLevelToLoad());
-                }
-                //DEAD CHECK (IF PLAYER LOST 5 HEARTS => RESET LEVEL)
-                if(player.getHealthComponent().getHealthValue() == 5){
-                    SoundSystem.volume = SoundSystem.Volume.HIGH;
-                    SoundSystem.PLAYERDEAD.play(false);
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                if(!inMenu) {
+                    //CHECK FOR LEVEL CHANGE
+                    if (player.getLevelComponent().isSwitchLevel()) {
+                        player.getLevelComponent().setSwitchLevel(false);
+                        initGame(player.getLevelComponent().getLevelToLoad());
                     }
-                    initGame(player.getLevelComponent().getLevelToLoad());
+                    //DEAD CHECK (IF PLAYER LOST 5 HEARTS => RESET LEVEL)
+                    if (player.getHealthComponent().getHealthValue() == 5) {
+                        SoundSystem.volume = SoundSystem.Volume.HIGH;
+                        SoundSystem.PLAYERDEAD.play(false);
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        initGame(player.getLevelComponent().getLevelToLoad());
+                    }
+                    //INPUTS
+                    AbstractInput.Inputs inputs = input.getInput();
+                    if (inputs != null) {checkMovement(inputs);player.setDirection(inputs);}
+                    //SYSTEMS UPDATE
+                    systemsUpdate();
                 }
-                //INPUTS
-                AbstractInput.Inputs inputs = input.getInput();
-                if (inputs != null) {checkMovement(inputs);player.setDirection(inputs);}
-                //SYSTEMS UPDATE
-                systemsUpdate();
+                else{
+                    AbstractInput.Inputs inputs = input.getInput();
+                    if (inputs != null) {checkMenuInput(inputs);}
+                }
 
                 ups++;
                 deltaU--;
             }
             if(deltaF >= 1){
-                //DRAW
-                for (Drawable drawable : drawables) {drawable.draw();}
+                if(!inMenu) {
+                    //DRAW
+                    for (Drawable drawable : drawables) {
+                        drawable.draw();
+                    }
+                }
+                else{
+                    for(Drawable drawable:menuDrawables){
+                        drawable.draw();
+                    }
+                }
                 //RENDER
                 factory.render();
+
                 fps++;
                 deltaF--;
             }
@@ -271,9 +300,43 @@ public class Game implements Runnable{
                 drawables.addAll(playerBullets);
             }
         }
+        else if(inputs == AbstractInput.Inputs.ESCAPE){
+            SoundSystem.LEVEL1.stopAllPlayingSounds();
+            inMenu = true;
+            initMenu();
+            try {Thread.sleep(120);} catch (InterruptedException e) {e.printStackTrace();}
+        }
         else{
             player.getMovementComponent().setLeft(false);
             player.getMovementComponent().setRight(false);
+        }
+    }
+
+    private void checkMenuInput(AbstractInput.Inputs inputs){
+        if(inputs == AbstractInput.Inputs.DOWN){
+            if(menu.getMenuComponent().getCurrentSelection() < 2){
+                menu.getMenuComponent().setCurrentSelection(menu.getMenuComponent().getCurrentSelection()+1);
+            try {Thread.sleep(120);} catch (InterruptedException e) {e.printStackTrace();}
+            }
+        }
+        else if(inputs == AbstractInput.Inputs.UP){
+            if(menu.getMenuComponent().getCurrentSelection() > 0){
+            menu.getMenuComponent().setCurrentSelection(menu.getMenuComponent().getCurrentSelection()-1);
+            try {Thread.sleep(120);} catch (InterruptedException e) {e.printStackTrace();}
+            }
+        }
+        else if(inputs == AbstractInput.Inputs.ENTER){
+            String currOpt = (menu.getMenuComponent().getOptions()[menu.getMenuComponent().getCurrentSelection()]);
+            if(Objects.equals(currOpt, "PLAY")){
+                inMenu = false;
+                initGame(1);
+            }
+            else if(Objects.equals(currOpt, "HELP")){
+                System.out.println("HELP IS ON THE WAY...");
+            }
+            else if(Objects.equals(currOpt, "QUIT")){
+                System.exit(1);
+            }
         }
     }
 
