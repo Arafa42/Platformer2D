@@ -69,10 +69,10 @@ public class EnemyBulletSystem {
             for (int i = 0; i < enemies.size(); i++) {
                 //BULLET DIRECTION
                 if(enemies.get(i).getMovementComponent().getxSpeed() > 0){
-                    bullets.add(factory.createBullet(new BulletComponent(enemies.get(i).getPositionComponent().x, enemies.get(i).getPositionComponent().y, 25, 16, 270, 3, screenWidth, screenHeight, 2)));
+                    bullets.add(factory.createBullet(new BulletComponent("ENEMY",enemies.get(i).getPositionComponent().x, enemies.get(i).getPositionComponent().y, 25, 16, 270, 3, screenWidth, screenHeight, 2)));
                 }
                 if(enemies.get(i).getMovementComponent().getxSpeed() < 0){
-                    bullets.add(factory.createBullet(new BulletComponent(enemies.get(i).getPositionComponent().x-50, enemies.get(i).getPositionComponent().y, 25, 16, 90, 3, screenWidth, screenHeight, 2)));
+                    bullets.add(factory.createBullet(new BulletComponent("ENEMY",enemies.get(i).getPositionComponent().x-50, enemies.get(i).getPositionComponent().y, 25, 16, 90, 3, screenWidth, screenHeight, 2)));
                 }
                 firingTimer = System.nanoTime();
                 //System.out.println(bullets.size());

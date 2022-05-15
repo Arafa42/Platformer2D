@@ -45,8 +45,8 @@ public class j2dFactory extends AbstractFactory {
     }
 
     @Override
-    public AbstractBackground createBackground() {
-        return new j2dBackground(grCtx);
+    public AbstractBackground createBackground(String layer1,String layer2) {
+        return new j2dBackground(grCtx,layer1,layer2);
     }
 
     @Override

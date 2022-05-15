@@ -48,6 +48,9 @@ public class Game implements Runnable{
     private ArrayList<Drawable> drawables;
     //LEVELS
     Levels levels;
+    //BG LAYERS
+    private String bgLayer1;
+    private String bgLayer2;
     //OTHER INITS
     private final int FPS_SET = 60;
     private final int UPS_SET = 60;
@@ -70,11 +73,25 @@ public class Game implements Runnable{
         data = ConfigFileReader.getConfigFileReaderInstance().loadOrCreateConfig(configFile);
         this.factory = abstractFactory;
         this.configFile = configFile;
-        initGame(3);
+        initGame(1);
         startGameLoop();
     }
 
     private void initGame(int levelToLoad) {
+
+        if(levelToLoad == 1){
+            bgLayer1 = "src/main/resources/assets/images/SpriteSheets/background/sky_cloud.png";
+            bgLayer2 = "src/main/resources/assets/images/SpriteSheets/background/mountain2.png";
+        }
+        else if(levelToLoad == 2){
+            bgLayer1 = "src/main/resources/assets/images/SpriteSheets/background/level2/sky_lightened.png";
+            bgLayer2 = "src/main/resources/assets/images/SpriteSheets/background/level2/glacial_mountains.png";
+        }
+        else if(levelToLoad == 3){
+            bgLayer1 = "src/main/resources/assets/images/SpriteSheets/background/level3/far-buildings.png";
+            bgLayer2 = "src/main/resources/assets/images/SpriteSheets/background/level3/foreground.png";
+        }
+
         movementComponents = new ArrayList<>();
         collisionComponents = new ArrayList<>();
         positionComponents = new ArrayList<>();
@@ -95,7 +112,7 @@ public class Game implements Runnable{
         enemyBullets = new ArrayList<AbstractBullet>();
         scoreBar = factory.createScoreBar(player.getScoreComponent());
         healthBar = factory.createHealthBar(player.getHealthComponent());
-        background = factory.createBackground();
+        background = factory.createBackground(bgLayer1,bgLayer2);
         //DRAWABLES
         drawables = new ArrayList<Drawable>();
         drawables.add(background);
@@ -233,7 +250,7 @@ public class Game implements Runnable{
             //FIRE BULLETS
             long elapsed = (System.nanoTime() - firingTimer) / 1000000;
             if(elapsed > firingDelay){
-                playerBullets.add(factory.createBullet(new BulletComponent(player.getPositionComponent().x,player.getPositionComponent().y, 25,16,270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2)));
+                playerBullets.add(factory.createBullet(new BulletComponent("PLAYER",player.getPositionComponent().x,player.getPositionComponent().y, 25,16,270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2)));
                 firingTimer = System.nanoTime();
                 drawables.addAll(playerBullets);
             }
