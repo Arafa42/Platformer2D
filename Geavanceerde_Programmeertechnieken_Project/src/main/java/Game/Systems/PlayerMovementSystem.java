@@ -5,12 +5,10 @@ import Game.Components.PositionComponent;
 
 public class PlayerMovementSystem {
 
-    private PositionComponent positionComponent;
     private MovementComponent movementComponent;
 
-    public PlayerMovementSystem(MovementComponent movementComponent, PositionComponent positionComponent){
+    public PlayerMovementSystem(MovementComponent movementComponent){
         this.movementComponent = movementComponent;
-        this.positionComponent = positionComponent;
     }
 
     private void updateMovement(){

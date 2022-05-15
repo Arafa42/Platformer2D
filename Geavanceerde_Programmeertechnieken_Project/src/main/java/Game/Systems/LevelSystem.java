@@ -16,8 +16,13 @@ public class LevelSystem {
         int col1 = (int) ((abstractPlayer.getPositionComponent().x + 30) / Game.TILES_SIZE);
         int col2 = (int) ((abstractPlayer.getPositionComponent().x) / Game.TILES_SIZE);
         if (abstractPlayer.getCollisionComponent().getLevelData()[row][col1] == 3 || abstractPlayer.getCollisionComponent().getLevelData()[row][col2] == 3) {
-            abstractPlayer.getLevelComponent().setLevelToLoad(abstractPlayer.getLevelComponent().getLevelToLoad()+1);
-            abstractPlayer.getLevelComponent().setSwitchLevel(true);
+            if(abstractPlayer.getLevelComponent().getLevelToLoad() <= 2) {
+                abstractPlayer.getLevelComponent().setLevelToLoad(abstractPlayer.getLevelComponent().getLevelToLoad() + 1);
+                abstractPlayer.getLevelComponent().setSwitchLevel(true);
+            }
+            else{
+                //System.out.println("FINAL LEVEL REACHED");
+            }
         }
     }
 }

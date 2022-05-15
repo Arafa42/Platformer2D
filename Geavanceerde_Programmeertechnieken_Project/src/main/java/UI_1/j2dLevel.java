@@ -88,7 +88,7 @@ public class j2dLevel extends AbstractLevel {
         for(int i = 0;i<TILES_IN_HEIGHT;i++){
             for(int j =0;j<TILES_IN_WIDTH;j++) {
                 int index = getSpriteIndex(j, i);
-                if (index != -2 && index != -3 && index != -4 && index != -5) {
+                if (index != -2 && index != -3 && index != -4 && index != -5 && index != -6 && index != -7) {
                     if (index == 0) {
                         index = 200;
                     }
@@ -106,7 +106,7 @@ public class j2dLevel extends AbstractLevel {
                     g2d.drawImage(powerUpSprite[1],(j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE,null);
                     //g2d.drawRect((j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE);
                 }
-                else {
+                else if(index == -5) {
                     g2d.drawImage(powerUpSprite[5],(j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE,null);
                     //g2d.drawRect((j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE);
                 }

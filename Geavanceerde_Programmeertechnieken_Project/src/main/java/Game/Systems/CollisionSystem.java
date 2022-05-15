@@ -67,7 +67,7 @@ public class CollisionSystem {
 
         int value = collisionComponent.getLevelData()[(int) yIndex][(int)xIndex];
 
-        if(value!=0 && value != 2 && value != 4 && value != 7 && value != -2 && value != -3 && value != -4 && value != -5 && value != 3){return true;}
+        if(value!=0 && value != 2 && value != 4 && value != 7 && value != -2 && value != -3 && value != -4 && value != -5 && value != 3 && value != -6 && value != -7 && value != 64 && value != 100 && value != 101 && value != 102 && value != 116 && value != 117 && value!=118){return true;}
 
         return false;
     }

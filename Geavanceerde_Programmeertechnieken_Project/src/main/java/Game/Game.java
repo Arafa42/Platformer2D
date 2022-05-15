@@ -70,12 +70,11 @@ public class Game implements Runnable{
         data = ConfigFileReader.getConfigFileReaderInstance().loadOrCreateConfig(configFile);
         this.factory = abstractFactory;
         this.configFile = configFile;
-        initGame(1);
+        initGame(3);
         startGameLoop();
     }
 
     private void initGame(int levelToLoad) {
-        System.out.println(levelToLoad);
         movementComponents = new ArrayList<>();
         collisionComponents = new ArrayList<>();
         positionComponents = new ArrayList<>();
@@ -86,12 +85,12 @@ public class Game implements Runnable{
         //LEVEL & ENTITY DATA
         levels = new Levels();
         this.map = levels.getLevel(levelToLoad);
-        System.out.println(levels.getLevel(levelToLoad));
+        //ENEMY COORDINATES CHECK
+        enemyCoordsCheck();
         input = factory.createInput();
         level = factory.createLevel(map,TILES_IN_HEIGHT,TILES_IN_WIDTH,TILES_SIZE);
-        enemy = factory.createEnemy(800, 350,40,35,1f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND2.toString());
-        enemy2 = factory.createEnemy(450, 350,40,35,1f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND1.toString());
         player = factory.createPlayer(100, 550,30,35,3.0f,false,0f,0.3f,-12f,1f,false,0,map,0,270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2);
+        player.getLevelComponent().setLevelToLoad(levelToLoad);
         playerBullets = new ArrayList<AbstractBullet>();
         enemyBullets = new ArrayList<AbstractBullet>();
         scoreBar = factory.createScoreBar(player.getScoreComponent());
@@ -119,10 +118,9 @@ public class Game implements Runnable{
         collisionSystem = new CollisionSystem(player.getCollisionComponent(),player.getPositionComponent(),player.getMovementComponent());
         collisionSystem2 = new CollisionSystem(enemy.getCollisionComponent(),enemy.getPositionComponent(),enemy.getMovementComponent());
         collisionSystem3 = new CollisionSystem(enemy2.getCollisionComponent(),enemy2.getPositionComponent(),enemy2.getMovementComponent());
-        playerMovementSystem = new PlayerMovementSystem(player.getMovementComponent(),player.getPositionComponent());
+        playerMovementSystem = new PlayerMovementSystem(player.getMovementComponent());
         bulletSystem = new PlayerBulletSystem(playerBullets);
         enemyMovementSystem  = new EnemyMovementSystem(collisionComponents,positionComponents,movementComponents);
-        //System.out.println(enemy.getMovementComponent().isRight());
         coinSystem = new CoinSystem(player.getCollisionComponent(),player.getScoreComponent(),player.getPositionComponent());
         powerUpSystem = new PowerUpSystem(player.getCollisionComponent(),player.getPositionComponent(),player.getMovementComponent(),player.getHealthComponent());
         //ADD ENEMIES
@@ -137,6 +135,19 @@ public class Game implements Runnable{
     private void startGameLoop(){
         gameThread = new Thread(this);
         gameThread.start();
+    }
+
+    private void enemyCoordsCheck(){
+        for(int i=0;i<map.length;i++){
+            for(int j=0;j<map[i].length;j++){
+                if(map[i][j] == -6){
+                    enemy = factory.createEnemy(j*48, i*48,40,35,1f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND2.toString());
+                }
+                if(map[i][j] == -7){
+                    enemy2 = factory.createEnemy(j*48, i*48,40,35,1f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND1.toString());
+                }
+            }
+        }
     }
 
     @Override
@@ -185,7 +196,6 @@ public class Game implements Runnable{
                 for (Drawable drawable : drawables) {drawable.draw();}
                 //RENDER
                 factory.render();
-                //System.out.println(fps);
                 fps++;
                 deltaF--;
             }
@@ -229,7 +239,6 @@ public class Game implements Runnable{
             if(elapsed > firingDelay){
                 playerBullets.add(factory.createBullet(new BulletComponent(player.getPositionComponent().x,player.getPositionComponent().y, 25,16,270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2)));
                 firingTimer = System.nanoTime();
-                //System.out.println(playerBullets.size());
                 drawables.addAll(playerBullets);
             }
         }
