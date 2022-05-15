@@ -1,5 +1,7 @@
 package Helper;
 
+import java.util.Arrays;
+
 public class Levels {
 
     //  0   -> EMPTY
@@ -59,4 +61,11 @@ public class Levels {
     }
 
 
+    @Override
+    public String toString() {
+        return "Levels{" +
+                "level1=" + Arrays.toString(level1) +
+                ", level2=" + Arrays.toString(level2) +
+                '}';
+    }
 }

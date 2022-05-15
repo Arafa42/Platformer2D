@@ -13,6 +13,7 @@ public abstract class AbstractElement implements Drawable {
     private final CollisionComponent collisionComponent;
     private final HealthComponent healthComponent;
     private final ScoreComponent scoreComponent;
+    private final LevelComponent levelComponent;
     private final ArrayList<BulletComponent> bulletsComponent;
     private AbstractInput.Inputs direction;
 
@@ -23,6 +24,7 @@ public abstract class AbstractElement implements Drawable {
         this.collisionComponent = new CollisionComponent(map);
         this.scoreComponent = new ScoreComponent(score);
         this.bulletsComponent = new ArrayList<BulletComponent>();
+        this.levelComponent = new LevelComponent(false,1);
     }
 
     public PositionComponent getPositionComponent() {
@@ -33,6 +35,7 @@ public abstract class AbstractElement implements Drawable {
     public ArrayList<BulletComponent> getBulletsComponent(){return bulletsComponent;}
     public void addBulletsComponent(BulletComponent bulletComponent){bulletsComponent.add(bulletComponent);}
     public ScoreComponent getScoreComponent(){return scoreComponent;}
+    public LevelComponent getLevelComponent() {return levelComponent;}
     public HealthComponent getHealthComponent(){return healthComponent;}
     public void setDirection(AbstractInput.Inputs direction) {
         this.direction = direction;

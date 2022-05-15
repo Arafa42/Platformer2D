@@ -33,6 +33,7 @@ public class Game implements Runnable{
     private PlayerBulletSystem bulletSystem;
     private EnemyBulletSystem bulletSystem2;
     private EnemyMovementSystem enemyMovementSystem;
+    private LevelSystem levelSystem;
     private CoinSystem coinSystem;
     private PlayerHealthSystem healthSystem;
     private PowerUpSystem powerUpSystem;
@@ -45,6 +46,8 @@ public class Game implements Runnable{
     private ArrayList<AbstractEnemy> enemies;
     //DRAWABLES ARRAY
     private ArrayList<Drawable> drawables;
+    //LEVELS
+    Levels levels;
     //OTHER INITS
     private final int FPS_SET = 60;
     private final int UPS_SET = 60;
@@ -67,11 +70,12 @@ public class Game implements Runnable{
         data = ConfigFileReader.getConfigFileReaderInstance().loadOrCreateConfig(configFile);
         this.factory = abstractFactory;
         this.configFile = configFile;
-        initGame();
+        initGame(1);
         startGameLoop();
     }
 
-    private void initGame() {
+    private void initGame(int levelToLoad) {
+        System.out.println(levelToLoad);
         movementComponents = new ArrayList<>();
         collisionComponents = new ArrayList<>();
         positionComponents = new ArrayList<>();
@@ -80,8 +84,9 @@ public class Game implements Runnable{
         firingTimer = System.nanoTime();
         firingDelay = 200;
         //LEVEL & ENTITY DATA
-        Levels levels = new Levels();
-        this.map = levels.getLevel(1);
+        levels = new Levels();
+        this.map = levels.getLevel(levelToLoad);
+        System.out.println(levels.getLevel(levelToLoad));
         input = factory.createInput();
         level = factory.createLevel(map,TILES_IN_HEIGHT,TILES_IN_WIDTH,TILES_SIZE);
         enemy = factory.createEnemy(800, 350,40,35,1f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND2.toString());
@@ -117,7 +122,7 @@ public class Game implements Runnable{
         playerMovementSystem = new PlayerMovementSystem(player.getMovementComponent(),player.getPositionComponent());
         bulletSystem = new PlayerBulletSystem(playerBullets);
         enemyMovementSystem  = new EnemyMovementSystem(collisionComponents,positionComponents,movementComponents);
-        System.out.println(enemy.getMovementComponent().isRight());
+        //System.out.println(enemy.getMovementComponent().isRight());
         coinSystem = new CoinSystem(player.getCollisionComponent(),player.getScoreComponent(),player.getPositionComponent());
         powerUpSystem = new PowerUpSystem(player.getCollisionComponent(),player.getPositionComponent(),player.getMovementComponent(),player.getHealthComponent());
         //ADD ENEMIES
@@ -126,6 +131,7 @@ public class Game implements Runnable{
         healthSystem = new PlayerHealthSystem(enemies,player,enemyBullets);
         enemyHealthSystem = new EnemyHealthSystem(playerBullets,enemies);
         bulletSystem2 = new EnemyBulletSystem(enemyBullets,enemies,data.get("ScreenWidth"),data.get("ScreenHeight"),drawables, factory,player);
+        levelSystem = new LevelSystem(player);
     }
 
     private void startGameLoop(){
@@ -152,8 +158,19 @@ public class Game implements Runnable{
             previousTime = currentTime;
 
             if(deltaU >= 1){
+                //CHECK FOR LEVEL CHANGE
+                //CALL INIT IF SWITCH LEVEL IS TRUE
+                //CHECK WHICH NUMBER OF LEVEL TO LOAD
+                // SET CORRECT POSITIONS FOR ENEMIES AND PLAYER
+                if(player.getLevelComponent().isSwitchLevel()){
+                    player.getLevelComponent().setSwitchLevel(false);
+                    initGame(player.getLevelComponent().getLevelToLoad());
+                }
+
                 //DEAD CHECK (IF PLAYER LOST 5 HEARTS => RESET LEVEL)
-                if(player.getHealthComponent().getHealthValue() == 5){initGame();}
+                if(player.getHealthComponent().getHealthValue() == 5){
+                    initGame(player.getLevelComponent().getLevelToLoad());
+                }
                 //INPUTS
                 AbstractInput.Inputs inputs = input.getInput();
                 if (inputs != null) {checkMovement(inputs);player.setDirection(inputs);}
@@ -192,6 +209,7 @@ public class Game implements Runnable{
         enemyMovementSystem.update();
         healthSystem.update();
         enemyHealthSystem.update();
+        levelSystem.update();
     }
 
 
