@@ -20,7 +20,10 @@ import java.net.URL;
         LEVELPASSED("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\LevelComplete.wav"),
         PLAYERISHIT("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\playerHurt.wav"),
         GAMEOVER("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\GameOver.wav"),
-        ENEMYBULLET("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\enemyShooting.wav");
+        ENEMYBULLET("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\enemyShooting.wav"),
+        MENUMUSIC("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\menuMusic.wav"),
+        BUTTONCLICK("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\buttonClick.wav");
+
 
 
         // Nested class for specifying volume
@@ -98,6 +101,8 @@ import java.net.URL;
             SoundSystem.PLAYERISHIT.stop();
             SoundSystem.ENEMYBULLET.stop();
             SoundSystem.GAMEOVER.stop();
+            SoundSystem.MENUMUSIC.stop();
+            SoundSystem.BUTTONCLICK.stop();
         }
 
 

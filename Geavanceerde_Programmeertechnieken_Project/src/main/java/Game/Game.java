@@ -83,6 +83,8 @@ public class Game implements Runnable{
     }
 
     private void initMenu(){
+        SoundSystem.volume = SoundSystem.Volume.LOW;
+        SoundSystem.MENUMUSIC.play(true);
         input = factory.createInput();
         menu = factory.createMenu();
         menuDrawables = new ArrayList<Drawable>();
@@ -328,13 +330,22 @@ public class Game implements Runnable{
         else if(inputs == AbstractInput.Inputs.ENTER){
             String currOpt = (menu.getMenuComponent().getOptions()[menu.getMenuComponent().getCurrentSelection()]);
             if(Objects.equals(currOpt, "PLAY")){
+                SoundSystem.volume = SoundSystem.Volume.HIGH;
+                SoundSystem.BUTTONCLICK.play(false);
+                try {Thread.sleep(500);} catch (InterruptedException e) {throw new RuntimeException(e);}
                 inMenu = false;
                 initGame(1);
             }
             else if(Objects.equals(currOpt, "HELP")){
+                SoundSystem.volume = SoundSystem.Volume.HIGH;
+                SoundSystem.BUTTONCLICK.play(false);
+                try {Thread.sleep(500);} catch (InterruptedException e) {throw new RuntimeException(e);}
                 System.out.println("HELP IS ON THE WAY...");
             }
             else if(Objects.equals(currOpt, "QUIT")){
+                SoundSystem.volume = SoundSystem.Volume.HIGH;
+                SoundSystem.BUTTONCLICK.play(false);
+                try {Thread.sleep(500);} catch (InterruptedException e) {throw new RuntimeException(e);}
                 System.exit(1);
             }
         }
