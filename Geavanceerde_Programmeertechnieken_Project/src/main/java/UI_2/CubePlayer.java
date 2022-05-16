@@ -39,7 +39,7 @@ public class CubePlayer extends AbstractPlayer {
         }
 
         Graphics2D graphics2D = graphicsContext.getG2d();
-        graphics2D.setColor(Color.RED);
+        graphics2D.setColor(Color.BLUE);
         graphics2D.drawRect((int)m.x-graphicsContext.getCamX(), (int)m.y-graphicsContext.getCamY(), (int)hitboxWidth, (int)hitboxHeight);
     }
 
