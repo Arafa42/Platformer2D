@@ -3,6 +3,7 @@ package UI_2;
 import Game.AbstractFactory;
 import Game.Components.BulletComponent;
 import Game.Components.HealthComponent;
+import Game.Components.InputComponent;
 import Game.Components.ScoreComponent;
 import Game.Entities.*;
 import Helper.ConfigFileReader;
@@ -19,8 +20,8 @@ public class CubeFactory extends AbstractFactory {
     }
 
     @Override
-    public AbstractInput createInput() {
-        return new CubeInput(grCtx.getFrame());
+    public AbstractInput createInput(InputComponent inputComponent) {
+        return new CubeInput(grCtx.getFrame(),inputComponent);
     }
 
     @Override

@@ -1,8 +1,5 @@
 package Game;
-import Game.Components.BulletComponent;
-import Game.Components.CollisionComponent;
-import Game.Components.MovementComponent;
-import Game.Components.PositionComponent;
+import Game.Components.*;
 import Game.Entities.*;
 import Game.Systems.*;
 import Helper.ConfigFileReader;
@@ -40,6 +37,9 @@ public class Game implements Runnable{
     private PlayerHealthSystem healthSystem;
     private PowerUpSystem powerUpSystem;
     private EnemyHealthSystem enemyHealthSystem;
+    private InputSystem inputSystemM;
+    private InputSystem inputSystemG;
+
     //ARRAYLIST COMPONENTS
     private ArrayList<MovementComponent> movementComponents;
     private ArrayList<PositionComponent> positionComponents;
@@ -85,11 +85,14 @@ public class Game implements Runnable{
     private void initMenu(){
         SoundSystem.volume = SoundSystem.Volume.LOW;
         SoundSystem.MENUMUSIC.play(true);
-        input = factory.createInput();
+        input = factory.createInput(new InputComponent());
+        player = factory.createPlayer(100, 550,30,35,3.0f,false,0f,0.3f,-12f,1f,false,0,map,0,270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2);
+        inputSystemM = new InputSystem(input.getInputComponent(),player,input.getPressedKeyInps());
         menu = factory.createMenu();
         menuDrawables = new ArrayList<Drawable>();
         menuDrawables.add(menu);
         //startGameLoop();
+
     }
 
     private void initGame(int levelToLoad) {
@@ -126,10 +129,10 @@ public class Game implements Runnable{
         this.map = levels.getLevel(levelToLoad);
         //ENEMY COORDINATES CHECK
         enemyCoordsCheck();
-        input = factory.createInput();
         level = factory.createLevel(map,TILES_IN_HEIGHT,TILES_IN_WIDTH,TILES_SIZE);
         player = factory.createPlayer(100, 550,30,35,3.0f,false,0f,0.3f,-12f,1f,false,0,map,0,270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2);
         player.getLevelComponent().setLevelToLoad(levelToLoad);
+        input = factory.createInput(input.getInputComponent());
         playerBullets = new ArrayList<AbstractBullet>();
         enemyBullets = new ArrayList<AbstractBullet>();
         scoreBar = factory.createScoreBar(player.getScoreComponent());
@@ -154,6 +157,7 @@ public class Game implements Runnable{
         positionComponents.add(enemy.getPositionComponent());
         positionComponents.add(enemy2.getPositionComponent());
         //SYSTEMS
+        inputSystemG = new InputSystem(input.getInputComponent(),player,input.getPressedKeyInps());
         collisionSystem = new CollisionSystem(player.getCollisionComponent(),player.getPositionComponent(),player.getMovementComponent());
         collisionSystem2 = new CollisionSystem(enemy.getCollisionComponent(),enemy.getPositionComponent(),enemy.getMovementComponent());
         collisionSystem3 = new CollisionSystem(enemy2.getCollisionComponent(),enemy2.getPositionComponent(),enemy2.getMovementComponent());
@@ -179,12 +183,8 @@ public class Game implements Runnable{
     private void enemyCoordsCheck(){
         for(int i=0;i<map.length;i++){
             for(int j=0;j<map[i].length;j++){
-                if(map[i][j] == -6){
-                    enemy = factory.createEnemy(j*48, i*48,40,35,1f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND2.toString());
-                }
-                if(map[i][j] == -7){
-                    enemy2 = factory.createEnemy(j*48, i*48,40,35,1f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND1.toString());
-                }
+                if(map[i][j] == -6){enemy = factory.createEnemy(j*48, i*48,40,35,1f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND2.toString());}
+                if(map[i][j] == -7){enemy2 = factory.createEnemy(j*48, i*48,40,35,1f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND1.toString());}
             }
         }
     }
@@ -226,16 +226,19 @@ public class Game implements Runnable{
                         initGame(player.getLevelComponent().getLevelToLoad());
                     }
                     //INPUTS
-                    AbstractInput.Inputs inputs = input.getInput();
-                    if (inputs != null) {checkMovement(inputs);player.setDirection(inputs);}
+                    if(input.inputAvailable()) {
+                       checkMovement();
+                       player.setDirection(AbstractInput.Inputs.IDLE);
+                    }
                     //SYSTEMS UPDATE
                     systemsUpdate();
                 }
                 else{
-                    AbstractInput.Inputs inputs = input.getInput();
-                    if (inputs != null) {checkMenuInput(inputs);}
+                    if(input.inputAvailable()) {
+                        inputSystemM.update();
+                        checkMenuInput();
+                    }
                 }
-
                 ups++;
                 deltaU--;
             }
@@ -253,7 +256,6 @@ public class Game implements Runnable{
                 }
                 //RENDER
                 factory.render();
-
                 fps++;
                 deltaF--;
             }
@@ -266,6 +268,7 @@ public class Game implements Runnable{
     }
 
     private void systemsUpdate(){
+        inputSystemG.update();
         collisionSystem.updateCollision();
         collisionSystem2.updateCollision();
         collisionSystem3.updateCollision();
@@ -281,74 +284,86 @@ public class Game implements Runnable{
     }
 
 
-    private void checkMovement(AbstractInput.Inputs inputs) {
-        if (player.getMovementComponent().isMoving() && inputs == AbstractInput.Inputs.LEFT) {
-            player.getMovementComponent().setLeft(true);
-        }
-        else if (player.getMovementComponent().isMoving() && inputs == AbstractInput.Inputs.RIGHT) {
-            player.getMovementComponent().setRight(true);
-        }
-        else if(inputs == AbstractInput.Inputs.JUMPING){
-            player.getMovementComponent().setJump(true);
-        }
-        else if(inputs == AbstractInput.Inputs.ATTACKING){
-            //FIRE BULLETS
-            long elapsed = (System.nanoTime() - firingTimer) / 1000000;
-            if(elapsed > firingDelay){
-                SoundSystem.volume = SoundSystem.Volume.HIGH;
-                SoundSystem.PLAYERBULLET.play(false);
-                playerBullets.add(factory.createBullet(new BulletComponent("PLAYER",player.getPositionComponent().x,player.getPositionComponent().y, 25,16,270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2)));
-                firingTimer = System.nanoTime();
-                drawables.addAll(playerBullets);
-            }
-        }
-        else if(inputs == AbstractInput.Inputs.ESCAPE){
-            SoundSystem.LEVEL1.stopAllPlayingSounds();
-            inMenu = true;
-            initMenu();
-            try {Thread.sleep(120);} catch (InterruptedException e) {e.printStackTrace();}
-        }
-        else{
-            player.getMovementComponent().setLeft(false);
-            player.getMovementComponent().setRight(false);
-        }
+    private void checkMovement() {
+                //if (player.getMovementComponent().isMoving() && input.getInputComponent().isLeft()) {player.getMovementComponent().setLeft(true);}
+                //if (player.getMovementComponent().isMoving() && input.getInputComponent().isRight()) {player.getMovementComponent().setRight(true);}
+                //if(!player.getMovementComponent().isMoving() && !input.getInputComponent().isRight() && !input.getInputComponent().isLeft()) {player.getMovementComponent().setLeft(false);player.getMovementComponent().setRight(false);}
+                //if (input.getInputComponent().isJumping()) {player.getMovementComponent().setJump(true);}
+
+                if (input.getInputComponent().isAttacking()) {
+                    //FIRE BULLETS
+                    long elapsed = (System.nanoTime() - firingTimer) / 1000000;
+                    if (elapsed > firingDelay) {
+                        SoundSystem.volume = SoundSystem.Volume.HIGH;
+                        SoundSystem.PLAYERBULLET.play(false);
+                        playerBullets.add(factory.createBullet(new BulletComponent("PLAYER", player.getPositionComponent().x, player.getPositionComponent().y, 25, 16, 270, 5, data.get("ScreenWidth"), data.get("ScreenHeight"), 2)));
+                        firingTimer = System.nanoTime();
+                        drawables.addAll(playerBullets);
+                    }
+                }
+                if (input.getInputComponent().isEscape()) {
+                    SoundSystem.LEVEL1.stopAllPlayingSounds();
+                    inMenu = true;
+                    initMenu();
+                    try {
+                        Thread.sleep(120);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
     }
 
-    private void checkMenuInput(AbstractInput.Inputs inputs){
-        if(inputs == AbstractInput.Inputs.DOWN){
-            if(menu.getMenuComponent().getCurrentSelection() < 2){
-                menu.getMenuComponent().setCurrentSelection(menu.getMenuComponent().getCurrentSelection()+1);
-            try {Thread.sleep(120);} catch (InterruptedException e) {e.printStackTrace();}
-            }
-        }
-        else if(inputs == AbstractInput.Inputs.UP){
-            if(menu.getMenuComponent().getCurrentSelection() > 0){
-            menu.getMenuComponent().setCurrentSelection(menu.getMenuComponent().getCurrentSelection()-1);
-            try {Thread.sleep(120);} catch (InterruptedException e) {e.printStackTrace();}
-            }
-        }
-        else if(inputs == AbstractInput.Inputs.ENTER){
-            String currOpt = (menu.getMenuComponent().getOptions()[menu.getMenuComponent().getCurrentSelection()]);
-            if(Objects.equals(currOpt, "PLAY")){
-                SoundSystem.volume = SoundSystem.Volume.HIGH;
-                SoundSystem.BUTTONCLICK.play(false);
-                try {Thread.sleep(500);} catch (InterruptedException e) {throw new RuntimeException(e);}
-                inMenu = false;
-                initGame(1);
-            }
-            else if(Objects.equals(currOpt, "HELP")){
-                SoundSystem.volume = SoundSystem.Volume.HIGH;
-                SoundSystem.BUTTONCLICK.play(false);
-                try {Thread.sleep(500);} catch (InterruptedException e) {throw new RuntimeException(e);}
-                System.out.println("HELP IS ON THE WAY...");
-            }
-            else if(Objects.equals(currOpt, "QUIT")){
-                SoundSystem.volume = SoundSystem.Volume.HIGH;
-                SoundSystem.BUTTONCLICK.play(false);
-                try {Thread.sleep(500);} catch (InterruptedException e) {throw new RuntimeException(e);}
-                System.exit(1);
-            }
-        }
+    private void checkMenuInput(){
+                if (input.getInputComponent().isDown()) {
+                    if (menu.getMenuComponent().getCurrentSelection() < 2) {
+                        menu.getMenuComponent().setCurrentSelection(menu.getMenuComponent().getCurrentSelection() + 1);
+                        try {
+                            Thread.sleep(120);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else if (input.getInputComponent().isUp()) {
+                    if (menu.getMenuComponent().getCurrentSelection() > 0) {
+                        menu.getMenuComponent().setCurrentSelection(menu.getMenuComponent().getCurrentSelection() - 1);
+                        try {
+                            Thread.sleep(120);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else if (input.getInputComponent().isEnter()) {
+                    String currOpt = (menu.getMenuComponent().getOptions()[menu.getMenuComponent().getCurrentSelection()]);
+                    if (Objects.equals(currOpt, "PLAY")) {
+                        SoundSystem.volume = SoundSystem.Volume.HIGH;
+                        SoundSystem.BUTTONCLICK.play(false);
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        inMenu = false;
+                        initGame(1);
+                    } else if (Objects.equals(currOpt, "HELP")) {
+                        SoundSystem.volume = SoundSystem.Volume.HIGH;
+                        SoundSystem.BUTTONCLICK.play(false);
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        System.out.println("HELP IS ON THE WAY...");
+                    } else if (Objects.equals(currOpt, "QUIT")) {
+                        SoundSystem.volume = SoundSystem.Volume.HIGH;
+                        SoundSystem.BUTTONCLICK.play(false);
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        System.exit(1);
+                    }
+                }
     }
 
 }

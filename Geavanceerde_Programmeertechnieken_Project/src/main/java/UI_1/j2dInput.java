@@ -1,84 +1,64 @@
 package UI_1;
 
+import Game.Components.InputComponent;
 import Game.Entities.AbstractInput;
 import javax.swing.*;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.*;
 
 public class j2dInput extends AbstractInput {
 
-    private static HashMap<String, Boolean> keyValues;
+    ArrayList<Inputs> pressedKeysInp;
+    private ArrayList<Integer> pressedKeyCodes = new ArrayList();
 
-    public j2dInput(JFrame frame) {
+
+    public j2dInput(JFrame frame, InputComponent inputComponent) {
+        super(inputComponent);
+        pressedKeysInp = new ArrayList<>();
         frame.addKeyListener(new KeyInputAdapter());
-        keyValues = new HashMap<>();
-        keyValues.put("LEFT",false);
-        keyValues.put("RIGHT",false);
-        keyValues.put("UP",false);
-        keyValues.put("DOWN",false);
-        keyValues.put("ENTER",false);
-        keyValues.put("ATTACKING",false);
-        keyValues.put("JUMPING",false);
-        keyValues.put("ESCAPE",false);
-        //System.out.println(keyValues);
     }
 
     @Override
-    public Inputs getInput() {
-        for (Map.Entry<String, Boolean> me : keyValues.entrySet()) {
-            if(me.getKey().equals("LEFT") && me.getValue().equals(true)){return Inputs.LEFT;}
-            if(me.getKey().equals("RIGHT") && me.getValue().equals(true)){return Inputs.RIGHT;}
-            if (me.getKey().equals("UP") && me.getValue().equals(true)) {return Inputs.UP;}
-            if (me.getKey().equals("DOWN") && me.getValue().equals(true)) {return Inputs.DOWN;}
-            if (me.getKey().equals("ENTER") && me.getValue().equals(true)) {return Inputs.ENTER;}
-            if(me.getKey().equals("ATTACKING") && me.getValue().equals(true)){return Inputs.ATTACKING;}
-            if(me.getKey().equals("JUMPING") && me.getValue().equals(true)){return Inputs.JUMPING;}
-            if(me.getKey().equals("ESCAPE") && me.getValue().equals(true)){return Inputs.ESCAPE;}
+    public ArrayList<Inputs> getPressedKeyInps() {return pressedKeysInp;}
 
-        }
-        return Inputs.IDLE;
+    @Override
+    public boolean inputAvailable() {return !pressedKeysInp.isEmpty();}
 
-        //CURRENTLY ONE INPUT IS DETECTED NEED TO ADD FUNCTIONALITY TO DETECT 2 INPUTS LIKE RUNNING AND SHOOTING
-
-    }
-
-
-    static class KeyInputAdapter extends KeyAdapter {
+     class KeyInputAdapter implements KeyListener {
 
         @Override
-        public void keyTyped(KeyEvent e) {
-        }
+        public void keyTyped(KeyEvent e) {}
 
         @Override
-        public void keyReleased(KeyEvent e) {
-            switch (e.getKeyCode()) {
-                case KeyEvent.VK_LEFT -> keyValues.put("LEFT",false);
-                case KeyEvent.VK_RIGHT -> keyValues.put("RIGHT",false);
-                case KeyEvent.VK_X -> keyValues.put("ATTACKING",false);
-                case KeyEvent.VK_SPACE -> keyValues.put("JUMPING",false);
-                case KeyEvent.VK_DOWN -> keyValues.put("DOWN",false);
-                case KeyEvent.VK_UP -> keyValues.put("UP",false);
-                case KeyEvent.VK_ENTER -> keyValues.put("ENTER",false);
-                case KeyEvent.VK_ESCAPE -> keyValues.put("ESCAPE",false);
+        public synchronized void keyPressed(KeyEvent e) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_UP -> addToList(Inputs.UP,e.getKeyCode());
+                    case KeyEvent.VK_LEFT -> addToList(Inputs.LEFT,e.getKeyCode());
+                    case KeyEvent.VK_DOWN -> addToList(Inputs.DOWN,e.getKeyCode());
+                    case KeyEvent.VK_RIGHT -> addToList(Inputs.RIGHT,e.getKeyCode());
+                    case KeyEvent.VK_X -> addToList(Inputs.ATTACKING,e.getKeyCode());
+                    case KeyEvent.VK_SPACE -> addToList(Inputs.JUMPING,e.getKeyCode());
+                    case KeyEvent.VK_ENTER ->addToList(Inputs.ENTER,e.getKeyCode());
+                    case KeyEvent.VK_ESCAPE -> addToList(Inputs.ESCAPE,e.getKeyCode());
+                }
             }
-        }
 
-        @Override
-        public void keyPressed(KeyEvent e) {
-            switch (e.getKeyCode()) {
-                case KeyEvent.VK_LEFT -> keyValues.put("LEFT",true);
-                case KeyEvent.VK_RIGHT -> keyValues.put("RIGHT",true);
-                case KeyEvent.VK_X -> keyValues.put("ATTACKING",true);
-                case KeyEvent.VK_SPACE -> keyValues.put("JUMPING",true);
-                case KeyEvent.VK_UP -> keyValues.put("UP",true);
-                case KeyEvent.VK_DOWN -> keyValues.put("DOWN",true);
-                case KeyEvent.VK_ENTER -> keyValues.put("ENTER",true);
-                case KeyEvent.VK_ESCAPE -> keyValues.put("ESCAPE",true);
+         @Override
+         public synchronized void keyReleased(KeyEvent e) {
+                for(int i =0;i<pressedKeyCodes.size();i++){
+                    if(e.getKeyCode() == pressedKeyCodes.get(i)){
+                        pressedKeyCodes.remove(i);
+                        pressedKeysInp.remove(i);
+                    }
+                }
+         }
+     }
 
-            }
-        }
-    }
-
+     void addToList(Inputs inp,Integer keycodes){
+        if(!pressedKeysInp.contains(inp)){pressedKeysInp.add(inp);pressedKeyCodes.add(keycodes);}
+     }
 
 }
+
+

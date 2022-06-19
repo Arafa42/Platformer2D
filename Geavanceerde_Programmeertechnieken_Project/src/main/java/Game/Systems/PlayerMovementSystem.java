@@ -1,35 +1,44 @@
 package Game.Systems;
 
 import Game.Components.MovementComponent;
-import Game.Components.PositionComponent;
 
 public class PlayerMovementSystem {
 
-    private MovementComponent movementComponent;
+    private final MovementComponent movementComponent;
 
-    public PlayerMovementSystem(MovementComponent movementComponent){
-        this.movementComponent = movementComponent;
-    }
+    public PlayerMovementSystem(MovementComponent movementComponent){this.movementComponent = movementComponent;}
 
     private void updateMovement(){
-        movementComponent.setMoving(false);
-        movementComponent.setxSpeed(0);
-        if(movementComponent.isJump()){jump();movementComponent.setJump(false);}
-        if(movementComponent.isLeft()){
-            movementComponent.setxSpeed(-(int)movementComponent.getPlayerSpeed());
-            //positionComponent.x += movementComponent.getxSpeed();
-        }
-        if(movementComponent.isRight()){movementComponent.setxSpeed(
-                (int)movementComponent.getPlayerSpeed());
-                //positionComponent.x += movementComponent.getxSpeed();
-        }
         movementComponent.setMoving(true);
+        if(movementComponent.isJump()){jump();movementComponent.setJump(false);}
+        if(movementComponent.isJump() && movementComponent.isLeft() && movementComponent.isMoving()){
+            movementComponent.setxSpeed(-(int)movementComponent.getPlayerSpeed());
+            movementComponent.setRight(false);
+            jump();movementComponent.setJump(false);
+        }
+        if(movementComponent.isJump() && movementComponent.isRight() && movementComponent.isMoving()){
+            jump();movementComponent.setJump(false);
+            movementComponent.setxSpeed((int)movementComponent.getPlayerSpeed());
+            movementComponent.setLeft(false);
+        }
+        if(movementComponent.isLeft() && movementComponent.isMoving()){
+            movementComponent.setxSpeed(-(int)movementComponent.getPlayerSpeed());
+            movementComponent.setRight(false);
+        }
+        else if(movementComponent.isRight() && movementComponent.isMoving()){
+            movementComponent.setxSpeed((int)movementComponent.getPlayerSpeed());
+            movementComponent.setLeft(false);
+        }
+        else{
+            movementComponent.setxSpeed(0);
+            movementComponent.setLeft(false);
+            movementComponent.setRight(false);
+            movementComponent.setMoving(false);
+        }
     }
 
     public void jump(){
-        if(movementComponent.isInAir()){
-            return;
-        }
+        if(movementComponent.isInAir()){return;}
         movementComponent.setInAir(true);
         SoundSystem.volume = SoundSystem.Volume.HIGH;
         SoundSystem.JUMP.play(false);
