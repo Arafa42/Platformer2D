@@ -82,13 +82,13 @@ public class Levels {
                 return null;
         }
     }
-
-
+    
     @Override
     public String toString() {
         return "Levels{" +
                 "level1=" + Arrays.toString(level1) +
                 ", level2=" + Arrays.toString(level2) +
+                ", level3=" + Arrays.toString(level3) +
                 '}';
     }
 }
