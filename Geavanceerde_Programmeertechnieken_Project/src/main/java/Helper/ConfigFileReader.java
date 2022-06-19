@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class ConfigFileReader {
 
-    private HashMap<String, Integer> configFileData;
+    private final HashMap<String, Integer> configFileData;
     private static ConfigFileReader configFileReaderInstance;
     private ConfigFileReader() {this.configFileData = new HashMap<>();}
 
@@ -16,7 +16,7 @@ public class ConfigFileReader {
         return configFileReaderInstance;
     }
 
-    public HashMap<String, Integer> procesConfigFile(final String configFile) throws FileNotFoundException {
+    public HashMap<String, Integer> processConfigFile(final String configFile) throws FileNotFoundException {
             File file = new File("src/" + configFile);
             if (file.exists()) {
                 Scanner myReader = new Scanner(file);

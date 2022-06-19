@@ -75,7 +75,7 @@ public class Game {
     }
 
     public Game(AbstractFactory abstractFactory,final String configFile) throws FileNotFoundException {
-        data = ConfigFileReader.getConfigFileReaderInstance().procesConfigFile(configFile);
+        data = ConfigFileReader.getConfigFileReaderInstance().processConfigFile(configFile);
         this.factory = abstractFactory;
         this.configFile = configFile;
         initMenu();
@@ -93,7 +93,6 @@ public class Game {
         menuDrawables = new ArrayList<Drawable>();
         menuDrawables.add(menu);
         //startGameLoop();
-
     }
 
     private void initGame(int levelToLoad) {
