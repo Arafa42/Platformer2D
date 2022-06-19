@@ -7,14 +7,16 @@ import Game.Components.InputComponent;
 import Game.Components.ScoreComponent;
 import Game.Entities.*;
 import Helper.ConfigFileReader;
+
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 public class j2dFactory extends AbstractFactory {
 
     private final GraphicsContext grCtx;
 
-    public j2dFactory(String graphics_config) {
-        HashMap<String, Integer> data = ConfigFileReader.getConfigFileReaderInstance().loadOrCreateConfig(graphics_config);
+    public j2dFactory(String graphics_config) throws FileNotFoundException {
+        HashMap<String, Integer> data = ConfigFileReader.getConfigFileReaderInstance().procesConfigFile(graphics_config);
         this.grCtx = new GraphicsContext((int)(data.get("ScreenWidth")), (int)(data.get("ScreenHeight")));
     }
     @Override

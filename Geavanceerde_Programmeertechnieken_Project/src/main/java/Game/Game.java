@@ -4,6 +4,8 @@ import Game.Entities.*;
 import Game.Systems.*;
 import Helper.ConfigFileReader;
 import Helper.Levels;
+
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -72,8 +74,8 @@ public class Game {
         GROUND2,
     }
 
-    public Game(AbstractFactory abstractFactory,final String configFile) {
-        data = ConfigFileReader.getConfigFileReaderInstance().loadOrCreateConfig(configFile);
+    public Game(AbstractFactory abstractFactory,final String configFile) throws FileNotFoundException {
+        data = ConfigFileReader.getConfigFileReaderInstance().procesConfigFile(configFile);
         this.factory = abstractFactory;
         this.configFile = configFile;
         initMenu();

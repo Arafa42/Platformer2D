@@ -1,41 +1,33 @@
 package Helper;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class ConfigFileReader {
-    private static ConfigFileReader configFileReaderInstance;
 
-    private ConfigFileReader() {}
+    private HashMap<String, Integer> configFileData;
+    private static ConfigFileReader configFileReaderInstance;
+    private ConfigFileReader() {this.configFileData = new HashMap<>();}
 
     public static ConfigFileReader getConfigFileReaderInstance() {
-        return configFileReaderInstance == null ? configFileReaderInstance = new ConfigFileReader() : configFileReaderInstance;
+        if(configFileReaderInstance == null){return configFileReaderInstance = new ConfigFileReader();}
+        return configFileReaderInstance;
     }
 
-    public HashMap<String, Integer> loadOrCreateConfig(final String configFile) {
-        HashMap<String, Integer> dataMap = null;
-        try {
-            File _file = new File("src/" + configFile);
-            if (_file.exists()) {
-                Scanner myReader = new Scanner(_file);
-                dataMap = new HashMap<>();
-
+    public HashMap<String, Integer> procesConfigFile(final String configFile) throws FileNotFoundException {
+            File file = new File("src/" + configFile);
+            if (file.exists()) {
+                Scanner myReader = new Scanner(file);
                 while (myReader.hasNextLine()) {
-                    /// read data
-                    String data = myReader.nextLine();
-                    data = data.replace(" ", "");
-
-                    /// process data
-                    int splitIndex = data.indexOf(":");
-                    int dataLength = data.length();
-                    String var_key = splitIndex != -1 ? data.substring(0, splitIndex) : "";
-                    String var_data = splitIndex != -1 ? data.substring(splitIndex + 1, dataLength) : "";
-
-                    dataMap.put(var_key, Integer.parseInt(var_data));
+                    String data = myReader.nextLine().replace(" ", "");
+                    String key = data.substring(0, data.indexOf(":"));
+                    Integer value = Integer.parseInt(data.substring(data.indexOf(":") + 1));
+                    configFileData.put(key, value);
                 }
             }
-        } catch (Exception ignored) {};
-        return dataMap;
+
+        return configFileData;
     }
 }
