@@ -285,11 +285,6 @@ public class Game implements Runnable{
 
 
     private void checkMovement() {
-                //if (player.getMovementComponent().isMoving() && input.getInputComponent().isLeft()) {player.getMovementComponent().setLeft(true);}
-                //if (player.getMovementComponent().isMoving() && input.getInputComponent().isRight()) {player.getMovementComponent().setRight(true);}
-                //if(!player.getMovementComponent().isMoving() && !input.getInputComponent().isRight() && !input.getInputComponent().isLeft()) {player.getMovementComponent().setLeft(false);player.getMovementComponent().setRight(false);}
-                //if (input.getInputComponent().isJumping()) {player.getMovementComponent().setJump(true);}
-
                 if (input.getInputComponent().isAttacking()) {
                     //FIRE BULLETS
                     long elapsed = (System.nanoTime() - firingTimer) / 1000000;
