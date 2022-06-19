@@ -20,15 +20,15 @@ public class PlayerHealthSystem {
 
     public void update(){
         statusCheck();
-        checkHealthOnFall((int)player.getPositionComponent().y, (int)player.getPositionComponent().hitboxHeight, player.getMovementComponent().getAirSpeed());
+        checkHealthOnFall((int)player.getPositionComponent().y, player.getMovementComponent().getAirSpeed());
         checkHealthOnCollisionWithEnemy();
         checkHealthOnCollisionWithEnemyBullet();
     }
 
     private void checkHealthOnCollisionWithEnemy(){
-        for(int i =0;i<enemies.size();i++){
-            if(isIntersect(player.getPositionComponent().x,player.getPositionComponent().y,player.getPositionComponent().hitboxWidth,player.getPositionComponent().hitboxHeight,enemies.get(i).getPositionComponent().x,enemies.get(i).getPositionComponent().y,enemies.get(i).getPositionComponent().hitboxWidth,enemies.get(i).getPositionComponent().hitboxHeight)){
-                player.getHealthComponent().setHealthValue(player.getCollisionComponent().getTimesFell()+1);
+        for (AbstractEnemy enemy : enemies) {
+            if (isIntersect(player.getPositionComponent().x, player.getPositionComponent().y, player.getPositionComponent().hitboxWidth, player.getPositionComponent().hitboxHeight, enemy.getPositionComponent().x, enemy.getPositionComponent().y, enemy.getPositionComponent().hitboxWidth, enemy.getPositionComponent().hitboxHeight)) {
+                player.getHealthComponent().setHealthValue(player.getCollisionComponent().getTimesFell() + 1);
                 player.getCollisionComponent().setDidFall(true);
             }
         }
@@ -53,12 +53,10 @@ public class PlayerHealthSystem {
     {return Bx + Bw > Ax && By + Bh > Ay && Ax + Aw > Bx && Ay + Ah > By;}
 
 
-    private void checkHealthOnFall(int y, int height, float airSpeed){
-        int currentTile = (int) (y / Game.TILES_SIZE);
+    private void checkHealthOnFall(int y, float airSpeed){
+        int currentTile = y / Game.TILES_SIZE;
         if(airSpeed > 0){
             //FALLING OR TOUCHING FLOOR
-            int tileYPos = currentTile * Game.TILES_SIZE;
-            int yOffset = (int)(Game.TILES_SIZE - height);
             if(currentTile >= Game.TILES_IN_HEIGHT-1){
                 //FALLING ON GROUND = -1 HEALTH
                 //IF HEALTH VALUE < 5 BECAUSE ELSE YOU DIED

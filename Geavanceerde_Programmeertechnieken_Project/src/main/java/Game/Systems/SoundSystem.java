@@ -3,9 +3,6 @@ package Game.Systems;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-
-
 
     public enum SoundSystem {
         LEVEL1("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\TV-Blonde-Ocarina.wav"),
@@ -23,7 +20,6 @@ import java.net.URL;
         ENEMYBULLET("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\enemyShooting.wav"),
         MENUMUSIC("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\menuMusic.wav"),
         BUTTONCLICK("C:\\Users\\arafa\\OneDrive\\Documenten\\GitHub\\Platformer2D\\Geavanceerde_Programmeertechnieken_Project\\src\\main\\resources\\assets\\audio\\GameAudio\\buttonClick.wav");
-
 
 
         // Nested class for specifying volume
@@ -48,11 +44,7 @@ import java.net.URL;
                 clip = AudioSystem.getClip();
                 // Open audio clip and load samples from the audio input stream.
                 clip.open(audioInputStream);
-            } catch (UnsupportedAudioFileException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (LineUnavailableException e) {
+            } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
                 e.printStackTrace();
             }
         }

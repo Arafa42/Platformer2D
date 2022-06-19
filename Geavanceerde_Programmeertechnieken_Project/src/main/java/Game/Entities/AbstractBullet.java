@@ -2,7 +2,6 @@ package Game.Entities;
 
 import Game.Components.BulletComponent;
 import Game.Drawable;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -11,7 +10,6 @@ import java.io.InputStream;
 public abstract class AbstractBullet implements Drawable {
 
     BulletComponent bulletComponent;
-
     public AbstractBullet(BulletComponent bulletComponent){
         this.bulletComponent = bulletComponent;
     }

@@ -7,9 +7,9 @@ import Game.Game;
 
 public class CoinSystem {
 
-    private CollisionComponent collisionComponent;
-    private ScoreComponent scoreComponent;
-    private PositionComponent positionComponent;
+    private final CollisionComponent collisionComponent;
+    private final ScoreComponent scoreComponent;
+    private final PositionComponent positionComponent;
 
     public CoinSystem(CollisionComponent collisionComponent, ScoreComponent scoreComponent,PositionComponent positionComponent){
         this.collisionComponent = collisionComponent;
@@ -23,9 +23,9 @@ public class CoinSystem {
 
     public void coinCollisionCheck(int x, int y) {
         if (scoreComponent != null) {
-            int row = (int) (y / Game.TILES_SIZE);
-            int col1 = (int) ((x + 30) / Game.TILES_SIZE);
-            int col2 = (int) ((x) / Game.TILES_SIZE);
+            int row = y / Game.TILES_SIZE;
+            int col1 = (x + 30) / Game.TILES_SIZE;
+            int col2 = (x) / Game.TILES_SIZE;
                 if (collisionComponent.getLevelData()[row][col1] == -2) {
                     SoundSystem.volume = SoundSystem.Volume.HIGH;
                     SoundSystem.COINSCOLLECTED.play(false);

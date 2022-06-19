@@ -4,7 +4,6 @@ import Game.Components.CollisionComponent;
 import Game.Components.MovementComponent;
 import Game.Components.PositionComponent;
 import Game.Game;
-
 import java.util.ArrayList;
 
 public class EnemyMovementSystem {

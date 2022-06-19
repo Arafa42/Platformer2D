@@ -1,7 +1,7 @@
 package Game.Components;
 
 public class MenuComponent {
-    private String[] options = {"PLAY","HELP","QUIT"};
+    private final String[] options = {"PLAY","HELP","QUIT"};
     private int currentSelection = 0;
     public MenuComponent(){}
     public String[] getOptions() {return options;}

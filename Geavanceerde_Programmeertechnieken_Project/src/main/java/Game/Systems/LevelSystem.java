@@ -30,9 +30,6 @@ public class LevelSystem {
                 abstractPlayer.getLevelComponent().setLevelToLoad(abstractPlayer.getLevelComponent().getLevelToLoad() + 1);
                 abstractPlayer.getLevelComponent().setSwitchLevel(true);
             }
-            else{
-                //System.out.println("FINAL LEVEL REACHED");
-            }
         }
     }
 }

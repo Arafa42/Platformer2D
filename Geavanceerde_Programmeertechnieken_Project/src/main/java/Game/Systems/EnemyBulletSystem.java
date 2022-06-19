@@ -6,15 +6,14 @@ import Game.Drawable;
 import Game.Entities.AbstractBullet;
 import Game.Entities.AbstractEnemy;
 import Game.Entities.AbstractPlayer;
-
 import java.util.ArrayList;
 
 public class EnemyBulletSystem {
 
-    private ArrayList<AbstractBullet> bullets;
+    private final ArrayList<AbstractBullet> bullets;
     private long firingTimer = System.nanoTime();
-    private long firingDelay = 1000;
-    private int screenWidth,screenHeight;
+    private final int screenWidth;
+    private final int screenHeight;
     ArrayList<Drawable> drawables;
     AbstractFactory factory;
     ArrayList<AbstractEnemy> enemies;
@@ -65,18 +64,19 @@ public class EnemyBulletSystem {
     private void fire(){
 
         long elapsed = (System.nanoTime() - firingTimer) / 1000000;
+        long firingDelay = 1000;
         if(elapsed > firingDelay) {
-            for (int i = 0; i < enemies.size(); i++) {
+            for (AbstractEnemy enemy : enemies) {
                 //BULLET DIRECTION
-                if(enemies.get(i).getMovementComponent().getxSpeed() > 0){
+                if (enemy.getMovementComponent().getxSpeed() > 0) {
                     SoundSystem.volume = SoundSystem.Volume.HIGH;
                     SoundSystem.ENEMYBULLET.play(false);
-                    bullets.add(factory.createBullet(new BulletComponent("ENEMY",enemies.get(i).getPositionComponent().x, enemies.get(i).getPositionComponent().y, 25, 16, 270, 3, screenWidth, screenHeight, 2)));
+                    bullets.add(factory.createBullet(new BulletComponent("ENEMY", enemy.getPositionComponent().x, enemy.getPositionComponent().y, 25, 16, 270, 3, screenWidth, screenHeight, 2)));
                 }
-                if(enemies.get(i).getMovementComponent().getxSpeed() < 0){
+                if (enemy.getMovementComponent().getxSpeed() < 0) {
                     SoundSystem.volume = SoundSystem.Volume.HIGH;
                     SoundSystem.ENEMYBULLET.play(false);
-                    bullets.add(factory.createBullet(new BulletComponent("ENEMY",enemies.get(i).getPositionComponent().x-50, enemies.get(i).getPositionComponent().y, 25, 16, 90, 3, screenWidth, screenHeight, 2)));
+                    bullets.add(factory.createBullet(new BulletComponent("ENEMY", enemy.getPositionComponent().x - 50, enemy.getPositionComponent().y, 25, 16, 90, 3, screenWidth, screenHeight, 2)));
                 }
                 firingTimer = System.nanoTime();
                 //System.out.println(bullets.size());

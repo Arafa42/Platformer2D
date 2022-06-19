@@ -6,14 +6,13 @@ import java.util.ArrayList;
 
 public class EnemyHealthSystem {
 
-    private ArrayList<AbstractBullet> playerBullets;
-    private ArrayList<AbstractEnemy> enemies;
+    private final ArrayList<AbstractBullet> playerBullets;
+    private final ArrayList<AbstractEnemy> enemies;
 
     public EnemyHealthSystem(ArrayList<AbstractBullet> playerBullets, ArrayList<AbstractEnemy> enemies){
         this.playerBullets = playerBullets;
         this.enemies = enemies;
     }
-
 
     public void update(){
         checkPlayerBulletEnemyCollision();

@@ -15,7 +15,6 @@ public abstract class AbstractElement implements Drawable {
     private final ScoreComponent scoreComponent;
     private final LevelComponent levelComponent;
     private final ArrayList<BulletComponent> bulletsComponent;
-
     private AbstractInput.Inputs direction;
 
     public AbstractElement(int x, int y, int hitboxWidth, int hitboxHeight,float playerSpeed,boolean inAir, float airSpeed, float gravity,float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving,int healthValue,int[][] map,int score,double bulletAngle,int bulletSpeed,int screenWidth,int screenHeight,int bulletRadius){
@@ -24,7 +23,7 @@ public abstract class AbstractElement implements Drawable {
         this.healthComponent = new HealthComponent(healthValue);
         this.collisionComponent = new CollisionComponent(map);
         this.scoreComponent = new ScoreComponent(score);
-        this.bulletsComponent = new ArrayList<BulletComponent>();
+        this.bulletsComponent = new ArrayList<>();
         this.levelComponent = new LevelComponent(false,1);
     }
 

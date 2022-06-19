@@ -3,16 +3,12 @@ package Game.Systems;
 import Game.Components.*;
 import Game.Game;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 public class PowerUpSystem extends Thread {
 
-
-    private CollisionComponent collisionComponent;
-    private PositionComponent positionComponent;
-    private MovementComponent movementComponent;
-    private HealthComponent healthComponent;
+    private final CollisionComponent collisionComponent;
+    private final PositionComponent positionComponent;
+    private final MovementComponent movementComponent;
+    private final HealthComponent healthComponent;
 
     public PowerUpSystem(CollisionComponent collisionComponent,PositionComponent positionComponent,MovementComponent movementComponent, HealthComponent healthComponent){
         this.collisionComponent = collisionComponent;
@@ -27,9 +23,9 @@ public class PowerUpSystem extends Thread {
 
 
     public void coinCollisionCheck(int x, int y) {
-            int row = (int) (y / Game.TILES_SIZE);
-            int col1 = (int) ((x + 30) / Game.TILES_SIZE);
-            int col2 = (int) ((x) / Game.TILES_SIZE);
+            int row = y / Game.TILES_SIZE;
+            int col1 = (x + 30) / Game.TILES_SIZE;
+            int col2 = (x) / Game.TILES_SIZE;
             //JUMP
             if (collisionComponent.getLevelData()[row][col1] == -3) {
                 collisionComponent.getLevelData()[row][col1] = 0;

@@ -3,8 +3,8 @@ package Game.Components;
 public class EnemyComponent {
 
     private Boolean isActive;
-    private int areaHitboxWidth;
-    private int areaHitboxHeight;
+    private final int areaHitboxWidth;
+    private final int areaHitboxHeight;
     private float areaX;
     private float areaY;
 
@@ -17,9 +17,9 @@ public class EnemyComponent {
     public Boolean getActive() {return isActive;}
     public void setActive(Boolean active) {isActive = active;}
     public int getAreaHitboxWidth() {return areaHitboxWidth;}
-    public void setAreaHitboxWidth(int areaHitboxWidth) {areaHitboxWidth = areaHitboxWidth;}
+    public void setAreaHitboxWidth(int areaHitboxWidth) {}
     public int getAreaHitboxHeight() {return areaHitboxHeight;}
-    public void setAreaHitboxHeight(int areaHitboxHeight) {areaHitboxHeight = areaHitboxHeight;}
+    public void setAreaHitboxHeight(int areaHitboxHeight) {}
     public float getAreaX() {return areaX;}
     public void setAreaX(float areaX) {this.areaX = areaX;}
     public float getAreaY() {return areaY;}

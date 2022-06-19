@@ -2,7 +2,6 @@ package Game.Entities;
 
 import Game.Components.*;
 import Game.Drawable;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -17,7 +16,7 @@ public abstract class AbstractEnemy implements Drawable {
     private final HealthComponent healthComponent;
     private final ArrayList<BulletComponent> bulletsComponent;
     private final EnemyComponent enemyComponent;
-    private String type;
+    private final String type;
 
     public AbstractEnemy(int x, int y, int hitboxWidth, int hitboxHeight,float playerSpeed,boolean inAir, float airSpeed, float gravity,float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving,int healthValue,int[][] map,String type){
         this.positionComponent = new PositionComponent(x,y,hitboxWidth,hitboxHeight);
@@ -34,11 +33,13 @@ public abstract class AbstractEnemy implements Drawable {
         BufferedImage img = null;
         InputStream is = AbstractLevel.class.getResourceAsStream(fileName);
         try {
+            assert is != null;
             img = ImageIO.read(is);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
+                assert is != null;
                 is.close();
             } catch (IOException e) {
                 e.printStackTrace();

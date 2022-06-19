@@ -66,10 +66,7 @@ public class CollisionSystem {
         float yIndex = y / Game.TILES_SIZE;
 
         int value = collisionComponent.getLevelData()[(int) yIndex][(int)xIndex];
-
-        if(value!=0 && value != 2 && value != 4 && value != 7 && value != -2 && value != -3 && value != -4 && value != -5 && value != 3 && value != -6 && value != -7 && value != 64 && value != 100 && value != 101 && value != 102 && value != 116 && value != 117 && value!=118){return true;}
-
-        return false;
+        return value != 0 && value != 2 && value != 4 && value != 7 && value != -2 && value != -3 && value != -4 && value != -5 && value != 3 && value != -6 && value != -7 && value != 64 && value != 100 && value != 101 && value != 102 && value != 116 && value != 117 && value != 118;
     }
 
     public float GetEntityPosNextToWall(int x, int y, int width, int height, Float xSpeed){
@@ -96,7 +93,9 @@ public class CollisionSystem {
 
     public boolean IsEntityOnFloor(int x,int y, int width, int height){
         //check below bottomleft and bottomright
-        if(!IsSolid(x, y + height+1)){if(!IsSolid(x + width,y + height+1)){return false;}}
+        if(!IsSolid(x, y + height+1)){
+            return IsSolid(x + width, y + height + 1);
+        }
         return true;
     }
 

@@ -1,12 +1,11 @@
 package Game.Systems;
 
 import Game.Entities.AbstractBullet;
-
 import java.util.ArrayList;
 
 public class PlayerBulletSystem {
 
-    private ArrayList<AbstractBullet> bullets;
+    private final ArrayList<AbstractBullet> bullets;
 
     public PlayerBulletSystem(ArrayList<AbstractBullet> abstractBullets){
         this.bullets = abstractBullets;
@@ -17,7 +16,6 @@ public class PlayerBulletSystem {
     }
 
     private void updateBulletMovement(){
-        //System.out.println(bullets.size());
         for(int i=0;i<bullets.size();i++) {
             if (bullets.get(i).GetBulletComponent().getAngle() > 0) {
                 bullets.get(i).GetBulletComponent().setX(bullets.get(i).GetBulletComponent().getX() + (bullets.get(i).GetBulletComponent().getDx() * bullets.get(i).GetBulletComponent().getSpeed()));
