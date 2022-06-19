@@ -296,7 +296,15 @@ public class Game implements Runnable{
                     if (elapsed > firingDelay) {
                         SoundSystem.volume = SoundSystem.Volume.HIGH;
                         SoundSystem.PLAYERBULLET.play(false);
-                        playerBullets.add(factory.createBullet(new BulletComponent("PLAYER", player.getPositionComponent().x, player.getPositionComponent().y, 25, 16, 270, 5, data.get("ScreenWidth"), data.get("ScreenHeight"), 2)));
+                        if(player.getMovementComponent().isLeft()){
+                            playerBullets.add(factory.createBullet(new BulletComponent("PLAYER", player.getPositionComponent().x-100, player.getPositionComponent().y, 25, 16, -270, 5, data.get("ScreenWidth"), data.get("ScreenHeight"), 2)));
+                        }
+                        else if(player.getMovementComponent().isRight()){
+                            playerBullets.add(factory.createBullet(new BulletComponent("PLAYER", player.getPositionComponent().x, player.getPositionComponent().y, 25, 16, 270, 5, data.get("ScreenWidth"), data.get("ScreenHeight"), 2)));
+                        }
+                        else{
+                            playerBullets.add(factory.createBullet(new BulletComponent("PLAYER", player.getPositionComponent().x, player.getPositionComponent().y, 25, 16, 270, 5, data.get("ScreenWidth"), data.get("ScreenHeight"), 2)));
+                        }
                         firingTimer = System.nanoTime();
                         drawables.addAll(playerBullets);
                     }

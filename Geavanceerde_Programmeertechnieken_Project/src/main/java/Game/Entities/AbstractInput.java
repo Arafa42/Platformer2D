@@ -9,7 +9,7 @@ public abstract class AbstractInput {
     public AbstractInput(InputComponent inputComponent){
         this.inputComponent = new InputComponent();
     }
-    public enum Inputs {LEFT, RIGHT, JUMPING, ATTACKING, IDLE, UP, DOWN, ENTER,ESCAPE};
+    public enum Inputs {LEFT, RIGHT, JUMPING,ATTACKING, ATTACKING_LEFT,ATTACKING_RIGHT, IDLE, UP, DOWN, ENTER,ESCAPE};
     public abstract ArrayList<Inputs> getPressedKeyInps();
     public abstract boolean inputAvailable();
     public InputComponent getInputComponent() {return inputComponent;}

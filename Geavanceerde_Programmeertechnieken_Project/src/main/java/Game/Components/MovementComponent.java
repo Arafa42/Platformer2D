@@ -9,7 +9,7 @@ public class MovementComponent {
     private  float jumpSpeed;
     private  float fallSpeedAfterCollision;
     private  boolean isMoving;
-    private boolean left,right,jump;
+    private boolean left,right,jump,attacking;
     private int xSpeed;
 
     public MovementComponent(float playerSpeed, boolean inAir, float airSpeed, float gravity, float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving) {
@@ -21,7 +21,6 @@ public class MovementComponent {
         this.fallSpeedAfterCollision = fallSpeedAfterCollision;
         this.isMoving = isMoving;
     }
-
 
     public float getPlayerSpeed() {return playerSpeed;}
     public void setPlayerSpeed(float playerSpeed) {this.playerSpeed = playerSpeed;}
@@ -45,4 +44,6 @@ public class MovementComponent {
     public void setJump(boolean jump) {this.jump = jump;}
     public int getxSpeed() {return xSpeed;}
     public void setxSpeed(int xSpeed) {this.xSpeed = xSpeed;}
+    public boolean isAttacking() {return attacking;}
+    public void setAttacking(boolean attacking) {this.attacking = attacking;}
 }

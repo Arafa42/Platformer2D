@@ -82,13 +82,9 @@ public class j2dPlayer extends AbstractPlayer {
         if((getDirection() == AbstractInput.Inputs.LEFT)){playerAction = RUNNING_LEFT;}
         else if((getDirection() == AbstractInput.Inputs.RIGHT)){playerAction = RUNNING_RIGHT;}
         else{playerAction = IDLE;}
-
-        if((getDirection() == AbstractInput.Inputs.ATTACKING) && (getDirection() == AbstractInput.Inputs.LEFT)){playerAction = ATTACK_1_LEFT;}
-        if((getDirection() == AbstractInput.Inputs.ATTACKING) && (getDirection() == AbstractInput.Inputs.RIGHT)){playerAction = ATTACK_1_RIGHT;}
-        if((getDirection() == AbstractInput.Inputs.ATTACKING)){
-            playerAction = ATTACK_1_RIGHT;
-        }
-
+        if((getDirection() == AbstractInput.Inputs.LEFT) && getMovementComponent().isAttacking()){playerAction = ATTACK_1_LEFT;}
+        else if((getDirection() == AbstractInput.Inputs.RIGHT) && getMovementComponent().isAttacking()){playerAction = ATTACK_1_RIGHT;}
+        else if(getMovementComponent().isAttacking()){playerAction = ATTACK_1_RIGHT;}
         if(startAni != playerAction){resetAniTick();}
     }
 
