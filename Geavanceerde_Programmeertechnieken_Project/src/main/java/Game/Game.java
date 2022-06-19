@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class Game implements Runnable{
-
+public class Game {
     //FACTORY INIT
     private final AbstractFactory factory;
     //ENTITIES INIT
@@ -79,7 +78,7 @@ public class Game implements Runnable{
         this.configFile = configFile;
         initMenu();
         //initGame(1);
-        startGameLoop();
+        //startGameLoop();
     }
 
     private void initMenu(){
@@ -175,10 +174,7 @@ public class Game implements Runnable{
         levelSystem = new LevelSystem(player);
     }
 
-    private void startGameLoop(){
-        gameThread = new Thread(this);
-        gameThread.start();
-    }
+
 
     private void enemyCoordsCheck(){
         for(int i=0;i<map.length;i++){
@@ -189,8 +185,7 @@ public class Game implements Runnable{
         }
     }
 
-    @Override
-    public void run() {
+    public void run() throws InterruptedException {
         factory.setGameDimensions((int)(data.get("ScreenWidth")), (int)(data.get("ScreenHeight")));
         double timePerFrame = 1000000000.0 / FPS_SET;
         double timerUpdate =  1000000000.0 / UPS_SET;
@@ -219,7 +214,7 @@ public class Game implements Runnable{
                         SoundSystem.volume = SoundSystem.Volume.HIGH;
                         SoundSystem.PLAYERDEAD.play(false);
                         try {
-                            Thread.sleep(1000);
+                            Thread.sleep(900);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }

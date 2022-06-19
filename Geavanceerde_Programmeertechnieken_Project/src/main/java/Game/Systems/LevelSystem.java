@@ -23,7 +23,7 @@ public class LevelSystem {
                 SoundSystem.LEVELPASSED.stopAllPlayingSounds();
                 SoundSystem.LEVELPASSED.play(false);
                 try {
-                    TimeUnit.SECONDS.sleep(3);
+                    TimeUnit.SECONDS.sleep(2);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
