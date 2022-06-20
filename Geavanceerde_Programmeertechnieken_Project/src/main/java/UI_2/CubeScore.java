@@ -10,11 +10,13 @@ public class CubeScore extends AbstractScore {
 
 
     private final GraphicsContext graphicsContext;
-    private Font font;
+    private final Font font;
+    private final double scale;
 
-    public CubeScore(GraphicsContext graphicsContext, ScoreComponent scoreComponent){
+    public CubeScore(GraphicsContext graphicsContext, ScoreComponent scoreComponent,double scale){
         super(scoreComponent);
         this.graphicsContext = graphicsContext;
+        this.scale = scale;
         font = new Font("Courier New",1,20);
     }
 

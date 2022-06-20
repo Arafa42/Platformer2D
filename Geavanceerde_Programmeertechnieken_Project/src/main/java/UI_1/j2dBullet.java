@@ -11,11 +11,11 @@ public class j2dBullet extends AbstractBullet {
     private int aniTick, aniIndex, aniSpeed = 10;
     private BufferedImage[] bulletSprite;
     private String bullet_spritesheet = "/assets/images/SpriteSheets/Bullets/bulletsSpriteSheet.png";
-
-
-    public j2dBullet(GraphicsContext graphicsContext, BulletComponent bulletComponent){
+    private final double scale;
+    public j2dBullet(GraphicsContext graphicsContext, BulletComponent bulletComponent,double scale){
         super(bulletComponent);
         this.graphicsContext = graphicsContext;
+        this.scale = scale;
         importOutsideSprites();
     }
 
@@ -89,7 +89,7 @@ public class j2dBullet extends AbstractBullet {
         Graphics2D g2d = graphicsContext.getG2d();
         //g2d.fillOval(((int)(getX()-getR())+50)-graphicsContext.getCamX(),((int)(getY()-getR())+15)-graphicsContext.getCamY(),3 * getR(),3*getR());
         if (GetBulletComponent().isActive()) {
-            g2d.drawImage(bulletSprite[aniIndex], ((int) (getX() - getR()) + 50) - graphicsContext.getCamX(), ((int) (getY() - getR()) + 15) - graphicsContext.getCamY(), null);
+            g2d.drawImage(bulletSprite[aniIndex], ((int) (getX() - getR()) + 50) - graphicsContext.getCamX(), ((int) (getY() - getR()) + 15) - graphicsContext.getCamY(),(int)(20*scale),(int)(20*scale), null);
             //g2d.setColor(Color.RED);
             //g2d.drawRect(((int) (getX() - getR()) + 50) - graphicsContext.getCamX(), ((int) (getY() - getR()) + 15) - graphicsContext.getCamY(), GetBulletComponent().getHitboxWidth(), GetBulletComponent().getHitboxHeight());
         }

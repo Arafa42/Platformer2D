@@ -4,7 +4,6 @@ import Game.Entities.*;
 import Game.Systems.*;
 import Helper.ConfigFileReader;
 import Helper.Levels;
-
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +39,6 @@ public class Game {
     private EnemyHealthSystem enemyHealthSystem;
     private InputSystem inputSystemM;
     private InputSystem inputSystemG;
-
     //ARRAYLIST COMPONENTS
     private ArrayList<MovementComponent> movementComponents;
     private ArrayList<PositionComponent> positionComponents;
@@ -63,16 +61,13 @@ public class Game {
     int map[][];
     String configFile;
     HashMap<String, Integer> data;
-    public final static int TILES_DEFAULT_SIZE = 48;
-    public final static int TILES_IN_WIDTH = 42;
-    public final static int TILES_IN_HEIGHT = 16;
-    public final static int TILES_SIZE = (int)(TILES_DEFAULT_SIZE);
+    public final  int TILES_DEFAULT_SIZE = 48;
+    public final  int TILES_IN_WIDTH = 42;
+    public final  int TILES_IN_HEIGHT = 16;
+    public final  int TILES_SIZE = (int)(TILES_DEFAULT_SIZE);
     private long firingTimer;
     private long firingDelay;
-    private enum EnemyType{
-        GROUND1,
-        GROUND2,
-    }
+    private enum EnemyType{GROUND1, GROUND2,}
 
     public Game(AbstractFactory abstractFactory,final String configFile) throws FileNotFoundException {
         data = ConfigFileReader.getConfigFileReaderInstance().processConfigFile(configFile);
@@ -87,7 +82,7 @@ public class Game {
         SoundSystem.volume = SoundSystem.Volume.LOW;
         SoundSystem.MENUMUSIC.play(true);
         input = factory.createInput(new InputComponent());
-        player = factory.createPlayer(100, 550,30,35,3.0f,false,0f,0.3f,-12f,1f,false,0,map,0,270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2);
+        player = factory.createPlayer(100, 550,30,35,3.0f,false,0f,0.3f,-12f,1f,false,0,map,0,270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2,factory.getScaleY());
         inputSystemM = new InputSystem(input.getInputComponent(),player,input.getPressedKeyInps());
         menu = factory.createMenu();
         menuDrawables = new ArrayList<Drawable>();
@@ -129,14 +124,14 @@ public class Game {
         this.map = levels.getLevel(levelToLoad);
         //ENEMY COORDINATES CHECK
         enemyCoordsCheck();
-        level = factory.createLevel(map,TILES_IN_HEIGHT,TILES_IN_WIDTH,TILES_SIZE);
-        player = factory.createPlayer(100, 550,30,35,3.0f,false,0f,0.3f,-12f,1f,false,0,map,0,270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2);
+        level = factory.createLevel(map,TILES_IN_HEIGHT,TILES_IN_WIDTH,(int)(TILES_SIZE*factory.getScaleY()));
+        player = factory.createPlayer(data.get("ScreenWidth")/10, data.get("ScreenHeight")/2,(int)(30*factory.getScaleY()),(int)(35*factory.getScaleY()),(float) (4.0f*factory.getScaleY()),false,0f,0.3f,(float) (-13f*factory.getScaleY()),1f,false,0,map,0,270,5,data.get("ScreenWidth"),data.get("ScreenHeight"),2,factory.getScaleY());
         player.getLevelComponent().setLevelToLoad(levelToLoad);
         input = factory.createInput(input.getInputComponent());
         playerBullets = new ArrayList<AbstractBullet>();
         enemyBullets = new ArrayList<AbstractBullet>();
-        scoreBar = factory.createScoreBar(player.getScoreComponent());
-        healthBar = factory.createHealthBar(player.getHealthComponent());
+        scoreBar = factory.createScoreBar(player.getScoreComponent(),factory.getScaleY());
+        healthBar = factory.createHealthBar(player.getHealthComponent(),factory.getScaleY());
         background = factory.createBackground(bgLayer1,bgLayer2);
         //DRAWABLES
         drawables = new ArrayList<Drawable>();
@@ -158,36 +153,35 @@ public class Game {
         positionComponents.add(enemy2.getPositionComponent());
         //SYSTEMS
         inputSystemG = new InputSystem(input.getInputComponent(),player,input.getPressedKeyInps());
-        collisionSystem = new CollisionSystem(player.getCollisionComponent(),player.getPositionComponent(),player.getMovementComponent());
-        collisionSystem2 = new CollisionSystem(enemy.getCollisionComponent(),enemy.getPositionComponent(),enemy.getMovementComponent());
-        collisionSystem3 = new CollisionSystem(enemy2.getCollisionComponent(),enemy2.getPositionComponent(),enemy2.getMovementComponent());
+        collisionSystem = new CollisionSystem(player.getCollisionComponent(),player.getPositionComponent(),player.getMovementComponent(),(int)(TILES_SIZE*factory.getScaleY()),TILES_IN_WIDTH,TILES_IN_HEIGHT);
+        collisionSystem2 = new CollisionSystem(enemy.getCollisionComponent(),enemy.getPositionComponent(),enemy.getMovementComponent(),(int)(TILES_SIZE*factory.getScaleY()),TILES_IN_WIDTH,TILES_IN_HEIGHT);
+        collisionSystem3 = new CollisionSystem(enemy2.getCollisionComponent(),enemy2.getPositionComponent(),enemy2.getMovementComponent(),(int)(TILES_SIZE*factory.getScaleY()),TILES_IN_WIDTH,TILES_IN_HEIGHT);
         playerMovementSystem = new PlayerMovementSystem(player.getMovementComponent());
         bulletSystem = new PlayerBulletSystem(playerBullets);
-        enemyMovementSystem  = new EnemyMovementSystem(collisionComponents,positionComponents,movementComponents);
-        coinSystem = new CoinSystem(player.getCollisionComponent(),player.getScoreComponent(),player.getPositionComponent());
-        powerUpSystem = new PowerUpSystem(player.getCollisionComponent(),player.getPositionComponent(),player.getMovementComponent(),player.getHealthComponent());
+        enemyMovementSystem  = new EnemyMovementSystem(collisionComponents,positionComponents,movementComponents,(int)(TILES_SIZE*factory.getScaleY()));
+        coinSystem = new CoinSystem(player.getCollisionComponent(),player.getScoreComponent(),player.getPositionComponent(),(int)(TILES_SIZE*factory.getScaleY()),factory.getScaleY());
+        powerUpSystem = new PowerUpSystem(player.getCollisionComponent(),player.getPositionComponent(),player.getMovementComponent(),player.getHealthComponent(),(int)(TILES_SIZE*factory.getScaleY()),factory.getScaleY());
         //ADD ENEMIES
         enemies.add(enemy);
         enemies.add(enemy2);
-        healthSystem = new PlayerHealthSystem(enemies,player,enemyBullets);
+        healthSystem = new PlayerHealthSystem(enemies,player,enemyBullets,(int)(TILES_SIZE*factory.getScaleY()),TILES_IN_HEIGHT,data.get("ScreenWidth")/10,data.get("ScreenHeight")/2);
         enemyHealthSystem = new EnemyHealthSystem(playerBullets,enemies);
         bulletSystem2 = new EnemyBulletSystem(enemyBullets,enemies,data.get("ScreenWidth"),data.get("ScreenHeight"),drawables, factory,player);
-        levelSystem = new LevelSystem(player);
+        levelSystem = new LevelSystem(player,(int)(TILES_SIZE*factory.getScaleY()),factory.getScaleY());
     }
-
 
 
     private void enemyCoordsCheck(){
         for(int i=0;i<map.length;i++){
             for(int j=0;j<map[i].length;j++){
-                if(map[i][j] == -6){enemy = factory.createEnemy(j*48, i*48,40,35,1f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND2.toString());}
-                if(map[i][j] == -7){enemy2 = factory.createEnemy(j*48, i*48,40,35,1f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND1.toString());}
+                if(map[i][j] == -6){enemy = factory.createEnemy((j*((int)(48*factory.getScaleY()))),(i*((int)(48*factory.getScaleY()))),(int)(40*factory.getScaleY()),(int)(35*factory.getScaleY()),1f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND2.toString(),factory.getScaleY());}
+                if(map[i][j] == -7){enemy2 = factory.createEnemy((j*((int)(48*factory.getScaleY()))),(i*((int)(48*factory.getScaleY()))),(int)(40*factory.getScaleY()),(int)(35*factory.getScaleY()),1f,false,0f,0.3f,-12f,1f,false,0,map,EnemyType.GROUND1.toString(),factory.getScaleY());}
             }
         }
     }
 
     public void run() throws InterruptedException {
-        factory.setGameDimensions((int)(data.get("ScreenWidth")), (int)(data.get("ScreenHeight")));
+        factory.setGameDimensions(data.get("ScreenWidth"), data.get("ScreenHeight"));
         double timePerFrame = 1000000000.0 / FPS_SET;
         double timerUpdate =  1000000000.0 / UPS_SET;
         long previousTime = System.nanoTime();
@@ -287,15 +281,9 @@ public class Game {
                     if (elapsed > firingDelay) {
                         SoundSystem.volume = SoundSystem.Volume.HIGH;
                         SoundSystem.PLAYERBULLET.play(false);
-                        if(player.getMovementComponent().isLeft()){
-                            playerBullets.add(factory.createBullet(new BulletComponent("PLAYER", player.getPositionComponent().x-100, player.getPositionComponent().y, 25, 16, -270, 5, data.get("ScreenWidth"), data.get("ScreenHeight"), 2)));
-                        }
-                        else if(player.getMovementComponent().isRight()){
-                            playerBullets.add(factory.createBullet(new BulletComponent("PLAYER", player.getPositionComponent().x, player.getPositionComponent().y, 25, 16, 270, 5, data.get("ScreenWidth"), data.get("ScreenHeight"), 2)));
-                        }
-                        else{
-                            playerBullets.add(factory.createBullet(new BulletComponent("PLAYER", player.getPositionComponent().x, player.getPositionComponent().y, 25, 16, 270, 5, data.get("ScreenWidth"), data.get("ScreenHeight"), 2)));
-                        }
+                        if(player.getMovementComponent().isLeft()){playerBullets.add(factory.createBullet(new BulletComponent("PLAYER", player.getPositionComponent().x-100, player.getPositionComponent().y, 25, 16, -270, 5, data.get("ScreenWidth"), data.get("ScreenHeight"), 2),factory.getScaleY()));}
+                        else if(player.getMovementComponent().isRight()){playerBullets.add(factory.createBullet(new BulletComponent("PLAYER", player.getPositionComponent().x, player.getPositionComponent().y, 25, 16, 270, 5, data.get("ScreenWidth"), data.get("ScreenHeight"), 2),factory.getScaleY()));}
+                        else{playerBullets.add(factory.createBullet(new BulletComponent("PLAYER", player.getPositionComponent().x, player.getPositionComponent().y, 25, 16, 270, 5, data.get("ScreenWidth"), data.get("ScreenHeight"), 2),factory.getScaleY()));}
                         firingTimer = System.nanoTime();
                         drawables.addAll(playerBullets);
                     }

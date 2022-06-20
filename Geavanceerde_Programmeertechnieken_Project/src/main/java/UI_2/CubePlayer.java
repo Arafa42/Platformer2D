@@ -9,12 +9,14 @@ public class CubePlayer extends AbstractPlayer {
     private final GraphicsContext graphicsContext;
     PositionComponent m = getPositionComponent();
     int hitboxWidth,hitboxHeight;
+    private double scale;
 
-    public CubePlayer(GraphicsContext graphicsContext, int x, int y, int hitboxWidth, int hitboxHeight, float playerSpeed, boolean inAir, float airSpeed, float gravity, float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving, int healthValue, int[][] map, int score, double bulletAngle, int bulletSpeed, int screenWidth, int screenHeight, int bulletRadius) {
+    public CubePlayer(GraphicsContext graphicsContext, int x, int y, int hitboxWidth, int hitboxHeight, float playerSpeed, boolean inAir, float airSpeed, float gravity, float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving, int healthValue, int[][] map, int score, double bulletAngle, int bulletSpeed, int screenWidth, int screenHeight, int bulletRadius,double scale) {
         super(x, y, hitboxWidth, hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving,healthValue,map,score,bulletAngle,bulletSpeed,screenWidth,screenHeight,bulletRadius);
         this.hitboxWidth = hitboxWidth;
         this.hitboxHeight = hitboxHeight;
         this.graphicsContext = graphicsContext;
+        this.scale = scale;
     }
 
     @Override

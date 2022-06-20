@@ -25,11 +25,11 @@ public class CubeFactory extends AbstractFactory {
     }
 
     @Override
-    public AbstractHealthBar createHealthBar(HealthComponent healthComponent) {return new CubeHealthBar(grCtx,healthComponent);}
+    public AbstractHealthBar createHealthBar(HealthComponent healthComponent,double scale) {return new CubeHealthBar(grCtx,healthComponent,scale);}
 
 
     @Override
-    public AbstractBullet createBullet(BulletComponent bulletComponent) {return new CubeBullet(grCtx,bulletComponent);}
+    public AbstractBullet createBullet(BulletComponent bulletComponent,double scale) {return new CubeBullet(grCtx,bulletComponent,scale);}
 
     @Override
     public void render() {
@@ -37,13 +37,13 @@ public class CubeFactory extends AbstractFactory {
     }
 
     @Override
-    public AbstractPlayer createPlayer(int x, int y, int hitboxWidth, int hitboxHeight,float playerSpeed,boolean inAir, float airSpeed, float gravity,float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving,int healthValue,int[][] map,int score,double bulletAngle,int bulletSpeed,int screenWidth,int screenHeight,int bulletRadius) {
-        return new CubePlayer(grCtx, x, y,hitboxWidth,hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving,healthValue,map,score,bulletAngle,bulletSpeed,screenWidth,screenHeight,bulletRadius);
+    public AbstractPlayer createPlayer(int x, int y, int hitboxWidth, int hitboxHeight,float playerSpeed,boolean inAir, float airSpeed, float gravity,float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving,int healthValue,int[][] map,int score,double bulletAngle,int bulletSpeed,int screenWidth,int screenHeight,int bulletRadius,double scale) {
+        return new CubePlayer(grCtx, x, y,hitboxWidth,hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving,healthValue,map,score,bulletAngle,bulletSpeed,screenWidth,screenHeight,bulletRadius,scale);
     }
 
     @Override
-    public AbstractEnemy createEnemy(int x, int y, int hitboxWidth, int hitboxHeight, float playerSpeed, boolean inAir, float airSpeed, float gravity, float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving, int healthValue,int[][] map,String type) {
-        return new CubeEnemy(grCtx,x, y,hitboxWidth,hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving,healthValue,map,type);
+    public AbstractEnemy createEnemy(int x, int y, int hitboxWidth, int hitboxHeight, float playerSpeed, boolean inAir, float airSpeed, float gravity, float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving, int healthValue,int[][] map,String type,double scale) {
+        return new CubeEnemy(grCtx,x, y,hitboxWidth,hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving,healthValue,map,type,scale);
     }
 
     @Override
@@ -52,8 +52,8 @@ public class CubeFactory extends AbstractFactory {
     }
 
     @Override
-    public AbstractScore createScoreBar(ScoreComponent scoreComponent) {
-        return new CubeScore(grCtx,scoreComponent);
+    public AbstractScore createScoreBar(ScoreComponent scoreComponent,double scale) {
+        return new CubeScore(grCtx,scoreComponent,scale);
     }
 
     @Override
@@ -63,6 +63,16 @@ public class CubeFactory extends AbstractFactory {
 
     @Override
     public AbstractMenu createMenu() {return new CubeMenu(grCtx);}
+
+    @Override
+    public double getScaleX() {
+        return this.grCtx.getScaleX();
+    }
+
+    @Override
+    public double getScaleY() {
+        return this.grCtx.getScaleY();
+    }
 
     @Override
     public void setGameDimensions(int GameCellsX, int GameCellsY) {this.grCtx.setGameDimensions(GameCellsX, GameCellsY);}

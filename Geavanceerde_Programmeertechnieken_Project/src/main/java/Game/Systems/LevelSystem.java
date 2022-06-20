@@ -1,22 +1,25 @@
 package Game.Systems;
 
 import Game.Entities.AbstractPlayer;
-import Game.Game;
 
 import java.util.concurrent.TimeUnit;
 
 public class LevelSystem {
 
     AbstractPlayer abstractPlayer;
+    private int TILES_SIZE;
+    private double scale;
 
-    public LevelSystem(AbstractPlayer abstractPlayer){
+    public LevelSystem(AbstractPlayer abstractPlayer,int TILES_SIZE,double scale){
         this.abstractPlayer = abstractPlayer;
+        this.TILES_SIZE = TILES_SIZE;
+        this.scale = scale;
     }
 
     public void update(){
-        int row = (int) (abstractPlayer.getPositionComponent().y / Game.TILES_SIZE);
-        int col1 = (int) ((abstractPlayer.getPositionComponent().x + 30) / Game.TILES_SIZE);
-        int col2 = (int) ((abstractPlayer.getPositionComponent().x) / Game.TILES_SIZE);
+        int row = (int) (abstractPlayer.getPositionComponent().y / TILES_SIZE);
+        int col1 = (int) ((abstractPlayer.getPositionComponent().x + (int)(30*scale)) / TILES_SIZE);
+        int col2 = (int) ((abstractPlayer.getPositionComponent().x) / TILES_SIZE);
         if (abstractPlayer.getCollisionComponent().getLevelData()[row][col1] == 3 || abstractPlayer.getCollisionComponent().getLevelData()[row][col2] == 3) {
             if(abstractPlayer.getLevelComponent().getLevelToLoad() <= 2) {
                 SoundSystem.volume = SoundSystem.Volume.HIGH;

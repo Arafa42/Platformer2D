@@ -13,13 +13,15 @@ public class CubeEnemy extends AbstractEnemy {
     PositionComponent m = getPositionComponent();
     private final int hitboxWidth;
     private final int hitboxHeight;
-    String type;
+    private String type;
+    private double scale;
 
-    public CubeEnemy(GraphicsContext graphicsContext, int x, int y, int hitboxWidth, int hitboxHeight, float playerSpeed, boolean inAir, float airSpeed, float gravity, float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving, int healthValue, int[][] map, String type) {
+    public CubeEnemy(GraphicsContext graphicsContext, int x, int y, int hitboxWidth, int hitboxHeight, float playerSpeed, boolean inAir, float airSpeed, float gravity, float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving, int healthValue, int[][] map, String type,double scale) {
         super(x, y, hitboxWidth, hitboxHeight, playerSpeed, inAir, airSpeed, gravity, jumpSpeed, fallSpeedAfterCollision, isMoving, healthValue,map,type);
         this.graphicsContext = graphicsContext;
         this.hitboxWidth = hitboxWidth;
         this.hitboxHeight = hitboxHeight;
+        this.scale = scale;
         this.type = type;
     }
 

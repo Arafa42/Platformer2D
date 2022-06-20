@@ -1,18 +1,23 @@
 package Game.Systems;
 
 import Game.Components.*;
-import Game.Game;
 
 public class CollisionSystem {
 
     private final CollisionComponent collisionComponent;
     private final PositionComponent positionComponent;
     private final MovementComponent movementComponent;
+    private final int TILES_SIZE;
+    private final int TILES_IN_WIDTH;
+    private final int TILES_IN_HEIGHT;
 
-    public CollisionSystem(CollisionComponent collisionComponent,PositionComponent positionComponent,MovementComponent movementComponent){
+    public CollisionSystem(CollisionComponent collisionComponent,PositionComponent positionComponent,MovementComponent movementComponent,int TILE_SIZE,int TILES_IN_WIDTH, int TILES_IN_HEIGHT){
         this.collisionComponent = collisionComponent;
         this.positionComponent = positionComponent;
         this.movementComponent = movementComponent;
+        this.TILES_SIZE = TILE_SIZE;
+        this.TILES_IN_WIDTH = TILES_IN_WIDTH;
+        this.TILES_IN_HEIGHT = TILES_IN_HEIGHT;
     }
 
     public void updateCollision(){
@@ -59,35 +64,35 @@ public class CollisionSystem {
     }
 
     private boolean IsSolid(float x, float y){
-        if(x < 0.0 || x >= (Game.TILES_SIZE * Game.TILES_IN_WIDTH)){return true;}
-        if(y < 0.0 || y >= (Game.TILES_SIZE * Game.TILES_IN_HEIGHT)){return true;}
+        if(x < 0.0 || x >= (TILES_SIZE * TILES_IN_WIDTH)){return true;}
+        if(y < 0.0 || y >= (TILES_SIZE * TILES_IN_HEIGHT)){return true;}
 
-        float xIndex = x / Game.TILES_SIZE;
-        float yIndex = y / Game.TILES_SIZE;
+        float xIndex = x / TILES_SIZE;
+        float yIndex = y / TILES_SIZE;
 
         int value = collisionComponent.getLevelData()[(int) yIndex][(int)xIndex];
         return value != 0 && value != 2 && value != 4 && value != 7 && value != -2 && value != -3 && value != -4 && value != -5 && value != 3 && value != -6 && value != -7 && value != 64 && value != 100 && value != 101 && value != 102 && value != 116 && value != 117 && value != 118;
     }
 
     public float GetEntityPosNextToWall(int x, int y, int width, int height, Float xSpeed){
-        int currentTile = (int)(x / Game.TILES_SIZE);
+        int currentTile = (int)(x / TILES_SIZE);
         if(xSpeed > 0){
-            int tileXpos = currentTile * Game.TILES_SIZE;
-            int xOffset = (int)(Game.TILES_SIZE - width);
+            int tileXpos = currentTile * TILES_SIZE;
+            int xOffset = (int)(TILES_SIZE - width);
             return tileXpos + xOffset - 1;
         }
-        else{return currentTile * Game.TILES_SIZE;}
+        else{return currentTile * TILES_SIZE;}
     }
 
     public float GetEntityYPosUnderRoofOrAboveFloor(int x, int y, int width, int height, Float airSpeed){
-        int currentTile = (int) (y / Game.TILES_SIZE);
+        int currentTile = (int) (y / TILES_SIZE);
         if(airSpeed > 0){
-            int tileYPos = currentTile * Game.TILES_SIZE;
-            int yOffset = (int)(Game.TILES_SIZE - height);
+            int tileYPos = currentTile * TILES_SIZE;
+            int yOffset = (int)(TILES_SIZE - height);
             return tileYPos + yOffset - 1;
         }
         else{
-            return currentTile * Game.TILES_SIZE;
+            return currentTile * TILES_SIZE;
         }
     }
 

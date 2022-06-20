@@ -92,23 +92,24 @@ public class j2dLevel extends AbstractLevel {
                     if (index == 0) {
                         index = 200;
                     }
-                    g2d.drawImage(levelSprite[index], (j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(), TILES_SIZE, TILES_SIZE, null);
+                    g2d.drawImage(levelSprite[index], (int)(((j * TILES_SIZE) - graphicsContext.getCamX())), (int)(((i * TILES_SIZE) - graphicsContext.getCamY())), (int)(TILES_SIZE), (int)(TILES_SIZE), null);
+                    //g2d.drawRect((int)(((j * TILES_SIZE) - graphicsContext.getCamX())), (int)(((i * TILES_SIZE) - graphicsContext.getCamY())),(int)(TILES_SIZE),(int)(TILES_SIZE));
                 }
                 else if(index == -2){
-                        g2d.drawImage(coinSprite[aniIndex],(j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE,null);
-                        //g2d.drawRect((j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE);
+                        g2d.drawImage(coinSprite[aniIndex],(int)(((j * TILES_SIZE) - graphicsContext.getCamX())), (int)(((i * TILES_SIZE) - graphicsContext.getCamY())),(int)(TILES_SIZE),(int)(TILES_SIZE),null);
+                        //g2d.drawRect((int)(((j * TILES_SIZE) - graphicsContext.getCamX())), (int)(((i * TILES_SIZE) - graphicsContext.getCamY())),(int)(TILES_SIZE),(int)(TILES_SIZE));
                 }
                 else if(index == -3){
-                    g2d.drawImage(powerUpSprite[7],(j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE,null);
-                    //g2d.drawRect((j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE);
+                    g2d.drawImage(powerUpSprite[7],(int)(((j * TILES_SIZE) - graphicsContext.getCamX())), (int)(((i * TILES_SIZE) - graphicsContext.getCamY())),(int)(TILES_SIZE),(int)(TILES_SIZE),null);
+                    //g2d.drawRect((int)(((j * TILES_SIZE) - graphicsContext.getCamX())), (int)(((i * TILES_SIZE) - graphicsContext.getCamY())),(int)(TILES_SIZE),(int)(TILES_SIZE));
                 }
                 else if(index == -4){
-                    g2d.drawImage(powerUpSprite[1],(j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE,null);
-                    //g2d.drawRect((j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE);
+                    g2d.drawImage(powerUpSprite[1],(int)(((j * TILES_SIZE) - graphicsContext.getCamX())), (int)(((i * TILES_SIZE) - graphicsContext.getCamY())),(int)(TILES_SIZE),(int)(TILES_SIZE),null);
+                    //g2d.drawRect((int)(((j * TILES_SIZE) - graphicsContext.getCamX())), (int)(((i * TILES_SIZE) - graphicsContext.getCamY())),(int)(TILES_SIZE),(int)(TILES_SIZE));
                 }
                 else if(index == -5) {
-                    g2d.drawImage(powerUpSprite[5],(j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE,null);
-                    //g2d.drawRect((j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(),TILES_SIZE,TILES_SIZE);
+                    g2d.drawImage(powerUpSprite[5],(int)(((j * TILES_SIZE) - graphicsContext.getCamX())), (int)(((i * TILES_SIZE) - graphicsContext.getCamY())),(int)(TILES_SIZE),(int)(TILES_SIZE),null);
+                    //g2d.drawRect((int)(((j * TILES_SIZE) - graphicsContext.getCamX())), (int)(((i * TILES_SIZE) - graphicsContext.getCamY())),(int)(TILES_SIZE),(int)(TILES_SIZE));
                 }
             }
         }

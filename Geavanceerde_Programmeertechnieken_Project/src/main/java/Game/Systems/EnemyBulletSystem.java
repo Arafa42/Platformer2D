@@ -71,12 +71,12 @@ public class EnemyBulletSystem {
                 if (enemy.getMovementComponent().getxSpeed() > 0) {
                     SoundSystem.volume = SoundSystem.Volume.HIGH;
                     SoundSystem.ENEMYBULLET.play(false);
-                    bullets.add(factory.createBullet(new BulletComponent("ENEMY", enemy.getPositionComponent().x, enemy.getPositionComponent().y, 25, 16, 270, 3, screenWidth, screenHeight, 2)));
+                    bullets.add(factory.createBullet(new BulletComponent("ENEMY", enemy.getPositionComponent().x, enemy.getPositionComponent().y, 25, 16, 270, 3, screenWidth, screenHeight, 2),factory.getScaleY()));
                 }
                 if (enemy.getMovementComponent().getxSpeed() < 0) {
                     SoundSystem.volume = SoundSystem.Volume.HIGH;
                     SoundSystem.ENEMYBULLET.play(false);
-                    bullets.add(factory.createBullet(new BulletComponent("ENEMY", enemy.getPositionComponent().x - 50, enemy.getPositionComponent().y, 25, 16, 90, 3, screenWidth, screenHeight, 2)));
+                    bullets.add(factory.createBullet(new BulletComponent("ENEMY", enemy.getPositionComponent().x - 50, enemy.getPositionComponent().y, 25, 16, 90, 3, screenWidth, screenHeight, 2),factory.getScaleY()));
                 }
                 firingTimer = System.nanoTime();
                 //System.out.println(bullets.size());

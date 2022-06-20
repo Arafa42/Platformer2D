@@ -10,11 +10,17 @@ public class PlayerHealthSystem {
     ArrayList<AbstractEnemy> enemies;
     AbstractPlayer player;
     ArrayList<AbstractBullet> enemyBullets;
+    private int TILES_SIZE,TILES_IN_HEIGHT;
+    private int xResetPos, yResetPos;
 
-    public PlayerHealthSystem(ArrayList<AbstractEnemy> enemies, AbstractPlayer player, ArrayList<AbstractBullet> enemyBullets){
+    public PlayerHealthSystem(ArrayList<AbstractEnemy> enemies, AbstractPlayer player, ArrayList<AbstractBullet> enemyBullets, int TILES_SIZE,int TILES_IN_HEIGHT,int xReseetPos, int yResetPos){
         this.enemies = enemies;
         this.player = player;
         this.enemyBullets = enemyBullets;
+        this.TILES_SIZE = TILES_SIZE;
+        this.TILES_IN_HEIGHT = TILES_IN_HEIGHT;
+        this.xResetPos = xReseetPos;
+        this.yResetPos = yResetPos;
     }
 
     public void update(){
@@ -53,10 +59,10 @@ public class PlayerHealthSystem {
 
 
     private void checkHealthOnFall(int y, float airSpeed){
-        int currentTile = y / Game.TILES_SIZE;
+        int currentTile = y / TILES_SIZE;
         if(airSpeed > 0){
             //FALLING OR TOUCHING FLOOR
-            if(currentTile >= Game.TILES_IN_HEIGHT-1){
+            if(currentTile >= TILES_IN_HEIGHT-1){
                 //FALLING ON GROUND = -1 HEALTH
                 //IF HEALTH VALUE < 5 BECAUSE ELSE YOU DIED
                 if(player.getHealthComponent().getHealthValue() < 5) {
@@ -83,8 +89,8 @@ public class PlayerHealthSystem {
     }
 
     private void resetPosition(){
-        player.getPositionComponent().x = 100;
-        player.getPositionComponent().y = 550;
+        player.getPositionComponent().x = xResetPos;
+        player.getPositionComponent().y = yResetPos;
     }
 
 }

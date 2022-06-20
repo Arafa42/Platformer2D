@@ -9,9 +9,11 @@ import java.awt.image.BufferedImage;
 public class CubeHealthBar extends AbstractHealthBar {
 
     private final GraphicsContext graphicsContext;
+    private final double scale;
 
-    public CubeHealthBar(GraphicsContext graphicsContext, HealthComponent healthComponent) {
+    public CubeHealthBar(GraphicsContext graphicsContext, HealthComponent healthComponent,double scale) {
         super(healthComponent);
+        this.scale = scale;
         this.graphicsContext = graphicsContext;
     }
 

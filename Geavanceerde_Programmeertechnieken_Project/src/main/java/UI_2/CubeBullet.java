@@ -8,9 +8,11 @@ import java.util.Objects;
 public class CubeBullet extends AbstractBullet {
     private final GraphicsContext graphicsContext;
     private Color color;
+    private final double scale;
 
-    public CubeBullet(GraphicsContext graphicsContext, BulletComponent bulletComponent){
+    public CubeBullet(GraphicsContext graphicsContext, BulletComponent bulletComponent,double scale){
         super(bulletComponent);
+        this.scale = scale;
         this.graphicsContext = graphicsContext;
         importOutsideSprites();
     }

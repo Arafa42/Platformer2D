@@ -10,10 +10,11 @@ public class j2dHealthBar extends AbstractHealthBar {
     private final GraphicsContext graphicsContext;
     private BufferedImage[] healthBarSprite;
     private String healthbar_spritesheet = "/assets/images/SpriteSheets/healthbar/healthbar.png";
-
-    public j2dHealthBar(GraphicsContext graphicsContext,HealthComponent healthComponent) {
+    private final double scale;
+    public j2dHealthBar(GraphicsContext graphicsContext,HealthComponent healthComponent,double scale) {
         super(healthComponent);
         this.graphicsContext = graphicsContext;
+        this.scale = scale;
         importSprites();
     }
 
@@ -41,7 +42,7 @@ public class j2dHealthBar extends AbstractHealthBar {
     @Override
     public void draw() {
         Graphics2D g2d = graphicsContext.getG2d();
-        g2d.drawImage(healthBarSprite[GetHealthValue()], (graphicsContext.getFrame().getWidth() / 2) - (healthBarSprite[GetHealthValue()].getWidth() / 2), 5, null);
+        g2d.drawImage(healthBarSprite[GetHealthValue()], (graphicsContext.getFrame().getWidth() / 2) - (int)((healthBarSprite[GetHealthValue()].getWidth() / 2)), (int)(5*scale), null);
     }
 
 }

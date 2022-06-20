@@ -10,6 +10,8 @@ import java.io.IOException;
 public class GraphicsContext {
     private int ScreenWidth;
     private int ScreenHeight;
+    private double defaultScaleWidth = 1280.0;
+    private double defaultScaleHeight = 800.0;
     private int camX = 0;
     private int camY = 0;
     private JFrame frame;
@@ -17,24 +19,13 @@ public class GraphicsContext {
     private BufferedImage g2dimage;
     private Graphics2D g2d;
     private int size;
-
+    private double scaleX, scaleY;
     private int viewPortX = 1008;
     private int viewPortY = 800;
     private int offsetMaxX = 2016 - viewPortX;
     private int offsetMaxY = 800 - viewPortY;
     private int offsetMinX = 0;
     private int offsetMinY = 0;
-
-
-    public Graphics2D getG2d() {
-        return g2d;
-    }
-    public JFrame getFrame() {
-        return frame;
-    }
-    public int getSize() {
-        return size;
-    }
 
     public BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight){
         Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_DEFAULT);
@@ -93,6 +84,12 @@ public class GraphicsContext {
 
     public void setGameDimensions(int GameCellsX, int GameCellsY) {
         size = Math.min(ScreenWidth/GameCellsX, ScreenHeight/GameCellsY);
+        scaleX = GameCellsX/defaultScaleWidth;
+        scaleY = GameCellsY/defaultScaleHeight;
+
+        System.out.println(scaleX);
+        System.out.println(scaleY);
+
         frame.setLocation(50,50);
         frame.setSize(ScreenWidth, ScreenHeight);
         g2dimage = new BufferedImage(frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_4BYTE_ABGR_PRE);
@@ -100,6 +97,11 @@ public class GraphicsContext {
     }
 
 
+    public Graphics2D getG2d() {return g2d;}
+    public JFrame getFrame() {return frame;}
+    public int getSize() {return size;}
+    public double getScaleX(){return scaleX;}
+    public double getScaleY(){return scaleY;}
     public int getCamX() {return camX;}
     public void setCamX(int camX) {this.camX = camX;}
     public int getCamY() {return camY;}

@@ -9,12 +9,16 @@ public class PowerUpSystem extends Thread {
     private final PositionComponent positionComponent;
     private final MovementComponent movementComponent;
     private final HealthComponent healthComponent;
+    private int TILES_SIZE;
+    private double scale;
 
-    public PowerUpSystem(CollisionComponent collisionComponent,PositionComponent positionComponent,MovementComponent movementComponent, HealthComponent healthComponent){
+    public PowerUpSystem(CollisionComponent collisionComponent,PositionComponent positionComponent,MovementComponent movementComponent, HealthComponent healthComponent,int TILES_SIZE,double scale){
         this.collisionComponent = collisionComponent;
         this.positionComponent = positionComponent;
         this.movementComponent = movementComponent;
         this.healthComponent = healthComponent;
+        this.scale = scale;
+        this.TILES_SIZE = TILES_SIZE;
     }
 
     public void update() {
@@ -23,9 +27,9 @@ public class PowerUpSystem extends Thread {
 
 
     public void coinCollisionCheck(int x, int y) {
-            int row = y / Game.TILES_SIZE;
-            int col1 = (x + 30) / Game.TILES_SIZE;
-            int col2 = (x) / Game.TILES_SIZE;
+            int row = y / TILES_SIZE;
+            int col1 = (x + (int)(30*scale)) / TILES_SIZE;
+            int col2 = (x) / TILES_SIZE;
             //JUMP
             if (collisionComponent.getLevelData()[row][col1] == -3) {
                 collisionComponent.getLevelData()[row][col1] = 0;
