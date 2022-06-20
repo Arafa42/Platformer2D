@@ -9,7 +9,7 @@ public class CubePlayer extends AbstractPlayer {
     private final GraphicsContext graphicsContext;
     PositionComponent m = getPositionComponent();
     int hitboxWidth,hitboxHeight;
-    private double scale;
+    private final double scale;
 
     public CubePlayer(GraphicsContext graphicsContext, int x, int y, int hitboxWidth, int hitboxHeight, float playerSpeed, boolean inAir, float airSpeed, float gravity, float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving, int healthValue, int[][] map, int score, double bulletAngle, int bulletSpeed, int screenWidth, int screenHeight, int bulletRadius,double scale) {
         super(x, y, hitboxWidth, hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving,healthValue,map,score,bulletAngle,bulletSpeed,screenWidth,screenHeight,bulletRadius);
@@ -42,7 +42,7 @@ public class CubePlayer extends AbstractPlayer {
 
         Graphics2D graphics2D = graphicsContext.getG2d();
         graphics2D.setColor(Color.BLUE);
-        graphics2D.drawRect((int)m.x-graphicsContext.getCamX(), (int)m.y-graphicsContext.getCamY(), (int)hitboxWidth, (int)hitboxHeight);
+        graphics2D.drawRect((int)m.x-graphicsContext.getCamX(), (int)m.y-graphicsContext.getCamY(), (int)(hitboxWidth*scale), (int)(hitboxHeight*scale));
     }
 
 

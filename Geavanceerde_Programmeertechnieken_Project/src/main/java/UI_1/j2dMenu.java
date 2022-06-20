@@ -1,16 +1,16 @@
 package UI_1;
 
 import Game.Entities.AbstractMenu;
-
-import javax.swing.*;
 import java.awt.*;
 
 public class j2dMenu extends AbstractMenu {
 
     private final GraphicsContext graphicsContext;
+    private final double scale;
 
-    public j2dMenu(GraphicsContext graphicsContext){
+    public j2dMenu(GraphicsContext graphicsContext,double scale){
         this.graphicsContext = graphicsContext;
+        this.scale = scale;
     }
 
     @Override
@@ -19,20 +19,17 @@ public class j2dMenu extends AbstractMenu {
         g2d.setColor(Color.white);
         g2d.fillRect(0,0,graphicsContext.getFrame().getWidth(),graphicsContext.getFrame().getHeight());
         g2d.setColor(new Color(238, 39, 39, 255));
-        g2d.drawString("2D PLATFORMER",graphicsContext.getFrame().getWidth()/2-180,(graphicsContext.getFrame().getHeight()/2-300));
+        g2d.drawString("2D PLATFORMER",graphicsContext.getFrame().getWidth()/2-(int)(200*scale),(graphicsContext.getFrame().getHeight()/2-(int)(300*scale)));
         for(int i =0;i< getMenuComponent().getOptions().length;i++){
             if(i== getMenuComponent().getCurrentSelection()){
                 g2d.setColor(new Color(122, 122, 115, 221));
             }else{
                 g2d.setColor(Color.BLACK);
             }
-            Font font = new Font("Arial",Font.BOLD,48);
+            Font font = new Font("Arial",Font.BOLD,(int)(48*scale));
             g2d.setFont(font);
             FontMetrics metrics = g2d.getFontMetrics(font);
-            g2d.drawString(getMenuComponent().getOptions()[i],(graphicsContext.getFrame().getWidth()-metrics.stringWidth(getMenuComponent().getOptions()[i]))/2,(graphicsContext.getFrame().getHeight()/2-150)+i*100);
+            g2d.drawString(getMenuComponent().getOptions()[i],(graphicsContext.getFrame().getWidth()-metrics.stringWidth(getMenuComponent().getOptions()[i]))/2,(graphicsContext.getFrame().getHeight()/2-(int)(180*scale))+i*(int)(100*scale));
         }
-
-
     }
-
 }

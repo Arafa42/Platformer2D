@@ -17,7 +17,7 @@ public class CubeScore extends AbstractScore {
         super(scoreComponent);
         this.graphicsContext = graphicsContext;
         this.scale = scale;
-        font = new Font("Courier New",1,20);
+        font = new Font("Courier New",1,(int)(20*scale));
     }
 
     @Override
@@ -25,10 +25,10 @@ public class CubeScore extends AbstractScore {
         Graphics2D g2d = graphicsContext.getG2d();
         g2d.setFont(font);
         g2d.setColor(Color.WHITE);
-        g2d.drawString("x",graphicsContext.getFrame().getWidth()/20,30);
+        g2d.drawString("x",graphicsContext.getFrame().getWidth()/20,(int)(30*scale));
         String scr = String.valueOf(GetCurrentScore());
-        g2d.drawString(scr,graphicsContext.getFrame().getWidth()/15,30);
+        g2d.drawString(scr,graphicsContext.getFrame().getWidth()/15,(int)(30*scale));
         g2d.setColor(Color.YELLOW);
-        g2d.fillRect(graphicsContext.getFrame().getWidth()/60,10,30,30);
+        g2d.fillRect(graphicsContext.getFrame().getWidth()/60,10,(int)(30*scale),(int)(30*scale));
     }
 }

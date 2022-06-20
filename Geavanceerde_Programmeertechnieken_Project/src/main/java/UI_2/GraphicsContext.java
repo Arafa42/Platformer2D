@@ -8,11 +8,10 @@ import java.io.File;
 import java.io.IOException;
 
 public class GraphicsContext {
-    private double defaultScaleWidth = 1280.0;
-    private double defaultScaleHeight = 800.0;
-    private double scaleX, scaleY;
     private int ScreenWidth;
     private int ScreenHeight;
+    private double defaultScaleWidth = 1280.0;
+    private double defaultScaleHeight = 800.0;
     private int camX = 0;
     private int camY = 0;
     private JFrame frame;
@@ -20,6 +19,7 @@ public class GraphicsContext {
     private BufferedImage g2dimage;
     private Graphics2D g2d;
     private int size;
+    private double scaleX, scaleY;
     private int viewPortX = 1008;
     private int viewPortY = 800;
     private int offsetMaxX = 2016 - viewPortX;
@@ -73,7 +73,10 @@ public class GraphicsContext {
     private void doDrawing(Graphics g) {
         Graphics2D graph2d = (Graphics2D) g;
         Toolkit.getDefaultToolkit().sync();
-        if(g2dimage==null){return;}
+
+        if(g2dimage==null){
+            return;
+        }
         graph2d.drawImage(g2dimage, 0, 0,g2dimage.getWidth(),g2dimage.getHeight(),null );   // copy buffered image
         graph2d.translate(-camX,-camY);
         graph2d.dispose();
@@ -81,23 +84,17 @@ public class GraphicsContext {
 
     public void setGameDimensions(int GameCellsX, int GameCellsY) {
         size = Math.min(ScreenWidth/GameCellsX, ScreenHeight/GameCellsY);
-        scaleX = defaultScaleWidth/GameCellsX;
-        scaleY = defaultScaleWidth/GameCellsY;
+        scaleX = GameCellsX/defaultScaleWidth;
+        scaleY = GameCellsY/defaultScaleHeight;
         frame.setLocation(50,50);
         frame.setSize(ScreenWidth, ScreenHeight);
         g2dimage = new BufferedImage(frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_4BYTE_ABGR_PRE);
         g2d = g2dimage.createGraphics();
     }
 
-    public Graphics2D getG2d() {
-        return g2d;
-    }
-    public JFrame getFrame() {
-        return frame;
-    }
-    public int getSize() {
-        return size;
-    }
+    public Graphics2D getG2d() {return g2d;}
+    public JFrame getFrame() {return frame;}
+    public int getSize() {return size;}
     public double getScaleX(){return scaleX;}
     public double getScaleY(){return scaleY;}
     public int getCamX() {return camX;}

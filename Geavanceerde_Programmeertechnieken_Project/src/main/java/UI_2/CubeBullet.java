@@ -34,7 +34,7 @@ public class CubeBullet extends AbstractBullet {
         Graphics2D g2d = graphicsContext.getG2d();
         if (GetBulletComponent().isActive()) {
             g2d.setColor(color);
-            g2d.drawRect(((int) (getX() - getR()) + 50) - graphicsContext.getCamX(), ((int) (getY() - getR()) + 15) - graphicsContext.getCamY(), GetBulletComponent().getHitboxWidth(), GetBulletComponent().getHitboxHeight());
+            g2d.drawRect(((int) (getX() - getR()) + 50) - graphicsContext.getCamX(), ((int) (getY() - getR()) + 15) - graphicsContext.getCamY(), (int)(GetBulletComponent().getHitboxWidth()*scale),(int)(GetBulletComponent().getHitboxHeight()*scale));
         }
     }
 

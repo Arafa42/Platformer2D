@@ -11,8 +11,8 @@ public class Main {
         Game game = new Game(j2dFactory,"graphics_config.txt");
         game.run();
         //AbstractFactory cubeFactory = new CubeFactory("graphics_config.txt");
-        //Game game = new Game(cubeFactory,"graphics_config.txt");
-        //game.run();
+        //Game game2 = new Game(cubeFactory,"graphics_config.txt");
+        //game2.run();
     }
 
     public Main(){}

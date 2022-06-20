@@ -18,13 +18,13 @@ public abstract class AbstractEnemy implements Drawable {
     private final EnemyComponent enemyComponent;
     private final String type;
 
-    public AbstractEnemy(int x, int y, int hitboxWidth, int hitboxHeight,float playerSpeed,boolean inAir, float airSpeed, float gravity,float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving,int healthValue,int[][] map,String type){
+    public AbstractEnemy(int x, int y, int hitboxWidth, int hitboxHeight,float playerSpeed,boolean inAir, float airSpeed, float gravity,float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving,int healthValue,int[][] map,String type,int areaHitboxWidth,int areaHitboxHeight){
         this.positionComponent = new PositionComponent(x,y,hitboxWidth,hitboxHeight);
         this.movementComponent = new MovementComponent(playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving);
         this.healthComponent = new HealthComponent(healthValue);
         this.collisionComponent = new CollisionComponent(map);
         this.bulletsComponent = new ArrayList<BulletComponent>();
-        this.enemyComponent = new EnemyComponent(true,600,400);
+        this.enemyComponent = new EnemyComponent(true,areaHitboxWidth,areaHitboxHeight);
         this.type = type;
     }
 

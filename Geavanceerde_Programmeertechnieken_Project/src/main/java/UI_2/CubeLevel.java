@@ -36,7 +36,7 @@ public class CubeLevel extends AbstractLevel {
                     if (index == 0) {
                         index = 200;
                     }
-                    g2d.setColor(Color.BLACK);
+                    g2d.setColor(Color.DARK_GRAY);
                     if(index !=200 && index != 2 && index != 4 && index != 7 && index != -2 && index != -3 && index != -4 && index != -5 && index != 3 && index != -6 && index != -7 && index != 64 && index != 100 && index != 101 && index != 102 && index != 116 && index != 117 && index!=118) {
                         g2d.fillRect((j * TILES_SIZE) - graphicsContext.getCamX(), (i * TILES_SIZE) - graphicsContext.getCamY(), TILES_SIZE, TILES_SIZE);
                     }

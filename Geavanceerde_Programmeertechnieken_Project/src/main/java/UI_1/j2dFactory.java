@@ -31,8 +31,8 @@ public class j2dFactory extends AbstractFactory {
         return new j2dPlayer(grCtx, x, y,hitboxWidth,hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving,healthValue,map,score,bulletAngle,bulletSpeed,screenWidth,screenHeight,bulletRadius,scale);
     }
     @Override
-    public AbstractEnemy createEnemy(int x, int y, int hitboxWidth, int hitboxHeight, float playerSpeed, boolean inAir, float airSpeed, float gravity, float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving, int healthValue,int[][] map,String type,double scale) {
-        return new j2dEnemy(grCtx,x, y,hitboxWidth,hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving,healthValue,map,type,scale);
+    public AbstractEnemy createEnemy(int x, int y, int hitboxWidth, int hitboxHeight, float playerSpeed, boolean inAir, float airSpeed, float gravity, float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving, int healthValue,int[][] map,String type,double scale,int areaHitboxWidth,int areaHitboxHeight) {
+        return new j2dEnemy(grCtx,x, y,hitboxWidth,hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving,healthValue,map,type,scale,areaHitboxWidth,areaHitboxHeight);
     }
     @Override
     public AbstractBackground createBackground(String layer1,String layer2) {return new j2dBackground(grCtx,layer1,layer2);}
@@ -43,7 +43,7 @@ public class j2dFactory extends AbstractFactory {
         return new j2dLevel(grCtx,tileArray, TILES_IN_HEIGHT, TILES_IN_WIDTH, TILES_SIZE);
     }
     @Override
-    public AbstractMenu createMenu() {return new j2dMenu(grCtx);}
+    public AbstractMenu createMenu(double scale) {return new j2dMenu(grCtx,scale);}
     @Override
     public double getScaleX() {return this.grCtx.getScaleX();}
     @Override
