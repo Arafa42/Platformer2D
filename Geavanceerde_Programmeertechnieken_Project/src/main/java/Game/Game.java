@@ -10,8 +10,11 @@ import java.util.HashMap;
 import java.util.Objects;
 
 public class Game {
+
+    private static Game single_instance = null;
+
     //FACTORY INIT
-    private final AbstractFactory factory;
+    private AbstractFactory factory;
     //ENTITIES INIT
     private AbstractInput input;
     private AbstractBackground background;
@@ -76,6 +79,11 @@ public class Game {
         initMenu();
         //initGame(1);
         //startGameLoop();
+    }
+
+    public static Game getInstance(AbstractFactory abstractFactory,final String configFile) throws FileNotFoundException {
+        if (single_instance == null) {single_instance = new Game(abstractFactory,configFile);}
+        return single_instance;
     }
 
     private void initMenu(){

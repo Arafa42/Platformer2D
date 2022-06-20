@@ -86,10 +86,6 @@ public class GraphicsContext {
         size = Math.min(ScreenWidth/GameCellsX, ScreenHeight/GameCellsY);
         scaleX = GameCellsX/defaultScaleWidth;
         scaleY = GameCellsY/defaultScaleHeight;
-
-        System.out.println(scaleX);
-        System.out.println(scaleY);
-
         frame.setLocation(50,50);
         frame.setSize(ScreenWidth, ScreenHeight);
         g2dimage = new BufferedImage(frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_4BYTE_ABGR_PRE);
