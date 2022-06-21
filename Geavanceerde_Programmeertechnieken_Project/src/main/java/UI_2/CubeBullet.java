@@ -5,11 +5,21 @@ import Game.Entities.AbstractBullet;
 import java.awt.*;
 import java.util.Objects;
 
+/**
+ * CubeBullet class extends AbstractBullet.
+ * @author Arafa Yoncalik
+ */
 public class CubeBullet extends AbstractBullet {
     private final GraphicsContext graphicsContext;
     private Color color;
     private final double scale;
 
+    /**
+     *CubeBullet constructor.
+     * @param graphicsContext
+     * @param bulletComponent
+     * @param scale
+     */
     public CubeBullet(GraphicsContext graphicsContext, BulletComponent bulletComponent,double scale){
         super(bulletComponent);
         this.scale = scale;
@@ -17,7 +27,9 @@ public class CubeBullet extends AbstractBullet {
         importOutsideSprites();
     }
 
-
+    /**
+     *Determines colors of the bullets based on entity type.
+     */
     public void importOutsideSprites(){
         //BULLETS
         if(Objects.equals(GetBulletComponent().getType(), "PLAYER")){
@@ -28,7 +40,9 @@ public class CubeBullet extends AbstractBullet {
         }
     }
 
-
+    /**
+     * Does the drawing of the bullets.
+     */
     @Override
     public void draw() {
         Graphics2D g2d = graphicsContext.getG2d();

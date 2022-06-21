@@ -1,5 +1,9 @@
 package Game.Components;
 
+/**
+ *MovementComponent class.
+ * @author Arafa Yoncalik
+ */
 public class MovementComponent {
 
     private  float playerSpeed;
@@ -12,6 +16,16 @@ public class MovementComponent {
     private boolean left,right,jump,attacking;
     private int xSpeed;
 
+    /**
+     *MovementComponent constructor.
+     * @param playerSpeed
+     * @param inAir
+     * @param airSpeed
+     * @param gravity
+     * @param jumpSpeed
+     * @param fallSpeedAfterCollision
+     * @param isMoving
+     */
     public MovementComponent(float playerSpeed, boolean inAir, float airSpeed, float gravity, float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving) {
         this.playerSpeed = playerSpeed;
         this.inAir = inAir;

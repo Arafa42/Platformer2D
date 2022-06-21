@@ -6,15 +6,23 @@ import Game.Entities.AbstractScore;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ *j2dScore class extends from AbstractScore.
+ * @author Arafa Yoncalik
+ */
 public class j2dScore extends AbstractScore {
-
 
     private final GraphicsContext graphicsContext;
     private final Font font;
     private final BufferedImage coin;
     private final double scale;
 
-
+    /**
+     *j2dScore constructor.
+     * @param graphicsContext
+     * @param scoreComponent
+     * @param scale
+     */
     public j2dScore(GraphicsContext graphicsContext, ScoreComponent scoreComponent,double scale){
         super(scoreComponent);
         this.graphicsContext = graphicsContext;
@@ -24,6 +32,9 @@ public class j2dScore extends AbstractScore {
         coin = this.graphicsContext.loadImages(coinImagePath,(int)(30*scale),(int)(30*scale), false);
     }
 
+    /**
+     *Does the drawing of the score value.
+     */
     @Override
     public void draw() {
         Graphics2D g2d = graphicsContext.getG2d();

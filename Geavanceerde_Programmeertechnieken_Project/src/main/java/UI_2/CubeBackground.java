@@ -4,6 +4,10 @@ import Game.Entities.AbstractBackground;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ *CubeBackground class extends AbstractBackground.
+ * @author Arafa Yoncalik
+ */
 public class CubeBackground extends AbstractBackground {
     private final GraphicsContext grCtx;
     private final BufferedImage image;
@@ -11,7 +15,12 @@ public class CubeBackground extends AbstractBackground {
     private int backgroundX = 0;
     double layer2Y = 0;
 
-
+    /**
+     *CubeBackground constructor.
+     * @param grCtx
+     * @param bgLayer1
+     * @param bgLayer2
+     */
     public CubeBackground(GraphicsContext grCtx, String bgLayer1, String bgLayer2) {
         super(bgLayer1,bgLayer2);
         this.grCtx = grCtx;
@@ -21,6 +30,9 @@ public class CubeBackground extends AbstractBackground {
         image2 = this.grCtx.loadImages(imagePath2, this.grCtx.getFrame().getWidth(),this.grCtx.getFrame().getHeight()/2, false);
     }
 
+    /**
+     *Does the drawing of the Background.
+     */
     @Override
     public void draw() {
 

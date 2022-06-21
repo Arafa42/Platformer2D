@@ -1,7 +1,16 @@
 package Game.Components;
 
+/**
+ *HealthComponent class
+ * @author Arafa Yoncalik
+ */
 public class HealthComponent {
     private int healthValue;
+
+    /**
+     *HealthComponent constructor.
+     * @param healthValue
+     */
     public HealthComponent(int healthValue){
         this.healthValue = healthValue;
     }

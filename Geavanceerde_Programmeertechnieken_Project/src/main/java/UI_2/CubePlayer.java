@@ -4,6 +4,10 @@ import Game.Components.PositionComponent;
 import Game.Entities.AbstractPlayer;
 import java.awt.*;
 
+/**
+ * CubePlayer class extends AbstractPlayer
+ * @author Arafa Yoncalik
+ */
 public class CubePlayer extends AbstractPlayer {
 
     private final GraphicsContext graphicsContext;
@@ -11,6 +15,30 @@ public class CubePlayer extends AbstractPlayer {
     int hitboxWidth,hitboxHeight;
     private final double scale;
 
+    /**
+     *CubePlayer constructor, takes all necessary parameters a player needs.
+     * @param graphicsContext
+     * @param x
+     * @param y
+     * @param hitboxWidth
+     * @param hitboxHeight
+     * @param playerSpeed
+     * @param inAir
+     * @param airSpeed
+     * @param gravity
+     * @param jumpSpeed
+     * @param fallSpeedAfterCollision
+     * @param isMoving
+     * @param healthValue
+     * @param map
+     * @param score
+     * @param bulletAngle
+     * @param bulletSpeed
+     * @param screenWidth
+     * @param screenHeight
+     * @param bulletRadius
+     * @param scale
+     */
     public CubePlayer(GraphicsContext graphicsContext, int x, int y, int hitboxWidth, int hitboxHeight, float playerSpeed, boolean inAir, float airSpeed, float gravity, float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving, int healthValue, int[][] map, int score, double bulletAngle, int bulletSpeed, int screenWidth, int screenHeight, int bulletRadius,double scale) {
         super(x, y, hitboxWidth, hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving,healthValue,map,score,bulletAngle,bulletSpeed,screenWidth,screenHeight,bulletRadius);
         this.hitboxWidth = hitboxWidth;
@@ -19,6 +47,9 @@ public class CubePlayer extends AbstractPlayer {
         this.scale = scale;
     }
 
+    /**
+     * Does the drawing of the player.
+     */
     @Override
     public void draw() {
         //update();

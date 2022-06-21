@@ -1,5 +1,9 @@
 package Game.Components;
 
+/**
+ *EnemyComponent class.
+ * @author Arafa Yoncalik
+ */
 public class EnemyComponent {
 
     private Boolean isActive;
@@ -8,6 +12,12 @@ public class EnemyComponent {
     private float areaX;
     private float areaY;
 
+    /**
+     *EnemyComponent constructor.
+     * @param isActive
+     * @param areaHitboxWidth
+     * @param areaHitboxHeight
+     */
     public EnemyComponent(Boolean isActive,int areaHitboxWidth,int areaHitboxHeight){
         this.isActive = isActive;
         this.areaHitboxWidth = areaHitboxWidth;

@@ -2,6 +2,10 @@ package Helper;
 
 import java.util.Arrays;
 
+/**
+ * Levels class.
+ * @author Arafa Yoncalik
+ */
 public class Levels {
 
     //  0   -> EMPTY
@@ -70,6 +74,11 @@ public class Levels {
             { 97, 97, 114, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0}
     };
 
+    /**
+     * Level getter.
+     * @param levelNumber the level parameter as integer you want.
+     * @return returns the level 2D array.
+     */
     public int[][] getLevel(int levelNumber){
         switch (levelNumber){
             case 1:
@@ -82,7 +91,11 @@ public class Levels {
                 return null;
         }
     }
-    
+
+    /**
+     * Level to string method.
+     * @return returns a string of the levels.
+     */
     @Override
     public String toString() {
         return "Levels{" +

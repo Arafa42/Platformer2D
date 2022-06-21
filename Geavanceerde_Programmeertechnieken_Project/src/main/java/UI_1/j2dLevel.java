@@ -5,6 +5,10 @@ import Game.Entities.AbstractLevel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ *j2dLevel class extends from AbstractLevel class.
+ * @author Arafa Yoncalik
+ */
 public class j2dLevel extends AbstractLevel {
 
     //LEVEL MAP
@@ -22,6 +26,14 @@ public class j2dLevel extends AbstractLevel {
     private int aniIndex;
     private final int TILES_IN_WIDTH, TILES_IN_HEIGHT, TILES_SIZE;
 
+    /**
+     *j2dLevel constructor.
+     * @param graphicsContext
+     * @param tileArray
+     * @param TILES_IN_HEIGHT
+     * @param TILES_IN_WIDTH
+     * @param TILES_SIZE
+     */
     public j2dLevel(GraphicsContext graphicsContext, int[][] tileArray, int TILES_IN_HEIGHT, int TILES_IN_WIDTH, int TILES_SIZE) {
         super(tileArray);
         this.TILES_IN_WIDTH = TILES_IN_WIDTH;
@@ -31,7 +43,9 @@ public class j2dLevel extends AbstractLevel {
         importOutsideSprites();
     }
 
-
+    /**
+     *importOutsideSprites() function gets the subImages of the BufferedImage of a file and adds them to the levelSprite BufferedImage array.
+     */
     public void importOutsideSprites(){
         //TILESET
         String tile_spritesheet = "/assets/images/SpriteSheets/tilesets.png";
@@ -61,7 +75,9 @@ public class j2dLevel extends AbstractLevel {
         }
     }
 
-
+    /**
+     *updateAnimationTick() function updates the animation image of the spriteSheet.
+     */
     private void updateAnimationTick() {
         aniTick++;
         int aniSpeed = 10;
@@ -74,11 +90,16 @@ public class j2dLevel extends AbstractLevel {
         }
     }
 
+    /**
+     *update function calss the updateAnimationTick() function.
+     */
     public void update() {
         updateAnimationTick();
     }
 
-
+    /**
+     *Does the drawing of the Level.
+     */
     @Override
     public void draw() {
         update();

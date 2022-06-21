@@ -1,5 +1,9 @@
 package Game.Components;
 
+/**
+ *MenuComponent class.
+ * @author Arafa Yoncalik
+ */
 public class MenuComponent {
     private final String[] options = {"PLAY","HELP","QUIT"};
     private int currentSelection = 0;

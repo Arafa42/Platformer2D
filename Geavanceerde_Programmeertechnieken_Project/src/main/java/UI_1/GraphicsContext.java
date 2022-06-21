@@ -7,6 +7,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ *GraphicsContext.
+ * @author Arafa Yoncalik
+ */
 public class GraphicsContext {
     private int ScreenWidth;
     private int ScreenHeight;
@@ -27,6 +31,13 @@ public class GraphicsContext {
     private int offsetMinX = 0;
     private int offsetMinY = 0;
 
+    /**
+     *resizeImage() function resizes the image.
+     * @param originalImage
+     * @param targetWidth
+     * @param targetHeight
+     * @return returns the resized image
+     */
     public BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight){
         Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_DEFAULT);
         BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_4BYTE_ABGR_PRE);
@@ -34,6 +45,14 @@ public class GraphicsContext {
         return outputImage;
     }
 
+    /**
+     *loadImages function().
+     * @param path
+     * @param width
+     * @param height
+     * @param sprite
+     * @return returns loaded and resized image.
+     */
     public BufferedImage loadImages(String path, int width, int height, boolean sprite) {
         BufferedImage image = null;
         BufferedImage resizedImage = null;
@@ -46,6 +65,11 @@ public class GraphicsContext {
         return resizedImage;
     }
 
+    /**
+     *GraphicsContext constructor.
+     * @param screenWidth
+     * @param screenHeight
+     */
     public GraphicsContext(int screenWidth, int screenHeight) {
         ScreenWidth = screenWidth;
         ScreenHeight = screenHeight;
@@ -68,8 +92,15 @@ public class GraphicsContext {
         frame.setResizable(false);
     }
 
+    /**
+     *render function calls the repaint function of the jPanel.
+     */
     public void render() {panel.repaint();}
 
+    /**
+     * doDrawing() function does the drawing of the images.
+     * @param g
+     */
     private void doDrawing(Graphics g) {
         Graphics2D graph2d = (Graphics2D) g;
         Toolkit.getDefaultToolkit().sync();
@@ -82,6 +113,11 @@ public class GraphicsContext {
         graph2d.dispose();
     }
 
+    /**
+     * sets the game dimensions.
+     * @param GameCellsX
+     * @param GameCellsY
+     */
     public void setGameDimensions(int GameCellsX, int GameCellsY) {
         size = Math.min(ScreenWidth/GameCellsX, ScreenHeight/GameCellsY);
         scaleX = GameCellsX/defaultScaleWidth;

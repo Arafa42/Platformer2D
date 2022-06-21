@@ -1,21 +1,33 @@
 package Game.Systems;
 
 import Game.Entities.AbstractPlayer;
-
 import java.util.concurrent.TimeUnit;
 
+/**
+ *LevelSystem class.
+ * @author Arafa Yoncalik
+ */
 public class LevelSystem {
 
     AbstractPlayer abstractPlayer;
     private int TILES_SIZE;
     private double scale;
 
+    /**
+     *LevelSystem constructor.
+     * @param abstractPlayer
+     * @param TILES_SIZE
+     * @param scale
+     */
     public LevelSystem(AbstractPlayer abstractPlayer,int TILES_SIZE,double scale){
         this.abstractPlayer = abstractPlayer;
         this.TILES_SIZE = TILES_SIZE;
         this.scale = scale;
     }
 
+    /**
+     *update function updates the level to load on a level finish.
+     */
     public void update(){
         int row = (int) (abstractPlayer.getPositionComponent().y / TILES_SIZE);
         int col1 = (int) ((abstractPlayer.getPositionComponent().x + (int)(30*scale)) / TILES_SIZE);

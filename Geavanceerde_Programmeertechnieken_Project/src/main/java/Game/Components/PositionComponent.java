@@ -1,5 +1,9 @@
 package Game.Components;
 
+/**
+ *PositionComponent class.
+ * @author Arafa Yoncalik
+ */
 public class PositionComponent {
 
     public float x;
@@ -7,6 +11,13 @@ public class PositionComponent {
     public float hitboxWidth;
     public float hitboxHeight;
 
+    /**
+     *PositionComponent constructor.
+     * @param x
+     * @param y
+     * @param hitboxWidth
+     * @param hitboxHeight
+     */
     public PositionComponent(int x, int y, int hitboxWidth, int hitboxHeight){
         this.x = x;
         this.y = y;

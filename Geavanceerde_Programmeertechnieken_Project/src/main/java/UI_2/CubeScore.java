@@ -6,6 +6,10 @@ import Game.Entities.AbstractScore;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ *CubeScore class extends the AbstractScore class
+ * @author Arafa Yoncalik
+ */
 public class CubeScore extends AbstractScore {
 
 
@@ -13,6 +17,12 @@ public class CubeScore extends AbstractScore {
     private final Font font;
     private final double scale;
 
+    /**
+     * CubeScore constructor
+     * @param graphicsContext
+     * @param scoreComponent
+     * @param scale
+     */
     public CubeScore(GraphicsContext graphicsContext, ScoreComponent scoreComponent,double scale){
         super(scoreComponent);
         this.graphicsContext = graphicsContext;
@@ -20,6 +30,9 @@ public class CubeScore extends AbstractScore {
         font = new Font("Courier New",1,(int)(20*scale));
     }
 
+    /**
+     * Does the drawing of the Score.
+     */
     @Override
     public void draw() {
         Graphics2D g2d = graphicsContext.getG2d();

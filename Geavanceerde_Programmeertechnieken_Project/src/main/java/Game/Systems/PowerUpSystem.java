@@ -3,6 +3,10 @@ package Game.Systems;
 import Game.Components.*;
 import Game.Game;
 
+/**
+ *PowerUpSystem class.
+ * @author Arafa Yoncalik
+ */
 public class PowerUpSystem extends Thread {
 
     private final CollisionComponent collisionComponent;
@@ -12,6 +16,15 @@ public class PowerUpSystem extends Thread {
     private int TILES_SIZE;
     private double scale;
 
+    /**
+     *PowerUpSystem constructor.
+     * @param collisionComponent
+     * @param positionComponent
+     * @param movementComponent
+     * @param healthComponent
+     * @param TILES_SIZE
+     * @param scale
+     */
     public PowerUpSystem(CollisionComponent collisionComponent,PositionComponent positionComponent,MovementComponent movementComponent, HealthComponent healthComponent,int TILES_SIZE,double scale){
         this.collisionComponent = collisionComponent;
         this.positionComponent = positionComponent;
@@ -21,11 +34,19 @@ public class PowerUpSystem extends Thread {
         this.TILES_SIZE = TILES_SIZE;
     }
 
+    /**
+     *update() function calls the coinCollisionCheck() function.
+     */
     public void update() {
         coinCollisionCheck((int)positionComponent.x,(int)positionComponent.y);
     }
 
 
+    /**
+     *coinCollisionCheck() function checks if player has collided with a coin or powerup item.
+     * @param x
+     * @param y
+     */
     public void coinCollisionCheck(int x, int y) {
             int row = y / TILES_SIZE;
             int col1 = (x + (int)(30*scale)) / TILES_SIZE;
@@ -60,6 +81,9 @@ public class PowerUpSystem extends Thread {
     }
 
 
+    /**
+     *ExtraJump() function will give the player a boost in jump height for 10 seconds.
+     */
     private void extraJump() {
         SoundSystem.volume = SoundSystem.Volume.HIGH;
         SoundSystem.POWERUP.play(false);
@@ -76,6 +100,9 @@ public class PowerUpSystem extends Thread {
         );
     }
 
+    /**
+     *ExtraSpeed() function will give the player a boost in speed for 10 seconds.
+     */
     private void extraSpeed(){
         SoundSystem.volume = SoundSystem.Volume.HIGH;
         SoundSystem.POWERUP.play(false);
@@ -92,6 +119,9 @@ public class PowerUpSystem extends Thread {
         );
     }
 
+    /**
+     *ExtraLife() function will give the player an extra life.
+     */
     private void extraLife(){
         SoundSystem.volume = SoundSystem.Volume.HIGH;
         SoundSystem.POWERUP.play(false);

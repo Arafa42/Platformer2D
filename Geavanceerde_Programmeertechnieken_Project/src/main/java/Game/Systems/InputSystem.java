@@ -3,25 +3,40 @@ package Game.Systems;
 import Game.Components.InputComponent;
 import Game.Entities.AbstractInput;
 import Game.Entities.AbstractPlayer;
-
 import java.util.ArrayList;
 
+/**
+ *InputSystem class.
+ * @author Arafa Yoncalik
+ */
 public class InputSystem {
 
     private final InputComponent inputComponent;
     private final ArrayList<AbstractInput.Inputs> currentInps;
     private final AbstractPlayer abstractPlayer;
 
+    /**
+     *InputSystem constructor.
+     * @param inputComponent
+     * @param abstractPlayer
+     * @param currentInps
+     */
     public InputSystem(InputComponent inputComponent, AbstractPlayer abstractPlayer, ArrayList<AbstractInput.Inputs> currentInps){
         this.inputComponent = inputComponent;
         this.currentInps = currentInps;
         this.abstractPlayer = abstractPlayer;
     }
 
+    /**
+     *update function calls the getAllUpdatedInputValues() function.
+     */
     public void update(){
         getAllUpdatedInputValues();
     }
 
+    /**
+     *gets all current input values and checks what action to perform.
+     */
     private void getAllUpdatedInputValues(){
 
         abstractPlayer.getMovementComponent().setLeft(false);

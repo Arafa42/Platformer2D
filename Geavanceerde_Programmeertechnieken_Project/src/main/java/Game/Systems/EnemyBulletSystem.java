@@ -8,6 +8,10 @@ import Game.Entities.AbstractEnemy;
 import Game.Entities.AbstractPlayer;
 import java.util.ArrayList;
 
+/**
+ *EnemyBulletSystem class.
+ * @author Arafa Yoncalik
+ */
 public class EnemyBulletSystem {
 
     private final ArrayList<AbstractBullet> bullets;
@@ -19,6 +23,16 @@ public class EnemyBulletSystem {
     ArrayList<AbstractEnemy> enemies;
     AbstractPlayer player;
 
+    /**
+     *EnemyBulletSystem constructor.
+     * @param abstractBullets
+     * @param enemies
+     * @param screenWidth
+     * @param screenHeight
+     * @param drawables
+     * @param factory
+     * @param player
+     */
     public EnemyBulletSystem(ArrayList<AbstractBullet> abstractBullets, ArrayList<AbstractEnemy> enemies, int screenWidth, int screenHeight, ArrayList<Drawable> drawables, AbstractFactory factory, AbstractPlayer player){
         this.bullets = abstractBullets;
         this.screenWidth = screenWidth;
@@ -29,11 +43,17 @@ public class EnemyBulletSystem {
         this.player = player;
     }
 
-    public void update(){
+    /**
+     *Update function calls the updateBuletMovement and fireCheck functions.
+     */
+ public void update(){
         updateBulletMovement();
         fireCheck();
     }
 
+    /**
+     *FireCheck() function checks if enemies encountered a player and calls fire() if true.
+     */
     private void fireCheck(){
         for(int i =0;i<enemies.size();i++) {
 
@@ -47,9 +67,24 @@ public class EnemyBulletSystem {
         }
     }
 
+    /**
+     *isIntersect() function compares two rectangles and check if they intersect.
+     * @param Ax
+     * @param Ay
+     * @param Aw
+     * @param Ah
+     * @param Bx
+     * @param By
+     * @param Bw
+     * @param Bh
+     * @return returns a boolean value.
+     */
     private boolean isIntersect(float Ax, float Ay, float Aw, float Ah, float Bx, float By, float Bw, float Bh)
     {return Bx + Bw > Ax && By + Bh > Ay && Ax + Aw > Bx && Ay + Ah > By;}
 
+    /**
+     *updateBulletMovement() function updates the movement of the bullets.
+     */
     private void updateBulletMovement(){
         //System.out.println(bullets.size());
         for(int i=0;i<bullets.size();i++) {
@@ -61,8 +96,10 @@ public class EnemyBulletSystem {
         }
     }
 
+    /**
+     * fire() function fires the bullet in a certain direction.
+     */
     private void fire(){
-
         long elapsed = (System.nanoTime() - firingTimer) / 1000000;
         long firingDelay = 1000;
         if(elapsed > firingDelay) {

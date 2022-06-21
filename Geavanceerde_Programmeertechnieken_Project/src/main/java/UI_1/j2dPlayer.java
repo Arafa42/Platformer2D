@@ -11,6 +11,10 @@ import java.io.InputStream;
 import static Helper.Constants.PlayerConstants.GetSpriteAmount;
 import static Helper.Constants.PlayerConstants.*;
 
+/**
+ *j2dPlayer class extends from AbstractPlayer class.
+ * @author Arafa Yoncalik
+ */
 public class j2dPlayer extends AbstractPlayer {
 
     private final GraphicsContext graphicsContext;
@@ -23,6 +27,30 @@ public class j2dPlayer extends AbstractPlayer {
     int x,y,hitboxWidth,hitboxHeight;
     private final double scale;
 
+    /**
+     *j2dPlayer constructor.
+     * @param graphicsContext
+     * @param x
+     * @param y
+     * @param hitboxWidth
+     * @param hitboxHeight
+     * @param playerSpeed
+     * @param inAir
+     * @param airSpeed
+     * @param gravity
+     * @param jumpSpeed
+     * @param fallSpeedAfterCollision
+     * @param isMoving
+     * @param healthValue
+     * @param map
+     * @param score
+     * @param bulletAngle
+     * @param bulletSpeed
+     * @param screenWidth
+     * @param screenHeight
+     * @param bulletRadius
+     * @param scale
+     */
     public j2dPlayer(GraphicsContext graphicsContext, int x, int y, int hitboxWidth, int hitboxHeight,float playerSpeed,boolean inAir, float airSpeed, float gravity,float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving,int healthValue,int[][] map,int score,double bulletAngle,int bulletSpeed,int screenWidth,int screenHeight,int bulletRadius,double scale) {
         super(x, y, hitboxWidth, hitboxHeight,playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving,healthValue,map,score,bulletAngle,bulletSpeed,screenWidth,screenHeight,bulletRadius);
         //this.x = x;
@@ -34,12 +62,17 @@ public class j2dPlayer extends AbstractPlayer {
         loadAnimations();
     }
 
+    /**
+     *update function, calls the updateAnimationTick() and setAnimation() functions.
+     */
     public void update() {
         updateAnimationTick();
         setAnimation();
     }
 
-
+    /**
+     * Does the drawing of the player.
+     */
     @Override
     public void draw() {
         update();
@@ -67,7 +100,9 @@ public class j2dPlayer extends AbstractPlayer {
         //graphics2D.drawRect((int)m.x-graphicsContext.getCamX(), (int)m.y-graphicsContext.getCamY(), (int)(hitboxWidth), (int)(hitboxHeight));
     }
 
-
+    /**
+     * updateAnimationTick function updates the animation image of the spritesheet.
+     */
     private void updateAnimationTick() {
         aniTick++;
         if (aniTick >= aniSpeed) {
@@ -79,6 +114,9 @@ public class j2dPlayer extends AbstractPlayer {
         }
     }
 
+    /**
+     * setAnimation functions sets the animation depending on user input.
+     */
     private void setAnimation() {
         int startAni = playerAction;
         if((getDirection() == AbstractInput.Inputs.LEFT)){playerAction = RUNNING_LEFT;}
@@ -90,12 +128,17 @@ public class j2dPlayer extends AbstractPlayer {
         if(startAni != playerAction){resetAniTick();}
     }
 
+    /**
+     * The animation image counter gets reset.
+     */
     private void resetAniTick() {
         aniTick = 0;
         aniIndex = 0;
     }
 
-
+    /**
+     * loadAnimations() function takes a spritesheet and loads the subImages in the animations BufferedImage array.
+     */
     private void loadAnimations() {
         InputStream is = getClass().getResourceAsStream("/assets/images/SpriteSheets/Player/Spritesheet.png");
         try {

@@ -5,6 +5,10 @@ import Game.Entities.AbstractLevel;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * CubeLevel Class extends from AbstractLevel
+ * @author Arafa Yoncalik
+ */
 public class CubeLevel extends AbstractLevel {
 
     //LEVEL MAP
@@ -16,6 +20,14 @@ public class CubeLevel extends AbstractLevel {
     private final GraphicsContext graphicsContext;
     private final int TILES_IN_WIDTH, TILES_IN_HEIGHT, TILES_SIZE;
 
+    /**
+     *CubeLevel constructor, takes necessary parameters that a level needs.
+     * @param graphicsContext
+     * @param tileArray
+     * @param TILES_IN_HEIGHT
+     * @param TILES_IN_WIDTH
+     * @param TILES_SIZE
+     */
     public CubeLevel(GraphicsContext graphicsContext, int[][] tileArray, int TILES_IN_HEIGHT, int TILES_IN_WIDTH, int TILES_SIZE) {
         super(tileArray);
         this.TILES_IN_WIDTH = TILES_IN_WIDTH;
@@ -24,6 +36,9 @@ public class CubeLevel extends AbstractLevel {
         this.graphicsContext = graphicsContext;
     }
 
+    /**
+     * Does the drawing of the Level.
+     */
     @Override
     public void draw() {
         Graphics2D g2d = graphicsContext.getG2d();

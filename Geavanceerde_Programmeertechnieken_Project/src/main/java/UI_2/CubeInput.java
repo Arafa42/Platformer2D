@@ -9,29 +9,56 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
+/**
+ *CubeInput class extends from AbstractInput.
+ * @author Arafa Yoncalik
+ */
 public class CubeInput extends AbstractInput {
 
     ArrayList<Inputs> pressedKeysInp;
     private ArrayList<Integer> pressedKeyCodes = new ArrayList();
 
-
+    /**
+     *CubeInput constructor.
+     * @param frame
+     * @param inputComponent
+     */
     public CubeInput(JFrame frame, InputComponent inputComponent) {
         super(inputComponent);
         pressedKeysInp = new ArrayList<>();
         frame.addKeyListener(new CubeInput.KeyInputAdapter());
     }
 
+    /**
+     *
+     * @return returns the pressed keys in a list.
+     */
     @Override
     public ArrayList<Inputs> getPressedKeyInps() {return pressedKeysInp;}
 
+    /**
+     *
+     * @return returns a boolean true if the pressed keys list is not empty.
+     */
     @Override
     public boolean inputAvailable() {return !pressedKeysInp.isEmpty();}
 
+    /**
+     * KeyInputAdapter class implements KeyListener Interface.
+     */
     class KeyInputAdapter implements KeyListener {
 
+        /**
+         * Not used.
+         * @param e the event to be processed
+         */
         @Override
         public void keyTyped(KeyEvent e) {}
 
+        /**
+         *Keypressed function checks if keycode matches a KeyEvent and adds the enum type to the list with the keycode number.
+         * @param e the event to be processed
+         */
         @Override
         public synchronized void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
@@ -46,6 +73,10 @@ public class CubeInput extends AbstractInput {
             }
         }
 
+        /**
+         * On all pressed keys release, remove all items from the pressed key inputs and codes list.
+         * @param e the event to be processed
+         */
         @Override
         public synchronized void keyReleased(KeyEvent e) {
             for(int i =0;i<pressedKeyCodes.size();i++){
@@ -57,6 +88,11 @@ public class CubeInput extends AbstractInput {
         }
     }
 
+    /**
+     * Adds enum type and keycode to lists.
+     * @param inp
+     * @param keycodes
+     */
     void addToList(Inputs inp,Integer keycodes){
         if(!pressedKeysInp.contains(inp)){pressedKeysInp.add(inp);pressedKeyCodes.add(keycodes);}
     }

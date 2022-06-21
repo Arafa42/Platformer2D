@@ -6,6 +6,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
 
+/**
+ *j2dEnemy class extends from AbstractEnemy.
+ * @author Arafa Yoncalik
+ */
 public class j2dEnemy extends AbstractEnemy {
 
     private final GraphicsContext graphicsContext;
@@ -19,6 +23,27 @@ public class j2dEnemy extends AbstractEnemy {
     String type;
     private double scale;
 
+    /**
+     *j2dEnemy constructor.
+     * @param graphicsContext
+     * @param x
+     * @param y
+     * @param hitboxWidth
+     * @param hitboxHeight
+     * @param playerSpeed
+     * @param inAir
+     * @param airSpeed
+     * @param gravity
+     * @param jumpSpeed
+     * @param fallSpeedAfterCollision
+     * @param isMoving
+     * @param healthValue
+     * @param map
+     * @param type
+     * @param scale
+     * @param areaHitboxWidth
+     * @param areaHitboxHeight
+     */
     public j2dEnemy(GraphicsContext graphicsContext,int x, int y, int hitboxWidth, int hitboxHeight, float playerSpeed, boolean inAir, float airSpeed, float gravity, float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving, int healthValue,int[][] map,String type,double scale,int areaHitboxWidth,int areaHitboxHeight) {
         super(x, y, hitboxWidth, hitboxHeight, playerSpeed, inAir, airSpeed, gravity, jumpSpeed, fallSpeedAfterCollision, isMoving, healthValue,map,type,areaHitboxWidth,areaHitboxHeight);
         this.graphicsContext = graphicsContext;
@@ -29,6 +54,9 @@ public class j2dEnemy extends AbstractEnemy {
         importOutsideSprites();
     }
 
+    /**
+     *importOutsideSprites function creates BufferedImage from file and adds the images to the BufferedImage arrays.
+     */
     public void importOutsideSprites(){
         //ENEMIES
         if(Objects.equals(type, "GROUND1")) {
@@ -49,6 +77,9 @@ public class j2dEnemy extends AbstractEnemy {
         }
     }
 
+    /**
+     *updateAnimationTick() function updates the image of a spritesheet for animation.
+     */
     private void updateAnimationTick() {
         aniTick++;
         int aniSpeed = 15;
@@ -61,10 +92,16 @@ public class j2dEnemy extends AbstractEnemy {
         }
     }
 
+    /**
+     *update function calls the updateAnimationTick() function.
+     */
     public void update() {
         updateAnimationTick();
     }
 
+    /**
+     *Does the drawing of the Enemy.
+     */
     @Override
     public void draw() {
         update();

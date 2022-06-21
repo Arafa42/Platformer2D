@@ -4,6 +4,10 @@ import Game.Entities.AbstractBackground;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ *j2dBackground extends AbstractBackground.
+ * @author Arafa Yoncalik
+ */
 public class j2dBackground extends AbstractBackground {
     private final GraphicsContext grCtx;
     private final BufferedImage image;
@@ -12,6 +16,12 @@ public class j2dBackground extends AbstractBackground {
     double layer2Y = 0;
 
 
+    /**
+     *j2dBackground constructor.
+     * @param grCtx
+     * @param bgLayer1
+     * @param bgLayer2
+     */
     public j2dBackground(GraphicsContext grCtx,String bgLayer1,String bgLayer2) {
         super(bgLayer1,bgLayer2);
         this.grCtx = grCtx;
@@ -21,6 +31,9 @@ public class j2dBackground extends AbstractBackground {
         image2 = this.grCtx.loadImages(imagePath2, this.grCtx.getFrame().getWidth(),this.grCtx.getFrame().getHeight()/2, false);
     }
 
+    /**
+     *Does the background drawing.
+     */
     @Override
     public void draw() {
 

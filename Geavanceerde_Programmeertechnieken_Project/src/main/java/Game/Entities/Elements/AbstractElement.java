@@ -6,6 +6,10 @@ import Game.Entities.AbstractInput;
 
 import java.util.ArrayList;
 
+/**
+ *AbstractElement class, Implements Drawable Interface.
+ * @author Arafa Yoncalik
+ */
 public abstract class AbstractElement implements Drawable {
 
     private final PositionComponent positionComponent;
@@ -17,6 +21,28 @@ public abstract class AbstractElement implements Drawable {
     private final ArrayList<BulletComponent> bulletsComponent;
     private AbstractInput.Inputs direction;
 
+    /**
+     *AbstractElement constructor. Creates all the component instances for the Player.
+     * @param x
+     * @param y
+     * @param hitboxWidth
+     * @param hitboxHeight
+     * @param playerSpeed
+     * @param inAir
+     * @param airSpeed
+     * @param gravity
+     * @param jumpSpeed
+     * @param fallSpeedAfterCollision
+     * @param isMoving
+     * @param healthValue
+     * @param map
+     * @param score
+     * @param bulletAngle
+     * @param bulletSpeed
+     * @param screenWidth
+     * @param screenHeight
+     * @param bulletRadius
+     */
     public AbstractElement(int x, int y, int hitboxWidth, int hitboxHeight,float playerSpeed,boolean inAir, float airSpeed, float gravity,float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving,int healthValue,int[][] map,int score,double bulletAngle,int bulletSpeed,int screenWidth,int screenHeight,int bulletRadius){
         this.positionComponent = new PositionComponent(x,y,hitboxWidth,hitboxHeight);
         this.movementComponent = new MovementComponent(playerSpeed,inAir,airSpeed,gravity,jumpSpeed,fallSpeedAfterCollision,isMoving);

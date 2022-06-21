@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 
+/**
+ *SoundSystem enum class.
+ * @author Arafa Yoncalik
+ */
 public enum SoundSystem {
         LEVEL1("\\src\\main\\resources\\assets\\audio\\GameAudio\\TV-Blonde-Ocarina.wav"),
         LEVEL2("\\src\\main\\resources\\assets\\audio\\GameAudio\\fusion42.wav"),
@@ -27,6 +31,10 @@ public enum SoundSystem {
         public static Volume volume = Volume.HIGH;
         private Clip clip;
 
+    /**
+     *SoundSystem will open the sound file.
+     * @param soundFileName
+     */
         SoundSystem(String soundFileName) {
             try {
                 Path path = FileSystems.getDefault().getPath("").toAbsolutePath();
@@ -41,6 +49,10 @@ public enum SoundSystem {
             }
         }
 
+    /**
+     *play will play the sound either on loop or once.
+     * @param loop
+     */
         public void play(Boolean loop) {
             if (volume != Volume.MUTE) {
                 if (clip.isRunning())
@@ -60,8 +72,14 @@ public enum SoundSystem {
 
         }
 
+    /**
+     *stop() function will stop the playing audio.
+     */
         public void stop() {clip.stop();clip.setFramePosition(0);}
 
+    /**
+     *stopAllPlayingSounds() function stops all the sounds playing at the same time.
+     */
         public void stopAllPlayingSounds(){
             SoundSystem.LEVEL1.stop();
             SoundSystem.LEVEL2.stop();
@@ -80,5 +98,8 @@ public enum SoundSystem {
             SoundSystem.BUTTONCLICK.stop();
         }
 
+    /**
+     *mute() will mute a playing sound.
+     */
         public void mute() {volume = Volume.MUTE;}
     }

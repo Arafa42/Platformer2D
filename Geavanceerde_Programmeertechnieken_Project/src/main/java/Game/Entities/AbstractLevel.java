@@ -6,14 +6,27 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ *AbstractLevel class implements the Drawable interface.
+ * @author Arafa Yoncalik
+ */
 public abstract class AbstractLevel implements Drawable {
 
     private final int[][] tileMap;
 
+    /**
+     *Abstractlevel constructor.
+     * @param tileMap
+     */
     public AbstractLevel(int[][] tileMap){
         this.tileMap = tileMap;
     }
 
+    /**
+     * GetSpriteSheet function.
+     * @param fileName
+     * @return returns BufferedImage of filename.
+     */
     public BufferedImage GetSpriteSheet(String fileName) {
         BufferedImage img = null;
         InputStream is = AbstractLevel.class.getResourceAsStream(fileName);
@@ -33,6 +46,12 @@ public abstract class AbstractLevel implements Drawable {
         return img;
     }
 
+    /**
+     * GetSpriteSheetIndex function.
+     * @param x
+     * @param y
+     * @return returns index of tilemap.
+     */
     public int getSpriteIndex(int x, int y){
         return tileMap[y][x];
     }

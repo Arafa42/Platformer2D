@@ -1,5 +1,9 @@
 package Game.Components;
 
+/**
+ *InputComponent class
+ * @author Arafa Yoncalik
+ */
 public class InputComponent {
     private boolean left,right,jumping,attacking,idle,up,down,enter,escape;
 

@@ -5,12 +5,23 @@ import Game.Entities.AbstractHealthBar;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ *j2dHealthBar class extends from AbstractHealthBar.
+ * @author Arafa Yoncalik
+ */
 public class j2dHealthBar extends AbstractHealthBar {
 
     private final GraphicsContext graphicsContext;
     private BufferedImage[] healthBarSprite;
     private String healthbar_spritesheet = "/assets/images/SpriteSheets/healthbar/healthbar.png";
     private final double scale;
+
+    /**
+     *j2dHealthBar constructor.
+     * @param graphicsContext
+     * @param healthComponent
+     * @param scale
+     */
     public j2dHealthBar(GraphicsContext graphicsContext,HealthComponent healthComponent,double scale) {
         super(healthComponent);
         this.graphicsContext = graphicsContext;
@@ -18,6 +29,9 @@ public class j2dHealthBar extends AbstractHealthBar {
         importSprites();
     }
 
+    /**
+     *importSprites function gets BufferedImage from spritesheet and adds the subImages to the BufferedImage arrays.
+     */
     public void importSprites() {
         //HEALTHBAR
         BufferedImage healthbar = GetSpriteSheet(healthbar_spritesheet);
@@ -31,6 +45,9 @@ public class j2dHealthBar extends AbstractHealthBar {
 
     }
 
+    /**
+     *Does the drawing of the healthbar.
+     */
     @Override
     public void draw() {
         Graphics2D g2d = graphicsContext.getG2d();

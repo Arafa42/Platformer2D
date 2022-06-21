@@ -6,6 +6,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
 
+/**
+ * j2dBullet class extends AbstractBullet.
+ * @author Arafa Yoncalik
+ */
 public class j2dBullet extends AbstractBullet {
     private final GraphicsContext graphicsContext;
     private int aniTick, aniIndex, aniSpeed = 10;
@@ -19,7 +23,9 @@ public class j2dBullet extends AbstractBullet {
         importOutsideSprites();
     }
 
-
+    /**
+     * Gets the bullet spritesheet and cuts the necessary images for the player and enemy, finally adds them to the bulletSprite BufferedImage array.
+     */
     public void importOutsideSprites(){
         //BULLETS
         BufferedImage bullets = GetSpriteSheet(bullet_spritesheet);
@@ -62,7 +68,9 @@ public class j2dBullet extends AbstractBullet {
     }
 
 
-
+    /**
+     * Update the animation counter.
+     */
     private void updateAnimationTick() {
         aniTick++;
         if (aniTick >= aniSpeed) {
@@ -74,15 +82,27 @@ public class j2dBullet extends AbstractBullet {
         }
     }
 
+    /**
+     * Calls the updateAnimationTick() function.
+     */
     public void updateAni() {
         updateAnimationTick();
     }
 
+    /**
+     * Randomiser for random bullet color.
+     * @param min
+     * @param max
+     * @return returns random value between a minimum and maximum number.
+     */
     public int getRandomNumber(int min, int max) {
         return (int) ((Math.random() * (max - min)) + min);
     }
 
 
+    /**
+     * Does the drawing of the Bullet.
+     */
     @Override
     public void draw() {
         updateAni();

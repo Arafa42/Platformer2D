@@ -7,6 +7,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
 
+/**
+ *CubeEnemy class extends AbstractEnemy.
+ * @author Arafa Yoncalik
+ */
 public class CubeEnemy extends AbstractEnemy {
 
     private final GraphicsContext graphicsContext;
@@ -16,6 +20,27 @@ public class CubeEnemy extends AbstractEnemy {
     private String type;
     private double scale;
 
+    /**
+     *CubeEnemy constructor.
+     * @param graphicsContext
+     * @param x
+     * @param y
+     * @param hitboxWidth
+     * @param hitboxHeight
+     * @param playerSpeed
+     * @param inAir
+     * @param airSpeed
+     * @param gravity
+     * @param jumpSpeed
+     * @param fallSpeedAfterCollision
+     * @param isMoving
+     * @param healthValue
+     * @param map
+     * @param type
+     * @param scale
+     * @param areaHitboxWidth
+     * @param areaHitboxHeight
+     */
     public CubeEnemy(GraphicsContext graphicsContext, int x, int y, int hitboxWidth, int hitboxHeight, float playerSpeed, boolean inAir, float airSpeed, float gravity, float jumpSpeed, float fallSpeedAfterCollision, boolean isMoving, int healthValue, int[][] map, String type,double scale,int areaHitboxWidth,int areaHitboxHeight) {
         super(x, y, hitboxWidth, hitboxHeight, playerSpeed, inAir, airSpeed, gravity, jumpSpeed, fallSpeedAfterCollision, isMoving, healthValue,map,type,areaHitboxWidth,areaHitboxHeight);
         this.graphicsContext = graphicsContext;
@@ -25,6 +50,9 @@ public class CubeEnemy extends AbstractEnemy {
         this.type = type;
     }
 
+    /**
+     *Does the drawing of the enemy.
+     */
     @Override
     public void draw() {
         //update();

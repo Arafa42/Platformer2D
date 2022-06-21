@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
+/**
+ *Game class.
+ * @author Arafa Yoncalik
+ */
 public class Game {
 
     private static Game single_instance = null;
@@ -71,6 +75,12 @@ public class Game {
     private long firingDelay;
     private enum EnemyType{GROUND1, GROUND2,}
 
+    /**
+     *Game constructor.
+     * @param abstractFactory
+     * @param configFile
+     * @throws FileNotFoundException
+     */
     public Game(AbstractFactory abstractFactory,final String configFile) throws FileNotFoundException {
         data = ConfigFileReader.getConfigFileReaderInstance().processConfigFile(configFile);
         this.factory = abstractFactory;
@@ -81,11 +91,21 @@ public class Game {
         //startGameLoop();
     }
 
+    /**
+     *Singleton Game instance.
+     * @param abstractFactory
+     * @param configFile
+     * @return
+     * @throws FileNotFoundException
+     */
     public static Game getInstance(AbstractFactory abstractFactory,final String configFile) throws FileNotFoundException {
         if (single_instance == null) {single_instance = new Game(abstractFactory,configFile);}
         return single_instance;
     }
 
+    /**
+     *initMenu() function, initialises necessary objects for the menu.
+     */
     private void initMenu(){
         SoundSystem.volume = SoundSystem.Volume.LOW;
         SoundSystem.MENUMUSIC.play(true);
@@ -98,6 +118,10 @@ public class Game {
         //startGameLoop();
     }
 
+    /**
+     *initGame() function initialises all the necessary Game objects.
+     * @param levelToLoad
+     */
     private void initGame(int levelToLoad) {
         SoundSystem.volume = SoundSystem.Volume.LOW;
         if(levelToLoad == 1){
@@ -178,6 +202,9 @@ public class Game {
     }
 
 
+    /**
+     *checks for the enemy coordinates and creates them.
+     */
     private void enemyCoordsCheck(){
         for(int i=0;i<map.length;i++){
             for(int j=0;j<map[i].length;j++){
@@ -187,6 +214,10 @@ public class Game {
         }
     }
 
+    /**
+     *run() function runs the game loop.
+     * @throws InterruptedException
+     */
     public void run() throws InterruptedException {
         double timePerFrame = 1000000000.0 / FPS_SET;
         double timerUpdate =  1000000000.0 / UPS_SET;
@@ -263,6 +294,9 @@ public class Game {
         }
     }
 
+    /**
+     *systemsUpdate() function, calls all the update functions of all systems.
+     */
     private void systemsUpdate(){
         inputSystemG.update();
         collisionSystem.updateCollision();
@@ -279,7 +313,9 @@ public class Game {
         levelSystem.update();
     }
 
-
+    /**
+     *checkMovement() checks for input in the game state.
+     */
     private void checkMovement() {
                 if (input.getInputComponent().isAttacking()) {
                     //FIRE BULLETS
@@ -306,6 +342,9 @@ public class Game {
                 }
     }
 
+    /**
+     *checkMenuInput() function checks for input in the menu state.
+     */
     private void checkMenuInput(){
                 if (input.getInputComponent().isDown()) {
                     if (menu.getMenuComponent().getCurrentSelection() < 2) {

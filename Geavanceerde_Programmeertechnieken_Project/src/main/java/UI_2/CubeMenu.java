@@ -4,16 +4,28 @@ import Game.Entities.AbstractMenu;
 
 import java.awt.*;
 
+/**
+ * CubeMenu class extends AbstractMenu.
+ * @author Arafa Yoncalik
+ */
 public class CubeMenu extends AbstractMenu {
 
     private final GraphicsContext graphicsContext;
     private final double scale;
 
+    /**
+     *CubeMenu constructor.
+     * @param graphicsContext
+     * @param scale
+     */
     public CubeMenu(GraphicsContext graphicsContext,double scale){
         this.graphicsContext = graphicsContext;
         this.scale = scale;
     }
 
+    /**
+     * Does the drawing of the Menu.
+     */
     @Override
     public void draw() {
         Graphics2D g2d = graphicsContext.getG2d();

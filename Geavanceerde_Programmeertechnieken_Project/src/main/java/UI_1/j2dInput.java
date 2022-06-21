@@ -7,29 +7,56 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.*;
 
+/**
+ *j2dInput class extends AbstractInput.
+ * @author Arafa Yoncalik
+ */
 public class j2dInput extends AbstractInput {
 
     ArrayList<Inputs> pressedKeysInp;
     private ArrayList<Integer> pressedKeyCodes = new ArrayList();
 
-
+    /**
+     *j2dInput constructor.
+     * @param frame
+     * @param inputComponent
+     */
     public j2dInput(JFrame frame, InputComponent inputComponent) {
         super(inputComponent);
         pressedKeysInp = new ArrayList<>();
         frame.addKeyListener(new KeyInputAdapter());
     }
 
+    /**
+     *getPressedKeyInps getter.
+     * @return returns the pressedKeyInp arraylist.
+     */
     @Override
     public ArrayList<Inputs> getPressedKeyInps() {return pressedKeysInp;}
 
+    /**
+     *inputAvailable getter
+     * @return returns a true boolean if pressedKeyInp list is not empty.
+     */
     @Override
     public boolean inputAvailable() {return !pressedKeysInp.isEmpty();}
 
+    /**
+     *KeyInputAdapter class implements the KeyListener interface.
+     */
      class KeyInputAdapter implements KeyListener {
 
+        /**
+         *Not used.
+         * @param e the event to be processed
+         */
         @Override
         public void keyTyped(KeyEvent e) {}
 
+        /**
+         *If a key is pressed, add its enum type value and keycode to the list.
+         * @param e the event to be processed
+         */
         @Override
         public synchronized void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
@@ -44,6 +71,10 @@ public class j2dInput extends AbstractInput {
                 }
             }
 
+        /**
+         *On key release remove key value and code from lists.
+         * @param e the event to be processed
+         */
          @Override
          public synchronized void keyReleased(KeyEvent e) {
                 for(int i =0;i<pressedKeyCodes.size();i++){
@@ -55,6 +86,11 @@ public class j2dInput extends AbstractInput {
          }
      }
 
+    /**
+     *addToList function, adds input and keycode value to their lists.
+     * @param inp
+     * @param keycodes
+     */
      void addToList(Inputs inp,Integer keycodes){
         if(!pressedKeysInp.contains(inp)){pressedKeysInp.add(inp);pressedKeyCodes.add(keycodes);}
      }

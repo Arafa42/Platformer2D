@@ -3,16 +3,28 @@ package UI_1;
 import Game.Entities.AbstractMenu;
 import java.awt.*;
 
+/**
+ *j2dMenu class extends from AbstractMenu.
+ * @author Arafa Yoncalik
+ */
 public class j2dMenu extends AbstractMenu {
 
     private final GraphicsContext graphicsContext;
     private final double scale;
 
+    /**
+     *j2dMenu constructor.
+     * @param graphicsContext
+     * @param scale
+     */
     public j2dMenu(GraphicsContext graphicsContext,double scale){
         this.graphicsContext = graphicsContext;
         this.scale = scale;
     }
 
+    /**
+     *Does the drawing of the menu.
+     */
     @Override
     public void draw() {
         Graphics2D g2d = graphicsContext.getG2d();

@@ -1,5 +1,9 @@
 package Game.Components;
 
+/**
+ *BulletComponent class
+ * @author Arafa Yoncalik
+ */
 public class BulletComponent {
     private String type;
     private double x;
@@ -16,7 +20,19 @@ public class BulletComponent {
     private int screenHeight;
     private double angle;
 
-
+    /**
+     *BulletComponent constructor.
+     * @param type
+     * @param x
+     * @param y
+     * @param hitboxWidth
+     * @param hitboxHeight
+     * @param angle
+     * @param speed
+     * @param screenWidth
+     * @param screenHeight
+     * @param r
+     */
     public BulletComponent(String type,double x,double y,int hitboxWidth,int hitboxHeight,double angle,double speed, int screenWidth, int screenHeight,int r){
         this.type = type;
         this.x = x;
